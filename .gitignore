@@ -35,3 +35,7 @@
 /.teamcity/target
 !/.teamcity/Gradle_Check_dsl.iml
 
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
