@@ -1,5 +1,7 @@
 plugins {
     id 'java'
+    id 'org.openjfx.javafxplugin' version '0.0.7'
+
 }
 
 group 'de.uni_hannover.hci.cardgame'
@@ -14,4 +16,9 @@ repositories {
 dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.12'
     implementation 'com.google.code.gson:gson:2.8.5'
+}
+
+javafx {
+    version = '12'
+    modules = [ 'javafx.controls', 'javafx.fxml' ]
 }
