@@ -1,3 +1,3 @@
 # Cardgame Gruppenprojekt Prog II
 
-## unter JavaFx und Gradle
+Tools: Java8, JavaFx, Gradle
