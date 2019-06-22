@@ -1,6 +1,6 @@
 # Cardgame Gruppenprojekt Prog II
 
-Tools: Java8, JavaFx, Gradle
+Tools: Java12, JavaFx, Gradle
 
 *By Aram Alo, Cedric Fauth, Johannes Arnold, Kevin Kießling*
 
