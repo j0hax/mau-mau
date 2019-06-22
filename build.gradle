@@ -1,8 +1,12 @@
 plugins {
     id 'java'
-    id 'org.openjfx.javafxplugin' version '0.0.7'
+    //id 'org.openjfx.javafxplugin' version '0.0.7'
 
 }
+
+//Statt Plugin das bei der run config unter JVM hinzufügen (Pfad ändern)
+//javafx library muss heruntergeladen sein und im Projekt importiert
+//--module-path /home/cedric/java_lib/javafx-sdk-11.0.2/lib --add-modules=javafx.controls,javafx.fxml
 
 group 'de.uni_hannover.hci.cardgame'
 version '1.0-SNAPSHOT'
@@ -27,8 +31,8 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.8.5'
 }
 
-javafx {
+/*javafx {
     version = '12'
     modules = [ 'javafx.controls', 'javafx.fxml' ]
-}
+}*/
 
