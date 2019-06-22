@@ -23,6 +23,8 @@ sourceSets {
             srcDirs = ["src/main/resources"]
             includes = ["**/*.fxml"]
         }
+
+        java { srcDir 'src' }
     }
 }
 
@@ -34,14 +36,6 @@ dependencies {
 javafx {
     version = '12'
     modules = [ 'javafx.controls', 'javafx.fxml' ]
-}
-
-sourceSets {
-    main {
-        java {
-            srcDir 'src'
-        }
-    }
 }
 
 // build the client JAR

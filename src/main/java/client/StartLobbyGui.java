@@ -30,7 +30,7 @@ public class StartLobbyGui extends Application {
 
         Parent lobbyRoot = FXMLLoader.load(getClass().getResource("/client/gui/lobby.fxml"));
         lobby.setTitle("Mau Mau Lobby");
-        lobby.setScene(new Scene(lobbyRoot, 600,850));
+        lobby.setScene(new Scene(lobbyRoot, 450,600));
         lobby.show();
 
         Stage login = new Stage();
