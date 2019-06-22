@@ -7,10 +7,19 @@ plugins {
 group 'de.uni_hannover.hci.cardgame'
 version '1.0-SNAPSHOT'
 
-sourceCompatibility = 1.8
+sourceCompatibility = 12
 
 repositories {
     mavenCentral()
+}
+
+sourceSets {
+    main{
+        resources{
+            srcDirs = ["src/main/resources"]
+            includes = ["**/*.fxml"]
+        }
+    }
 }
 
 dependencies {
@@ -22,3 +31,4 @@ javafx {
     version = '12'
     modules = [ 'javafx.controls', 'javafx.fxml' ]
 }
+
