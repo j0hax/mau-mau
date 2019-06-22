@@ -2,7 +2,7 @@
 
 Tools: Java8, JavaFx, Gradle
 
-*By Anwar Ali, Cedric Fauth, Johannes Arnold*
+*By Anwar Ali, Cedric Fauth, Johannes Arnold, Kevin Kießling*
 
 ## Programming Roadmap
 
