@@ -36,3 +36,38 @@ javafx {
     modules = [ 'javafx.controls', 'javafx.fxml' ]
 }
 
+sourceSets {
+    main {
+        java {
+            srcDir 'src'
+        }
+    }
+}
+
+// build the client JAR
+task clientJar(type: Jar) {
+
+    archiveFileName = 'Client.jar'
+
+    from(sourceSets.main.output) {
+        include "client/**"
+    }
+
+    manifest {
+        attributes 'Main-Class': 'client.StartLobbyGui'
+    }
+}
+
+// build the server JAR
+task serverJar(type: Jar) {
+
+    archiveFileName = 'Server.jar'
+
+    from(sourceSets.main.output) {
+        include "server/**"
+    }
+
+    manifest {
+        attributes 'Main-Class': 'server.StartServer'
+    }
+}
