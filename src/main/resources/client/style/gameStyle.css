@@ -1,0 +1,11 @@
+.root {
+    -fx-background-color: #252525;
+    -fx-background-image: url("images/board.png");
+    -fx-background-position: center;
+    -fx-background-repeat: no-repeat;
+    -fx-background-size: auto;
+}
+
+.label {
+    -fx-text-fill: #ffffff;
+}
