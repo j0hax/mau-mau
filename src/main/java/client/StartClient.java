@@ -6,7 +6,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-public class StartLobbyGui extends Application {
+public class StartClient extends Application {
 
     /**
      * The main entry point for all JavaFX applications.

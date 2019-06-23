@@ -20,9 +20,9 @@ public class FxController {
     @FXML
     public TextField portField;
 
-    /*
+    /**
     * Adds functionality to the "connect" Button from the Login Gui
-    * */
+    */
     @FXML
     public void buttonClickHandler(){
 
