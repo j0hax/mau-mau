@@ -1,5 +1,5 @@
 .root {
-    -fx-background-color: #444444;
+    -fx-background-color: #383838;
 }
 
 .label {
@@ -7,7 +7,7 @@
 }
 
 .scroll-pane{
-    -fx-background-color: #444444;
+    -fx-background-color: #383838;
 }
 
 .table-view{
@@ -15,7 +15,7 @@
 }
 
 .table-view .column-header {
-    -fx-background-color: #333333;
+    -fx-background-color: #4c4c4c;
 }
 
 .table-view .column-header .label{
