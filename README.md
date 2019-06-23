@@ -20,6 +20,9 @@ Proper object-oriented practices will be used, for example, `Player`, `Card`, an
 
 The game should then be played according to the following rules according to [Wikipedia](https://en.wikipedia.org/wiki/Mau-Mau_%28card_game%29):
 
+### Weekly Log
+
+* **Week 1:** Implemented dummy GUI, wrote essential OOP Code to lay out future features
 
 ## Mau-Mau
 
