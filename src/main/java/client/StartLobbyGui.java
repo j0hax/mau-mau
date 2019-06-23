@@ -26,23 +26,34 @@ public class StartLobbyGui extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
 
+
+        // Lobby
         Stage lobby = primaryStage;
 
         Parent lobbyRoot = FXMLLoader.load(getClass().getResource("/client/gui/lobby.fxml"));
         lobby.setTitle("Mau Mau Lobby");
-        lobby.setScene(new Scene(lobbyRoot, 450,580));
+
+        Scene lobbyScene = new Scene(lobbyRoot, 450,580);
+        lobbyScene.getStylesheets().add(getClass().getResource("/client/gui/lobbyStyle.css").toExternalForm());
+
+        lobby.setScene(lobbyScene);
         lobby.setResizable(false);
         lobby.show();
 
+
+        // Login
         Stage login = new Stage();
         Parent loginRoot = FXMLLoader.load(getClass().getResource("/client/gui/login.fxml"));
         login.setTitle("Mau Mau Login");
-        login.setScene(new Scene(loginRoot, 300,250));
+
+        Scene loginScene = new Scene(loginRoot, 300,250);
+        loginScene.getStylesheets().add(getClass().getResource("/client/gui/loginStyle.css").toExternalForm());
+
+        login.setScene(loginScene);
         login.setResizable(false);
         login.show();
 
     }
-
 
     public static void main(String[] args) {
         launch(args);
