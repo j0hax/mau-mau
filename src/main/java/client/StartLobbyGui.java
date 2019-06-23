@@ -34,7 +34,7 @@ public class StartLobbyGui extends Application {
         lobby.setTitle("Mau Mau Lobby");
 
         Scene lobbyScene = new Scene(lobbyRoot, 450,580);
-        lobbyScene.getStylesheets().add(getClass().getResource("/client/gui/lobbyStyle.css").toExternalForm());
+        lobbyScene.getStylesheets().add(getClass().getResource("/client/style/lobbyStyle.css").toExternalForm());
 
         lobby.setScene(lobbyScene);
         lobby.setResizable(false);
@@ -47,7 +47,7 @@ public class StartLobbyGui extends Application {
         login.setTitle("Mau Mau Login");
 
         Scene loginScene = new Scene(loginRoot, 300,250);
-        loginScene.getStylesheets().add(getClass().getResource("/client/gui/loginStyle.css").toExternalForm());
+        loginScene.getStylesheets().add(getClass().getResource("/client/style/loginStyle.css").toExternalForm());
 
         login.setScene(loginScene);
         login.setResizable(false);
