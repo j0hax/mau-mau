@@ -33,8 +33,6 @@ public class FxController {
             System.out.println("user with the name: "+nameField.getText()+" is trying to connect to Ip: " +serverIPField.getText()+" on Port:" + portField.getText());
             System.out.println("Todo, create Client and Connect");
 
-
-
             //Create and connect Client to Server
             //Client c = new Client(nameField.getText(),portValue, serverIPField.getText());
         }
