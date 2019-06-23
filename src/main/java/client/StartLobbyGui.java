@@ -30,13 +30,15 @@ public class StartLobbyGui extends Application {
 
         Parent lobbyRoot = FXMLLoader.load(getClass().getResource("/client/gui/lobby.fxml"));
         lobby.setTitle("Mau Mau Lobby");
-        lobby.setScene(new Scene(lobbyRoot, 450,600));
+        lobby.setScene(new Scene(lobbyRoot, 450,580));
+        lobby.setResizable(false);
         lobby.show();
 
         Stage login = new Stage();
         Parent loginRoot = FXMLLoader.load(getClass().getResource("/client/gui/login.fxml"));
         login.setTitle("Mau Mau Login");
-        login.setScene(new Scene(loginRoot, 400,400));
+        login.setScene(new Scene(loginRoot, 300,250));
+        login.setResizable(false);
         login.show();
 
     }

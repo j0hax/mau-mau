@@ -6,27 +6,22 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="450.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="580.0" prefWidth="450.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
   <columnConstraints>
-    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+    <ColumnConstraints hgrow="SOMETIMES" maxWidth="350.0" minWidth="10.0" prefWidth="294.0" />
+      <ColumnConstraints hgrow="SOMETIMES" maxWidth="225.0" minWidth="10.0" prefWidth="156.0" />
   </columnConstraints>
   <rowConstraints>
-    <RowConstraints maxHeight="194.0" minHeight="0.0" prefHeight="29.0" vgrow="SOMETIMES" />
-    <RowConstraints maxHeight="781.0" minHeight="10.0" prefHeight="507.0" vgrow="SOMETIMES" />
-    <RowConstraints maxHeight="124.0" minHeight="10.0" prefHeight="74.0" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="194.0" minHeight="10.0" prefHeight="62.0" vgrow="SOMETIMES" />
+    <RowConstraints maxHeight="194.0" minHeight="0.0" prefHeight="34.0" vgrow="SOMETIMES" />
+    <RowConstraints maxHeight="781.0" minHeight="10.0" prefHeight="430.0" vgrow="SOMETIMES" />
+    <RowConstraints maxHeight="40.0" minHeight="40.0" prefHeight="40.0" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="40.0" minHeight="40.0" prefHeight="40.0" vgrow="SOMETIMES" />
   </rowConstraints>
    <children>
-      <Label prefHeight="30.0" prefWidth="593.0" text="Online: 0 Players">
-         <padding>
-            <Insets left="10.0" />
-         </padding>
-         <font>
-            <Font name="System Bold" size="13.0" />
-         </font>
-      </Label>
-      <ScrollPane prefHeight="200.0" prefWidth="200.0" vbarPolicy="ALWAYS" GridPane.rowIndex="1">
+      <ScrollPane prefHeight="200.0" prefWidth="200.0" vbarPolicy="ALWAYS" GridPane.columnSpan="2" GridPane.rowIndex="2">
          <content>
-            <TableView prefHeight="861.0" prefWidth="432.0">
+            <TableView prefHeight="450.0" prefWidth="432.0">
               <columns>
                 <TableColumn maxWidth="300.0" prefWidth="230.0" text="Player" />
                   <TableColumn prefWidth="100.0" text="Status" />
@@ -35,39 +30,50 @@
             </TableView>
          </content>
       </ScrollPane>
-      <GridPane prefHeight="136.0" prefWidth="600.0" GridPane.rowIndex="2">
-        <columnConstraints>
-          <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="294.0" minWidth="10.0" prefWidth="76.0" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="285.0" minWidth="10.0" prefWidth="181.0" />
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="267.0" minWidth="10.0" prefWidth="219.0" />
-        </columnConstraints>
-        <rowConstraints>
-            <RowConstraints maxHeight="39.0" minHeight="10.0" prefHeight="33.0" vgrow="SOMETIMES" />
-          <RowConstraints maxHeight="40.0" minHeight="10.0" prefHeight="40.0" vgrow="SOMETIMES" />
-        </rowConstraints>
-         <children>
-            <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="2" GridPane.rowIndex="1" />
-            <CheckBox mnemonicParsing="false" prefHeight="27.0" prefWidth="0.0" GridPane.valignment="BOTTOM">
-               <GridPane.margin>
-                  <Insets />
-               </GridPane.margin>
-            </CheckBox>
-            <Label prefHeight="30.0" prefWidth="79.0" text="Botgame" GridPane.columnIndex="1" GridPane.valignment="BOTTOM" />
-            <ChoiceBox prefHeight="30.0" prefWidth="52.0" GridPane.rowIndex="1">
-               <GridPane.margin>
-                  <Insets />
-               </GridPane.margin>
-            </ChoiceBox>
-            <Label prefHeight="30.0" prefWidth="75.0" text="Rounds" GridPane.columnIndex="1" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
-            <Button mnemonicParsing="false" prefHeight="77.0" prefWidth="171.0" text="Start Game" GridPane.columnIndex="2" GridPane.rowSpan="2">
-               <GridPane.margin>
-                  <Insets bottom="10.0" left="40.0" right="10.0" top="10.0" />
-               </GridPane.margin>
-               <font>
-                  <Font name="System Bold" size="13.0" />
-               </font>
-            </Button>
-         </children>
-      </GridPane>
+      <Label prefHeight="25.0" prefWidth="196.0" text="Room: 1 Players" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+         <font>
+            <Font name="System Bold" size="13.0" />
+         </font>
+         <padding>
+            <Insets left="10.0" />
+         </padding>
+         <GridPane.margin>
+            <Insets right="10.0" />
+         </GridPane.margin>
+      </Label>
+      <Label prefHeight="25.0" prefWidth="262.0" text="Online: 0 Players" GridPane.rowIndex="1">
+         <padding>
+            <Insets left="10.0" />
+         </padding>
+         <font>
+            <Font name="System Bold" size="13.0" />
+         </font>
+      </Label>
+      <Label prefHeight="37.0" prefWidth="355.0" text="LOBBY" GridPane.columnSpan="2" GridPane.halignment="LEFT" GridPane.valignment="CENTER">
+         <font>
+            <Font name="System Bold" size="22.0" />
+         </font>
+         <GridPane.margin>
+            <Insets left="10.0" />
+         </GridPane.margin>
+      </Label>
+      <Button mnemonicParsing="false" prefHeight="54.0" prefWidth="204.0" text="Start Game" GridPane.rowIndex="3" GridPane.rowSpan="2">
+         <GridPane.margin>
+            <Insets left="10.0" />
+         </GridPane.margin>
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Button>
+      <CheckBox mnemonicParsing="false" prefHeight="29.0" prefWidth="100.0" text="  Botgame" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="3" GridPane.valignment="BOTTOM">
+         <GridPane.margin>
+            <Insets left="36.0" />
+         </GridPane.margin>
+      </CheckBox>
+      <ComboBox prefHeight="25.0" prefWidth="96.0" promptText="Rounds" GridPane.columnIndex="1" GridPane.rowIndex="4" GridPane.valignment="TOP">
+         <GridPane.margin>
+            <Insets left="36.0" top="2.0" />
+         </GridPane.margin>
+      </ComboBox>
    </children>
 </GridPane>
