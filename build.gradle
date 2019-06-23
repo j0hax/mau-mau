@@ -45,6 +45,7 @@ task clientJar(type: Jar) {
 
     from(sourceSets.main.output) {
         include "client/**"
+        include "util/**"
     }
 
     manifest {
@@ -59,6 +60,7 @@ task serverJar(type: Jar) {
 
     from(sourceSets.main.output) {
         include "server/**"
+        include "util/**"
     }
 
     manifest {
