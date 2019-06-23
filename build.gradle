@@ -49,7 +49,7 @@ task clientJar(type: Jar) {
     }
 
     manifest {
-        attributes 'Main-Class': 'client.StartLobbyGui'
+        attributes 'Main-Class': 'client.StartClient'
     }
 }
 
