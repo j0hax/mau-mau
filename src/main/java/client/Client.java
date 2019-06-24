@@ -7,7 +7,7 @@ public class Client {
     private int port;
     private String serverIP;
 
-    public Client(String name, int port,String serverIP){
+    public Client(String name, int port, String serverIP) {
         this.name=name;
         this.port=port;
         this.serverIP = serverIP;

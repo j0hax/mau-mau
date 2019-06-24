@@ -9,7 +9,7 @@ import javafx.stage.Stage;
 public class RegistrationFormApplication extends Application {
 
     @Override
-    public void start(Stage primaryStage) throws Exception{
+    public void start(Stage primaryStage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("/testing.gui/registration_form.fxml"));
         primaryStage.setTitle("Registration Form FXML Application");
         primaryStage.setScene(new Scene(root, 800, 500));

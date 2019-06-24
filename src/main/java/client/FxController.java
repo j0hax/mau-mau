@@ -24,7 +24,7 @@ public class FxController {
     * Adds functionality to the "connect" Button from the Login Gui
     */
     @FXML
-    public void buttonClickHandler(){
+    public void buttonClickHandler() {
 
         String port = portField.getText();
         // Checks if the input is valid
@@ -35,8 +35,7 @@ public class FxController {
 
             //Create and connect Client to Server
             //Client c = new Client(nameField.getText(),portValue, serverIPField.getText());
-        }
-        else{
+        } else {
             System.out.println("Error: Check your input");
 
         }

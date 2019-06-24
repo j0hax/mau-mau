@@ -7,7 +7,7 @@ import java.util.HashSet;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class LobbyThread extends Thread{
+public class LobbyThread extends Thread {
 
     HashSet<Player> players;
     ServerSocket server;
@@ -19,7 +19,7 @@ public class LobbyThread extends Thread{
 
     @Override
     public void run() {
-        while(true){
+        while (true) {
             try (Socket playerSocket = server.accept()) {
                 players.add(new Player(playerSocket));
                 System.out.println("new connection.");
