@@ -6,7 +6,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.Button;
 
 
-/*
+/**
 * Controller Class to add functionality to the Gui
 * */
 public class FxController {
@@ -30,11 +30,11 @@ public class FxController {
         // Checks if the input is valid
         if (port.matches("[0-9]+")  && nameField.getText().length()>0 && serverIPField.getText().length()>0) {
             int portValue = Integer.valueOf(port);
-            System.out.println("user with the name: "+nameField.getText()+" is trying to connect to Ip: " +serverIPField.getText()+" on Port:" + portField.getText());
-            System.out.println("Todo, create Client and Connect");
+           // System.out.println("user with the name: "+nameField.getText()+" is trying to connect to Ip: " +serverIPField.getText()+" on Port:" + portField.getText());
+
 
             //Create and connect Client to Server
-            //Client c = new Client(nameField.getText(),portValue, serverIPField.getText());
+            Client c = new Client(nameField.getText(),portValue, serverIPField.getText());
         } else {
             System.out.println("Error: Check your input");
 
