@@ -4,21 +4,18 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.HashSet;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
-public class LobbyThread extends Thread {
+public class Lobby {
 
     HashSet<Player> players;
     ServerSocket server;
 
-    public LobbyThread(HashSet<Player> players, ServerSocket server) {
+    public Lobby(HashSet<Player> players, ServerSocket server) {
         this.players = players;
         this.server = server;
     }
 
-    @Override
-    public void run() {
+    public void accept() {
         while (true) {
             try (Socket playerSocket = server.accept()) {
                 players.add(new Player(playerSocket));
@@ -32,4 +29,5 @@ public class LobbyThread extends Thread {
 
         }
     }
+
 }

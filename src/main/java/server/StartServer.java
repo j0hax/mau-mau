@@ -1,7 +1,5 @@
 package server;
 
-import util.Deck;
-
 import java.net.ServerSocket;
 import java.util.HashSet;
 
@@ -15,11 +13,11 @@ public class StartServer {
 
         try (ServerSocket server = new ServerSocket(55555)) {
             //creating a lobby for all Players that will connect
-            LobbyThread lobby = new LobbyThread(players, server);
-            lobby.start();
+            Lobby lobby = new Lobby(players, server);
+            lobby.accept();
+
             //waits for lobby to close until closes ServerSocket
             //otherwise server.accept in Lobby Class would crash immediately
-            lobby.join();
         } catch (Exception e) {
             System.err.println("Server closed.");
             e.printStackTrace();
