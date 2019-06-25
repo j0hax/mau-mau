@@ -69,6 +69,10 @@ public class StartClient extends Application {
 
     }
 
+    /**
+     * Calls JavaFx Application class, launches client
+     * @param args system arguments
+     */
     public static void main(String[] args) {
         launch(args);
     }
