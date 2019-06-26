@@ -36,9 +36,14 @@ public class FxController {
 
             //Create and connect Client to Server
             Client c = new Client(nameField.getText(),portValue, serverIPField.getText());
-            /* Closes the Login Window after the login
-            Stage stage = (Stage) button.getScene().getWindow();
-            stage.close();
+
+
+            /*Closes the Log in Window after the Client is successfully connected to the server
+
+            if(c.getConnectionStatus()){
+                Stage stage = (Stage) button.getScene().getWindow();
+                stage.close();
+            }
             */
         } else {
             System.out.println("Error: Check your input");

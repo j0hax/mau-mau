@@ -15,6 +15,7 @@ public class Client {
     private int port;
     private String serverIP;
     private Socket socketClient;
+    private boolean connected= false;
 
     /**
      * Constructor for Client
@@ -38,6 +39,8 @@ public class Client {
             System.out.println("Trying to Connect to: " +serverIP+" on port: " +port);
             socketClient = new Socket(serverIP,port);
             System.out.println("Connected");
+            connected = true;
+
         }catch (UnknownHostException ue){
             System.out.println("Unknown Host, Check your ip-address/Port input" +ue.getMessage());
         }
@@ -77,5 +80,12 @@ public class Client {
      * */
     public String getServerIP(){
         return serverIP;
+    }
+    /**
+     * Getter for the connectionStatus of the client
+     * @return true/false whether or not the client is connected
+     * */
+    public boolean getConnectionStatus(){
+        return connected;
     }
 }
