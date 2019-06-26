@@ -4,6 +4,7 @@ import javafx.fxml.FXML;
 
 import javafx.scene.control.TextField;
 import javafx.scene.control.Button;
+import javafx.stage.Stage;
 
 
 /**
@@ -11,7 +12,7 @@ import javafx.scene.control.Button;
 * */
 public class FxController {
     @FXML
-    public Button button;
+    private Button button;
 
     @FXML
     public TextField nameField;
@@ -35,6 +36,10 @@ public class FxController {
 
             //Create and connect Client to Server
             Client c = new Client(nameField.getText(),portValue, serverIPField.getText());
+            /* Closes the Login Window after the login
+            Stage stage = (Stage) button.getScene().getWindow();
+            stage.close();
+            */
         } else {
             System.out.println("Error: Check your input");
 
