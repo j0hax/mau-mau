@@ -2,7 +2,6 @@ package server;
 
 import util.Card;
 
-import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.LinkedList;
@@ -30,17 +29,34 @@ public class Player implements Runnable {
         this.playerSocket = playerSocket;
         this.lobbyIOHandler = lobbyIO;
         this.gameIOHandler = gameIO;
+
+        try {
+            out = new PrintWriter(playerSocket.getOutputStream(), true);
+            in = new Scanner(playerSocket.getInputStream());
+
+        } catch (Exception e) {
+            System.out.println("Error: Client " + username + " " + e.toString());
+        }
     }
 
     @Override
     public void run() {
+        out.println("df");
         try {
-            out = new PrintWriter(playerSocket.getOutputStream(), true);
-            in = new Scanner(playerSocket.getInputStream());
-        } catch (IOException io) {
-            System.out.println("Error: Client " + username + ": IOException");
+            while (true) {
+                System.out.println(gameIOHandler == null ? "null" : gameIOHandler.toString());
+                Thread t = Thread.currentThread();
+                Thread.sleep(2000);
+            }
+        } catch (Exception e) {
+            System.out.println("sleep fail" + e.toString());
         }
+
         // TODO: read player name from socket
+    }
+
+    public synchronized void setGameIO(IOHandler gameIOHandler) {
+        this.gameIOHandler = gameIOHandler;
     }
 
     public Card[] getHand() {
