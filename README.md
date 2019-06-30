@@ -28,7 +28,7 @@ The game should then be played according to the following rules according to [Wi
 * **Week 2:**
    * Added functionality to Login Window and implemented MVC Pattern
    * Searched PNGs for playing cards
-   * some server-side implementations like a Player class
+   * Server implementations: Server creates lobby thread, game thread (2 players) and player thread for each client
 
 ## Mau-Mau
 
