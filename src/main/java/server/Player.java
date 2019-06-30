@@ -2,28 +2,44 @@ package server;
 
 import util.Card;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.LinkedList;
+import java.util.Scanner;
 
-public class Player {
+public class Player implements Runnable {
 
     private String username = "Player";
-    private Socket sock;
+    private Socket playerSocket;
     private LinkedList<Card> hand;
 
-    public BufferedReader in;
-    public PrintWriter out;
+    private Scanner in;
+    private PrintWriter out;
+    private IOHandler lobbyIOHandler;
+    private IOHandler gameIOHandler;
 
-    public Player(Socket sock) throws IOException {
-        this.sock = sock;
+    /**
+     * Creates game object
+     *
+     * @param playerSocket own socket
+     * @param lobbyIO      IOHandler that connects to the lobby thread
+     * @param gameIO       IOHandler that connects to a game thread
+     */
+    public Player(Socket playerSocket, IOHandler lobbyIO, IOHandler gameIO) {
+        this.playerSocket = playerSocket;
+        this.lobbyIOHandler = lobbyIO;
+        this.gameIOHandler = gameIO;
+    }
 
-        out = new PrintWriter(sock.getOutputStream(), true);
-        in = new BufferedReader(new InputStreamReader(sock.getInputStream()));
-
+    @Override
+    public void run() {
+        try {
+            out = new PrintWriter(playerSocket.getOutputStream(), true);
+            in = new Scanner(playerSocket.getInputStream());
+        } catch (IOException io) {
+            System.out.println("Error: Client " + username + ": IOException");
+        }
         // TODO: read player name from socket
     }
 

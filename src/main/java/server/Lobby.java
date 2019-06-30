@@ -1,11 +1,9 @@
 package server;
 
-import java.io.IOException;
 import java.net.ServerSocket;
-import java.net.Socket;
 import java.util.HashSet;
 
-public class Lobby {
+public class Lobby implements Runnable {
 
     HashSet<Player> players;
     ServerSocket server;
@@ -15,19 +13,20 @@ public class Lobby {
         this.server = server;
     }
 
-    public void accept() {
+    @Override
+    public void run() {
         while (true) {
-            try (Socket playerSocket = server.accept()) {
-                players.add(new Player(playerSocket));
-                System.out.println("new connection.");
-
-                // TODO create ExecutorService for clients
-
-            } catch (IOException e) {
-                e.printStackTrace();
+            System.out.println("run");
+            for (Player p : players) {
+                System.out.print(p.getName());
             }
-
+            System.out.println();
+            try {
+                Thread.sleep(1000);
+            } catch (Exception e) {
+            }
         }
+
     }
 
 }

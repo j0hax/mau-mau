@@ -1,7 +1,11 @@
 package server;
 
+import java.io.IOException;
 import java.net.ServerSocket;
+import java.net.Socket;
 import java.util.HashSet;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class StartServer {
     public static void main(String[] args) {
@@ -12,12 +16,21 @@ public class StartServer {
         HashSet<Player> players = new HashSet<>();
 
         try (ServerSocket server = new ServerSocket(55555)) {
-            //creating a lobby for all Players that will connect
-            Lobby lobby = new Lobby(players, server);
-            lobby.accept();
+            IOHandler lobbyIOHandler = new IOHandler();
+            ExecutorService threadPool = Executors.newFixedThreadPool(11);
+            threadPool.execute(new Lobby(players, server));
+            while (true) {
+                try (Socket playerSocket = server.accept()) {
+                    System.out.println("new connection: " + playerSocket.getInetAddress());
+                    Player p = new Player(playerSocket, lobbyIOHandler, null);
+                    players.add(p);
+                    threadPool.execute(p);
 
-            //waits for lobby to close until closes ServerSocket
-            //otherwise server.accept in Lobby Class would crash immediately
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+            }
         } catch (Exception e) {
             System.err.println("Server closed.");
             e.printStackTrace();
