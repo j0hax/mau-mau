@@ -22,10 +22,12 @@ The game should then be played according to the following rules according to [Wi
 
 ### Weekly Log
 
-* **Week 1:** Implemented dummy GUI, wrote essential OOP Code to lay out future features
+* **Week 1:** 
+   * Implemented dummy GUI
+   * wrote essential OOP Code to lay out future features
 * **Week 2:**
    * Added functionality to Login Window and implemented MVC Pattern
-   * Searched for Card PNGs
+   * Searched PNGs for playing cards
    * some server-side implementations like a Player class
 
 ## Mau-Mau
