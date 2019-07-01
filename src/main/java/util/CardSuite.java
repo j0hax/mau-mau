@@ -1,3 +1,3 @@
 package util;
 
-public enum CardSuite { HEART, SPADE, CLUB, DIAMOND }
+public enum CardSuite {HEARTS, SPADES, CLUBS, DIAMONDS}

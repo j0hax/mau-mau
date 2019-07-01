@@ -4,7 +4,11 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
+import util.Card;
+import util.CardRank;
+import util.CardSuite;
 
 public class StartClient extends Application {
 
@@ -35,6 +39,10 @@ public class StartClient extends Application {
 
         Scene gameScene = new Scene(gameRoot, 1030,730);
         gameScene.getStylesheets().add(getClass().getResource("/client/style/gameStyle.css").toExternalForm());
+
+        Card test = new Card(CardSuite.SPADES, CardRank.ACE);
+
+        Image test2 = test.getImage();
 
         game.setScene(gameScene);
         game.setResizable(false);

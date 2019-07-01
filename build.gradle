@@ -1,4 +1,8 @@
+plugins {
+    id 'java'
+    id 'org.openjfx.javafxplugin' version '0.0.7'
 
+}
 
 //untere Zeile zusätzlich zum JFX Plugin bei der Run... config unter JVM hinzufügen (Pfad ändern)
 //javafx library muss heruntergeladen sein und im Projekt importiert
@@ -22,12 +26,6 @@ sourceSets {
 
         java { srcDir 'src' }
     }
-}
-
-plugins {
-    id 'java'
-    id 'org.openjfx.javafxplugin' version '0.0.7'
-
 }
 
 dependencies {

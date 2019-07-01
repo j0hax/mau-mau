@@ -1,5 +1,7 @@
 package util;
 
+import javafx.scene.image.Image;
+
 public class Card implements Comparable {
 
     private final CardSuite suite;
@@ -41,5 +43,14 @@ public class Card implements Comparable {
         Card c = (Card)o;
         // TODO: implement rules of Mau-Mau
         return 0;
+    }
+
+    public Image getImage() {
+        String rank = getRank().name().toLowerCase();
+        String suite = getSuite().name().toLowerCase();
+
+        String fileName = "/client/cards/PNG-cards-1.3/" + rank + "_of_" + suite + ".png";
+
+        return new Image(this.getClass().getResourceAsStream(fileName));
     }
 }
