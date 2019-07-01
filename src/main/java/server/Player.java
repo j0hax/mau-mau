@@ -15,21 +15,17 @@ public class Player implements Runnable {
 
     private Scanner in;
     private PrintWriter out;
-    private IOHandler lobbyIOHandler;
-    private IOHandler gameIOHandler;
+    private IOHandler ioHandler;
 
     /**
      * Creates game object
      *
      * @param playerSocket own socket
-     * @param lobbyIO      IOHandler that connects to the lobby thread
-     * @param gameIO       IOHandler that connects to a game thread
+     * @param ioHandler      IOHandler that connects to the lobby thread
      */
-    public Player(Socket playerSocket, IOHandler lobbyIO, IOHandler gameIO) {
+    public Player(Socket playerSocket, IOHandler ioHandler) {
         this.playerSocket = playerSocket;
-        this.lobbyIOHandler = lobbyIO;
-        this.gameIOHandler = gameIO;
-
+        this.ioHandler = ioHandler;
         try {
             out = new PrintWriter(playerSocket.getOutputStream(), true);
             in = new Scanner(playerSocket.getInputStream());
@@ -44,7 +40,7 @@ public class Player implements Runnable {
         out.println("df");
         try {
             while (true) {
-                System.out.println(gameIOHandler == null ? "null" : gameIOHandler.toString());
+                System.out.println(ioHandler == null ? "null" : ioHandler.toString());
                 Thread t = Thread.currentThread();
                 Thread.sleep(2000);
             }
@@ -55,8 +51,8 @@ public class Player implements Runnable {
         // TODO: read player name from socket
     }
 
-    public synchronized void setGameIO(IOHandler gameIOHandler) {
-        this.gameIOHandler = gameIOHandler;
+    public synchronized void changeIOHandler(IOHandler ioHandler) {
+        this.ioHandler = ioHandler;
     }
 
     public Card[] getHand() {

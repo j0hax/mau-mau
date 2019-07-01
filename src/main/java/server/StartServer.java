@@ -21,7 +21,7 @@ public class StartServer {
         Map<Integer, Player> players = new LinkedHashMap<>();
 
         try (ServerSocket server = new ServerSocket(PORT)) {
-            IOHandler lobbyIOHandler = new IOHandler();
+            IOHandler ioHandler = new IOHandler();
             ExecutorService threadPool = Executors.newFixedThreadPool(numberOfPlayers);
 
             //creates and starts lobby
@@ -32,7 +32,7 @@ public class StartServer {
             while (true) {
                 try (Socket playerSocket = server.accept()) {
                     System.out.println("new connection: " + playerSocket.getInetAddress());
-                    Player p = new Player(playerSocket, lobbyIOHandler, null);
+                    Player p = new Player(playerSocket, ioHandler);
                     threadPool.execute(p);
                     players.put(i, p);
                     i = i + 1;

@@ -31,7 +31,7 @@ public class Lobby implements Runnable {
                 game1.putAll(players);
                 for (int i = 0; i < 2; i++) {
                     Player p = game1.remove(i);
-                    p.setGameIO(gameIOHandler);
+                    p.changeIOHandler(gameIOHandler);
                     game1.put(i, p);
                 }
                 gamePool.execute(new GameThread(game1));
