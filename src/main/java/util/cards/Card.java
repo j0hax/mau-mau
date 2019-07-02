@@ -1,4 +1,4 @@
-package util;
+package util.cards;
 
 import javafx.scene.image.Image;
 

@@ -1,4 +1,4 @@
-package util;
+package util.cards;
 
 import java.util.LinkedList;
 import java.util.Random;

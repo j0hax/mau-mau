@@ -1,6 +1,6 @@
 package server;
 
-import util.Deck;
+import util.cards.Deck;
 
 import java.util.LinkedList;
 

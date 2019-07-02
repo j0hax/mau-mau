@@ -1,6 +1,6 @@
 package server;
 
-import util.Card;
+import util.cards.Card;
 
 import java.io.PrintWriter;
 import java.net.Socket;

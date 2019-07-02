@@ -6,9 +6,9 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
-import util.Card;
-import util.CardRank;
-import util.CardSuite;
+import util.cards.Card;
+import util.cards.CardRank;
+import util.cards.CardSuite;
 
 public class StartClient extends Application {
 
