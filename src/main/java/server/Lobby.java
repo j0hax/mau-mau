@@ -8,6 +8,7 @@ import java.util.concurrent.Executors;
 
 public class Lobby implements Runnable {
 
+    private final int GAMESIZE = 1;
     Map<Integer, Player> players;
     ServerSocket server;
 
@@ -20,25 +21,25 @@ public class Lobby implements Runnable {
     public void run() {
         ExecutorService gamePool = Executors.newSingleThreadExecutor(); // TODO change to newFixedThreadPool(numberOfGames)
         while (true) {
-            System.out.println("run");
-            System.out.println(players.size());
-            System.out.println();
+            System.out.println("players in lobby: " + players.size());
 
             // this block will be changed later
-            if (players.size() == 2) {
+            if (players.size() == GAMESIZE) {
                 IOHandler gameIOHandler = new IOHandler();
-                Map<Integer, Player> game1 = new LinkedHashMap<>();
-                game1.putAll(players);
-                for (int i = 0; i < 2; i++) {
-                    Player p = game1.remove(i);
-                    p.changeIOHandler(gameIOHandler);
-                    game1.put(i, p);
+                Map<Integer, Player> playersInGame = new LinkedHashMap<>();
+                playersInGame.putAll(players);
+                for (int i = 0; i < GAMESIZE; i++) {
+                    playersInGame.get(i).changeIOHandler(gameIOHandler);
+
                 }
-                gamePool.execute(new GameThread(game1));
+                gamePool.execute(new GameThread(playersInGame, gameIOHandler));
+                break; //really important for now
             }
+
             try {
                 Thread.sleep(1000);
             } catch (Exception e) {
+                System.err.println(e.toString());
             }
         }
 

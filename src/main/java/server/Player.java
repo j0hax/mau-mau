@@ -15,13 +15,13 @@ public class Player implements Runnable {
 
     private Scanner in;
     private PrintWriter out;
-    private IOHandler ioHandler;
+    private volatile IOHandler ioHandler;
 
     /**
      * Creates game object
      *
      * @param playerSocket own socket
-     * @param ioHandler      IOHandler that connects to the lobby thread
+     * @param ioHandler    IOHandler that connects to the lobby thread
      */
     public Player(Socket playerSocket, IOHandler ioHandler) {
         this.playerSocket = playerSocket;
@@ -37,15 +37,29 @@ public class Player implements Runnable {
 
     @Override
     public void run() {
-        out.println("df");
-        try {
-            while (true) {
-                System.out.println(ioHandler == null ? "null" : ioHandler.toString());
-                Thread t = Thread.currentThread();
-                Thread.sleep(2000);
+
+        String[] packets = {
+                "First packet",
+                "Second packet",
+                "Third packet",
+                "Fourth packet",
+                "End"
+        };
+
+        while (ioHandler == null) {
+            Thread.onSpinWait();
+        }
+
+        for (String packet : packets) {
+
+            ioHandler.send(packet);
+
+            // Thread.sleep() to mimic heavy server-side processing
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
             }
-        } catch (Exception e) {
-            System.out.println("sleep fail" + e.toString());
         }
 
         // TODO: read player name from socket

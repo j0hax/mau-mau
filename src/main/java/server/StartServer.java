@@ -32,12 +32,12 @@ public class StartServer {
             while (true) {
                 try (Socket playerSocket = server.accept()) {
                     System.out.println("new connection: " + playerSocket.getInetAddress());
-                    Player p = new Player(playerSocket, ioHandler);
+                    Player p = new Player(playerSocket, null);
                     threadPool.execute(p);
                     players.put(i, p);
                     i = i + 1;
                     System.out.println(players.size());
-                    System.out.println(players);
+                    System.out.println(players.toString());
 
 
                 } catch (IOException e) {
