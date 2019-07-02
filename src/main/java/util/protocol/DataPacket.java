@@ -1,4 +1,4 @@
-package protocol;
+package util.protocol;
 
 /**
  * Class represents the data that is send between clients and server

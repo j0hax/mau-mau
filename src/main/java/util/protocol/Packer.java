@@ -1,4 +1,4 @@
-package protocol;
+package util.protocol;
 
 import com.google.gson.Gson;
 

@@ -1,4 +1,4 @@
-package protocol;
+package util.protocol;
 
 /**
  * Contains allowed types of data
