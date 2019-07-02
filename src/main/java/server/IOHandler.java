@@ -1,14 +1,14 @@
 package server;
 
 
-public class IOHandler {
+class IOHandler {
     private String packet;
 
     // True if receiver should wait
     // False if sender should wait
     private boolean currentlyNewDataAvailable = false;
 
-    public synchronized void send(String packet) {
+    synchronized void send(String packet) {
         while (currentlyNewDataAvailable) {
             try {
                 wait();
@@ -22,7 +22,7 @@ public class IOHandler {
         notifyAll();
     }
 
-    public synchronized String receive() {
+    synchronized String receive() {
         while (!currentlyNewDataAvailable) {
             try {
                 wait();

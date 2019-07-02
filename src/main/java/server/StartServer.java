@@ -29,21 +29,18 @@ public class StartServer {
             lobbyThread.start();
 
             int i = 0;
-            while (true) {
-                try (Socket playerSocket = server.accept()) {
-                    System.out.println("new connection: " + playerSocket.getInetAddress());
-                    Player p = new Player(playerSocket, null);
-                    threadPool.execute(p);
-                    players.put(i, p);
-                    i = i + 1;
-                    System.out.println(players.size());
-                    System.out.println(players.toString());
+            while (true) try (Socket playerSocket = server.accept()) {
+                System.out.println("new connection: " + playerSocket.getInetAddress());
+                Player p = new Player(playerSocket, null);
+                threadPool.execute(p);
+                players.put(i, p);
+                i = i + 1;
+                System.out.println(players.size());
+                System.out.println(players.toString());
 
 
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         } catch (Exception e) {
             System.err.println("Server closed.");

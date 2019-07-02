@@ -10,7 +10,13 @@ public class GameThread implements Runnable {
     private Deck deck = new Deck();
     private IOHandler gameIOHandler;
 
-    public GameThread(Map<Integer, Player> players, IOHandler gameIOHandler) {
+    /**
+     * Creates a game
+     *
+     * @param players       all players in the game
+     * @param gameIOHandler IOHandler for player inputs
+     */
+    GameThread(Map<Integer, Player> players, IOHandler gameIOHandler) {
 
         this.players = players;
         this.gameIOHandler = gameIOHandler;

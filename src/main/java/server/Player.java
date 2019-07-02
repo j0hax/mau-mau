@@ -65,23 +65,23 @@ public class Player implements Runnable {
         // TODO: read player name from socket
     }
 
-    public synchronized void changeIOHandler(IOHandler ioHandler) {
+    synchronized void changeIOHandler(IOHandler ioHandler) {
         this.ioHandler = ioHandler;
     }
 
-    public Card[] getHand() {
+    Card[] getHand() {
         return (Card[]) hand.toArray();
     }
 
-    public void addToHand(Card c) {
+    void addToHand(Card c) {
         hand.add(c);
     }
 
-    public Card removeFromHand(int index) {
+    Card removeFromHand(int index) {
         return hand.remove(index);
     }
 
-    public String getName() {
+    String getName() {
         return username;
     }
 }
