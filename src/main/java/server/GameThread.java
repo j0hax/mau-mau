@@ -2,11 +2,12 @@ package server;
 
 import util.Deck;
 
-import java.util.Map;
+import java.util.LinkedList;
 
 public class GameThread implements Runnable {
 
-    private Map<Integer, Player> players;
+    private int ID;
+    private LinkedList<Player> players;
     private Deck deck = new Deck();
     private IOHandler gameIOHandler;
 
@@ -16,8 +17,8 @@ public class GameThread implements Runnable {
      * @param players       all players in the game
      * @param gameIOHandler IOHandler for player inputs
      */
-    GameThread(Map<Integer, Player> players, IOHandler gameIOHandler) {
-
+    GameThread(int ID, LinkedList<Player> players, IOHandler gameIOHandler) {
+        this.ID = ID;
         this.players = players;
         this.gameIOHandler = gameIOHandler;
     }
@@ -29,8 +30,10 @@ public class GameThread implements Runnable {
 
     @Override
     public void run() {
-        Thread.currentThread().setName("game");
-        System.out.println("start game 1");
+        Thread thisThread = Thread.currentThread();
+        thisThread.setName("Game-" + this.ID);
+
+        System.out.println(thisThread.getName() + "\t\t\t>> Starting new game");
 
         /*try {
             Thread.sleep(2000);
@@ -44,7 +47,7 @@ public class GameThread implements Runnable {
              !"End".equals(receivedMessage);
              receivedMessage = gameIOHandler.receive()) {
 
-            System.out.println(receivedMessage);
+            System.out.println(thisThread.getName() + "\t\t\t>> " + receivedMessage);
 
         }
 
@@ -62,6 +65,6 @@ public class GameThread implements Runnable {
                 // TODO: Each player will have their turn here
             //}
         }*/
-        System.out.println("stop game 1");
+        System.out.println(thisThread.getName() + "\t\t\t>> Stopping game");
     }
 }

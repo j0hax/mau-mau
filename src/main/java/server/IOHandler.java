@@ -4,8 +4,6 @@ package server;
 class IOHandler {
     private String packet;
 
-    // True if receiver should wait
-    // False if sender should wait
     private boolean currentlyNewDataAvailable = false;
 
     synchronized void send(String packet) {
