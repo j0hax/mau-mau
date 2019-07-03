@@ -1,10 +1,8 @@
 package client;
 
 import javafx.fxml.FXML;
-
-import javafx.scene.control.TextField;
 import javafx.scene.control.Button;
-import javafx.stage.Stage;
+import javafx.scene.control.TextField;
 
 
 /**
@@ -21,6 +19,11 @@ public class FxController {
     @FXML
     public TextField portField;
 
+
+    private Client client;
+    private Transmitter transmitter;
+
+
     /**
     * Adds functionality to the "connect" Button from the Login Gui
     */
@@ -35,8 +38,9 @@ public class FxController {
 
 
             //Create and connect Client to Server
-            Client c = new Client(nameField.getText(),portValue, serverIPField.getText());
-
+            client = new Client(nameField.getText(), portValue, serverIPField.getText());
+            transmitter = new Transmitter(client.getOutput());
+            transmitter.sendMessage();
 
             /*Closes the Log in Window after the Client is successfully connected to the server
 

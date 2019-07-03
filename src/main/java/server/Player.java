@@ -50,6 +50,9 @@ public class Player implements Runnable {
             Thread.onSpinWait();
         }
 
+        System.out.println(in.toString());
+        //ioHandler.send(in.next());
+
         for (String packet : packets) {
 
             ioHandler.send(packet);

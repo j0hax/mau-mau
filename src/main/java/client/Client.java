@@ -1,6 +1,7 @@
 package client;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
@@ -16,6 +17,7 @@ public class Client {
     private String serverIP;
     private Socket socketClient;
     private boolean connected= false;
+    private PrintWriter out;
 
     /**
      * Constructor for Client
@@ -41,13 +43,23 @@ public class Client {
             System.out.println("Connected");
             connected = true;
 
+            try {
+                Thread.sleep(2000);
+            } catch (InterruptedException ie) {
+                System.err.println(ie.toString());
+            }
+
+            out = new PrintWriter(socketClient.getOutputStream());
+
         }catch (UnknownHostException ue){
             System.out.println("Unknown Host, Check your ip-address/Port input" +ue.getMessage());
         }
         catch (IOException io){
             System.out.println("IOError: Check your ip-address/Port input " + io.getMessage());
         }
+
     }
+
     /**
      * Disconnects the Client from the Server
      *
@@ -58,6 +70,10 @@ public class Client {
         }catch (IOException e){
             e.printStackTrace();
         }
+    }
+
+    public PrintWriter getOutput() {
+        return out;
     }
 
     /**
