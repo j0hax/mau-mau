@@ -40,6 +40,8 @@ javafx {
 
 // build the client JAR
 task clientJar(type: Jar) {
+    
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
 
     archiveFileName = 'Client.jar'
 
@@ -51,10 +53,15 @@ task clientJar(type: Jar) {
     manifest {
         attributes 'Main-Class': 'client.StartClient'
     }
+
+
 }
 
 // build the server JAR
 task serverJar(type: Jar) {
+
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+
 
     archiveFileName = 'Server.jar'
 
@@ -66,4 +73,5 @@ task serverJar(type: Jar) {
     manifest {
         attributes 'Main-Class': 'server.StartServer'
     }
+
 }

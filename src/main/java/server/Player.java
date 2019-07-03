@@ -2,10 +2,11 @@ package server;
 
 import util.cards.Card;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.LinkedList;
-import java.util.Scanner;
 
 public class Player implements Runnable {
 
@@ -13,7 +14,7 @@ public class Player implements Runnable {
     private Socket playerSocket;
     private LinkedList<Card> hand;
 
-    private Scanner in;
+    private BufferedReader in;
     private PrintWriter out;
     private volatile IOHandler ioHandler;
 
@@ -26,10 +27,10 @@ public class Player implements Runnable {
     public Player(Socket playerSocket, IOHandler ioHandler) {
         this.playerSocket = playerSocket;
         this.ioHandler = ioHandler;
+        this.username = username;
         try {
             out = new PrintWriter(playerSocket.getOutputStream(), true);
-            in = new Scanner(playerSocket.getInputStream());
-
+            in = new BufferedReader(new InputStreamReader(playerSocket.getInputStream()));
         } catch (Exception e) {
             System.out.println("Error: Client " + username + " " + e.toString());
         }
@@ -39,9 +40,8 @@ public class Player implements Runnable {
     public void run() {
         System.out.println("starting player thread");
 
-        String t = in.nextLine();
-        ioHandler.send(t);
-        ioHandler.send("End");
+        /*String t = in.nextLine();
+        ioHandler.send(t);*/
 
         String[] packets = {
                 "First packet",
@@ -51,9 +51,12 @@ public class Player implements Runnable {
                 "End"
         };
 
-        /*while (ioHandler == null) {
+        while (ioHandler == null) {
             Thread.onSpinWait();
-        }*/
+        }
+
+        ioHandler.send("End");
+
 
         //ioHandler.send(in.next());
         /*
@@ -92,4 +95,13 @@ public class Player implements Runnable {
     String getName() {
         return username;
     }
+
+    public BufferedReader getInput() {
+        return this.in;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
 }

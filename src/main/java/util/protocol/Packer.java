@@ -1,6 +1,7 @@
 package util.protocol;
 
 import com.google.gson.Gson;
+import util.protocol.messages.Connection;
 
 /**
  * Packer should be used if you want to pack data in a DataPacket structure
@@ -34,7 +35,7 @@ public class Packer {
             case CONNECT:
                 // example that will be changed later
                 // in this case the connect message is a single string; could be something more complex later
-                return gson.fromJson(packet.getData(), String.class);
+                return gson.fromJson(packet.getData(), Connection.class);
             case DECONNECT:
             case CHATMESSAGE:
             case GAMEMESSAGE:

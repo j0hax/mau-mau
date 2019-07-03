@@ -35,13 +35,17 @@ public class GameThread implements Runnable {
 
         System.out.println(thisThread.getName() + "\t\t\t>> Starting new game");
 
-        /*try {
-            Thread.sleep(2000);
-        } catch (InterruptedException e)  {
-            Thread.currentThread().interrupt();
-        }*/
-
         // some testing:
+
+        String pString = "";
+        for (Player p : players) {
+            pString += "'" + p.getName() + "'";
+        }
+        System.out.println(thisThread.getName() + "\t\t\t>> [" + pString + "]");
+
+
+        //Connection newConnection = (Connection) Packer.unpackData(gameIOHandler.receive());
+        //System.out.println(thisThread.getName() + "\t\t\t>> " + "New client\t>> " + newConnection.getClientName());
 
         for (String receivedMessage = gameIOHandler.receive();
              !"End".equals(receivedMessage);

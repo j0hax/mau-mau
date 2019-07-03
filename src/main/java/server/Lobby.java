@@ -7,20 +7,21 @@ import java.util.concurrent.Executors;
 public class Lobby implements Runnable {
 
     private final int GAMESIZE = 1;
+    private final int MAXGAMES = 10;
     private int gameID = 0;
     private LinkedList<Player> players;
+    private IOHandler lobbyIOHandler;
 
-    Lobby(LinkedList<Player> players) {
+    Lobby(LinkedList<Player> players, IOHandler lobbyIOHandler) {
         this.players = players;
+        this.lobbyIOHandler = lobbyIOHandler;
     }
 
     @Override
     public void run() {
-        ExecutorService gamePool = Executors.newFixedThreadPool(10);
+        ExecutorService gamePool = Executors.newFixedThreadPool(MAXGAMES);
 
         while (true) {
-
-            System.out.println("LOBBY\t\t\t>> Lobby is active");
 
             System.out.println("LOBBY\t\t\t>> Waiting for players to start new game: " + (GAMESIZE - players.size()));
 
@@ -28,7 +29,11 @@ public class Lobby implements Runnable {
                 Thread.onSpinWait();
             }
 
-            System.out.println(players.toString());
+            String pString = "";
+            for (Player p : players) {
+                pString += "'" + p.getName() + "'";
+            }
+            System.out.println("LOBBY\t\t\t>> Players in Lobby [" + pString + "]");
 
             // this block will be changed later
             LinkedList<Player> playersInGame = new LinkedList<>(players);

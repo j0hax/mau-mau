@@ -44,9 +44,6 @@ public class Client {
             connected = true;
 
             out = new PrintWriter(socketClient.getOutputStream(), true);
-            //Thread.sleep(1000);
-            out.println("Hello from client");
-
 
         }catch (UnknownHostException ue){
             System.out.println("Unknown Host, Check your ip-address/Port input" +ue.getMessage());

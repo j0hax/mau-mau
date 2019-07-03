@@ -1,5 +1,8 @@
 package server;
 
+import util.protocol.Packer;
+import util.protocol.messages.Connection;
+
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -24,18 +27,23 @@ public class StartServer {
             ExecutorService threadPool = Executors.newFixedThreadPool(maxNumberOfPlayers);
 
             //creates and starts lobby
-            Thread lobbyThread = new Thread(new Lobby(players));
+            IOHandler lobbyIOHandler = new IOHandler();
+            Thread lobbyThread = new Thread(new Lobby(players, lobbyIOHandler));
             lobbyThread.start();
 
-            int i = 0;
+            String input = "";
+
             while (true) {
                 try {
                     Socket playerSocket = server.accept();
-                    System.out.println("new connection: " + playerSocket.getInetAddress());
+                    System.out.println("SERVER\t\t\t>> New connection: " + playerSocket.getInetAddress());
                     Player p = new Player(playerSocket, null);
+
+                    input = p.getInput().readLine();
+                    p.setUsername(((Connection) Packer.unpackData(input)).getClientName());
+
                     threadPool.execute(p);
                     players.add(p);
-                    i = i + 1;
 
 
                 } catch (IOException e) {

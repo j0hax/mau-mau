@@ -3,6 +3,9 @@ package client;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import util.protocol.DataType;
+import util.protocol.Packer;
+import util.protocol.messages.Connection;
 
 
 /**
@@ -39,6 +42,10 @@ public class FxController {
 
             //Create and connect Client to Server
             client = new Client(nameField.getText(), portValue, serverIPField.getText());
+            if (client.getConnectionStatus()) {
+                transmitter = new Transmitter(client.getOutput());
+                transmitter.send(Packer.packData(DataType.CONNECT, new Connection(client.getName())));
+            }
 
             /*Closes the Log in Window after the Client is successfully connected to the server
 
