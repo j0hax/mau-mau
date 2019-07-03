@@ -39,8 +39,6 @@ public class FxController {
 
             //Create and connect Client to Server
             client = new Client(nameField.getText(), portValue, serverIPField.getText());
-            transmitter = new Transmitter(client.getOutput());
-            transmitter.sendMessage();
 
             /*Closes the Log in Window after the Client is successfully connected to the server
 

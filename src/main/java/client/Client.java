@@ -43,13 +43,10 @@ public class Client {
             System.out.println("Connected");
             connected = true;
 
-            try {
-                Thread.sleep(2000);
-            } catch (InterruptedException ie) {
-                System.err.println(ie.toString());
-            }
+            out = new PrintWriter(socketClient.getOutputStream(), true);
+            //Thread.sleep(1000);
+            out.println("Hello from client");
 
-            out = new PrintWriter(socketClient.getOutputStream());
 
         }catch (UnknownHostException ue){
             System.out.println("Unknown Host, Check your ip-address/Port input" +ue.getMessage());

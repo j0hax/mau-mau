@@ -37,6 +37,11 @@ public class Player implements Runnable {
 
     @Override
     public void run() {
+        System.out.println("starting player thread");
+
+        String t = in.nextLine();
+        ioHandler.send(t);
+        ioHandler.send("End");
 
         String[] packets = {
                 "First packet",
@@ -46,13 +51,12 @@ public class Player implements Runnable {
                 "End"
         };
 
-        while (ioHandler == null) {
+        /*while (ioHandler == null) {
             Thread.onSpinWait();
-        }
+        }*/
 
-        System.out.println(in.toString());
         //ioHandler.send(in.next());
-
+        /*
         for (String packet : packets) {
 
             ioHandler.send(packet);
@@ -63,9 +67,10 @@ public class Player implements Runnable {
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
             }
-        }
+        }*/
 
         // TODO: read player name from socket
+        System.out.println("ending player thread");
     }
 
     synchronized void changeIOHandler(IOHandler ioHandler) {

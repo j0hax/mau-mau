@@ -29,7 +29,8 @@ public class StartServer {
 
             int i = 0;
             while (true) {
-                try (Socket playerSocket = server.accept()) {
+                try {
+                    Socket playerSocket = server.accept();
                     System.out.println("new connection: " + playerSocket.getInetAddress());
                     Player p = new Player(playerSocket, null);
                     threadPool.execute(p);
