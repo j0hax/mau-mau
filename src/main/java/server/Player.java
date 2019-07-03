@@ -10,7 +10,7 @@ import java.util.LinkedList;
 
 public class Player implements Runnable {
 
-    private String username = "Player";
+    private String username = "no-username";
     private Socket playerSocket;
     private LinkedList<Card> hand;
 

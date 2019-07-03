@@ -4,11 +4,7 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.image.Image;
 import javafx.stage.Stage;
-import util.cards.Card;
-import util.cards.CardRank;
-import util.cards.CardSuite;
 
 public class StartClient extends Application {
 
@@ -32,7 +28,7 @@ public class StartClient extends Application {
 
 
         // Game
-        Stage game = primaryStage;
+        /*Stage game = primaryStage;
 
         Parent gameRoot = FXMLLoader.load(getClass().getResource("/client/gui/game.fxml"));
         game.setTitle("Mau Mau");
@@ -46,11 +42,11 @@ public class StartClient extends Application {
 
         game.setScene(gameScene);
         game.setResizable(false);
-        game.show();
+        game.show();*/
 
 
         // Lobby
-        Stage lobby = new Stage();
+        /*Stage lobby = new Stage();
 
         Parent lobbyRoot = FXMLLoader.load(getClass().getResource("/client/gui/lobby.fxml"));
         lobby.setTitle("Mau Mau Lobby");
@@ -60,7 +56,7 @@ public class StartClient extends Application {
 
         lobby.setScene(lobbyScene);
         lobby.setResizable(false);
-        lobby.show();
+        lobby.show();*/
 
 
         // Login

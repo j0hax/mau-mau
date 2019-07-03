@@ -1,11 +1,19 @@
 package client;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.geometry.Rectangle2D;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.stage.Screen;
+import javafx.stage.Stage;
 import util.protocol.DataType;
 import util.protocol.Packer;
 import util.protocol.messages.Connection;
+
+import java.io.IOException;
 
 
 /**
@@ -47,13 +55,30 @@ public class FxController {
                 transmitter.send(Packer.packData(DataType.CONNECT, new Connection(client.getName())));
             }
 
-            /*Closes the Log in Window after the Client is successfully connected to the server
+            //Closes the Log in Window after the Client is successfully connected to the server
 
-            if(c.getConnectionStatus()){
-                Stage stage = (Stage) button.getScene().getWindow();
-                stage.close();
+            if (client.getConnectionStatus()) {
+                Stage game = (Stage) button.getScene().getWindow();
+
+                Parent gameRoot = null;
+                try {
+                    gameRoot = FXMLLoader.load(getClass().getResource("/client/gui/game.fxml"));
+                    game.setTitle("Mau Mau");
+
+                    Scene gameScene = new Scene(gameRoot, 1030, 730);
+                    gameScene.getStylesheets().add(getClass().getResource("/client/style/gameStyle.css").toExternalForm());
+
+                    game.setScene(gameScene);
+
+                    Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
+                    game.setX((screenBounds.getWidth() - game.getWidth()) / 2);
+                    game.setY((screenBounds.getHeight() - game.getHeight()) / 2);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
             }
-            */
+
         } else {
             System.out.println("Error: Check your input");
 
