@@ -65,7 +65,7 @@ public class FxController {
                     gameRoot = FXMLLoader.load(getClass().getResource("/client/gui/game.fxml"));
                     game.setTitle("Mau Mau");
 
-                    Scene gameScene = new Scene(gameRoot, 1030, 730);
+                    Scene gameScene = new Scene(gameRoot, 1000, 700);
                     gameScene.getStylesheets().add(getClass().getResource("/client/style/gameStyle.css").toExternalForm());
 
                     game.setScene(gameScene);
