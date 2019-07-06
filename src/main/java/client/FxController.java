@@ -78,7 +78,6 @@ public class FxController {
                 try {
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("/client/gui/game.fxml"));
                     Parent gameRoot = loader.load();
-                    GameController gameController = loader.getController();
                     //game.setTitle("Mau Mau");
 
                     Scene gameScene = new Scene(gameRoot, 1000, 700);
