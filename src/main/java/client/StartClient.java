@@ -68,7 +68,8 @@ public class StartClient extends Application {
         loginScene.getStylesheets().add(getClass().getResource("/client/style/loginStyle.css").toExternalForm());
 
         login.setScene(loginScene);
-        login.setResizable(false);
+        // TODO: glitch with KWin results in tiny window if setResizable(false)
+        login.setResizable(true);
         login.show();
 
     }
