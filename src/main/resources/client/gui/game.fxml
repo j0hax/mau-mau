@@ -38,13 +38,13 @@
             <Insets top="50.0" />
          </GridPane.margin>
          <children>
-            <Label text="NameOfPlayer2 Cards: 0" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
-            <Label text="NameOfPlayer4 Cards: 0" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
-            <Label text="NameOfPlayer3 Cards: 0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+            <Label fx:id="player2Cards" text="NameOfPlayer2 Cards: 0" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+            <Label fx:id="player4Cards" text="NameOfPlayer4 Cards: 0" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+            <Label fx:id="player3Cards" text="NameOfPlayer3 Cards: 0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
          </children>
       </GridPane>
-      <ImageView fitHeight="181.0" fitWidth="125.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
-      <ImageView fitHeight="181.0" fitWidth="125.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
+      <ImageView fx:id="currentCard" fitHeight="181.0" fitWidth="125.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
+      <ImageView fx:id="deck" fitHeight="181.0" fitWidth="125.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
       <VBox maxHeight="100.0" maxWidth="168.0" prefHeight="100.0" prefWidth="166.0" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
          <children>
             <Label alignment="CENTER" prefHeight="31.0" prefWidth="215.0" text="TURN: You">
@@ -55,19 +55,19 @@
             <Label alignment="CENTER" prefHeight="21.0" prefWidth="166.0" text="WISH:" />
             <HBox prefHeight="42.0" prefWidth="166.0" spacing="17.0">
                <children>
-                  <ImageView fx:id="spadesView" onMousePressed="#spadesClicked" fitHeight="42.0" fitWidth="42.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="spadesButton" fitHeight="42.0" fitWidth="42.0" onMousePressed="#spadesClicked" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../cards/PNG-cards-1.3/ace_of_spades.png" />
                      </image></ImageView>
-                  <ImageView fx:id="heartsView" onMousePressed="#heartsClicked" fitHeight="42.0" fitWidth="42.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="heartsButton" fitHeight="42.0" fitWidth="42.0" onMousePressed="#heartsClicked" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../cards/PNG-cards-1.3/ace_of_hearts.png" />
                      </image></ImageView>
-                  <ImageView fx:id="clubsView" onMousePressed="#clubsClicked" fitHeight="42.0" fitWidth="42.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="clubsButton" fitHeight="42.0" fitWidth="42.0" onMousePressed="#clubsClicked" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../cards/PNG-cards-1.3/ace_of_clubs.png" />
                      </image></ImageView>
-                  <ImageView fx:id="diamondsView" onMousePressed="#diamondsClicked" fitHeight="42.0" fitWidth="42.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="diamondsButton" fitHeight="42.0" fitWidth="42.0" onMousePressed="#diamondsClicked" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../cards/PNG-cards-1.3/ace_of_diamonds.png" />
                      </image></ImageView>
