@@ -51,6 +51,6 @@ public class Card implements Comparable {
 
         String fileName = "/client/cards/PNG-cards-1.3/" + rank + "_of_" + suite + ".png";
 
-        return new Image(this.getClass().getResourceAsStream(fileName));
+        return new Image(this.getClass().getResourceAsStream(fileName), 125, 181, true, true);
     }
 }
