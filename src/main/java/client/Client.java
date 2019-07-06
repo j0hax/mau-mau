@@ -1,6 +1,8 @@
 package client;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
@@ -15,9 +17,11 @@ public class Client {
     private String name;
     private int port;
     private String serverIP;
-    private Socket socketClient;
+    private Socket clientSocket;
     private boolean connected= false;
     private PrintWriter out;
+    private BufferedReader in;
+
 
     /**
      * Constructor for Client
@@ -39,11 +43,12 @@ public class Client {
         try{
             //a lot of Print outs  to the console for debugging purpose
             System.out.println("Trying to Connect to: " +serverIP+" on port: " +port);
-            socketClient = new Socket(serverIP,port);
+            clientSocket = new Socket(serverIP,port);
             System.out.println("Connected");
             connected = true;
 
-            out = new PrintWriter(socketClient.getOutputStream(), true);
+            out = new PrintWriter(clientSocket.getOutputStream(), true);
+            in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
 
         }catch (UnknownHostException ue){
             System.out.println("Unknown Host, Check your ip-address/Port input" +ue.getMessage());
@@ -58,9 +63,10 @@ public class Client {
      * Disconnects the Client from the Server
      *
      * */
-    private void closeConnetion(){
+    public void closeConnetion(){
+        connected = false;
         try {
-            socketClient.close();
+            clientSocket.close();
         }catch (IOException e){
             e.printStackTrace();
         }
@@ -68,6 +74,10 @@ public class Client {
 
     public PrintWriter getOutput() {
         return out;
+    }
+
+    public BufferedReader getInput() {
+        return in;
     }
 
     /**

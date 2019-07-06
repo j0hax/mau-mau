@@ -36,6 +36,8 @@ public class Packer {
                 // example that will be changed later
                 // in this case the connect message is a single string; could be something more complex later
                 return gson.fromJson(packet.getData(), Connection.class);
+            case CONFIRM:
+                return gson.fromJson(packet.getData(), Boolean.class);
             case DECONNECT:
             case CHATMESSAGE:
             case GAMEMESSAGE:

@@ -51,8 +51,15 @@ public class FxController {
             //Create and connect Client to Server
             client = new Client(nameField.getText(), portValue, serverIPField.getText());
             if (client.getConnectionStatus()) {
-                transmitter = new Transmitter(client.getOutput());
+                transmitter = new Transmitter(client.getOutput(), client.getInput());
                 transmitter.send(Packer.packData(DataType.CONNECT, new Connection(client.getName())));
+                boolean nameConfirmed = (boolean) Packer.unpackData(transmitter.receive());
+                if(!nameConfirmed){
+                    System.out.println("You cannot use this name.");
+                    client.closeConnetion();
+                }else {
+                    System.out.println("Server has confirmed your name.");
+                }
             }
 
             //Closes the Log in Window after the Client is successfully connected to the server

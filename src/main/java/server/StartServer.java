@@ -1,9 +1,11 @@
 package server;
 
+import util.protocol.DataType;
 import util.protocol.Packer;
 import util.protocol.messages.Connection;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.LinkedList;
@@ -21,6 +23,7 @@ public class StartServer {
 
         //contains all players
         LinkedList<Player> players = new LinkedList<>();
+        LinkedList<String> names = new LinkedList<>();
 
         try (ServerSocket server = new ServerSocket(PORT)) {
             //IOHandler ioHandler = new IOHandler();
@@ -40,11 +43,19 @@ public class StartServer {
                     Player p = new Player(playerSocket, null);
 
                     input = p.getInput().readLine();
-                    p.setUsername(((Connection) Packer.unpackData(input)).getClientName());
-
-                    threadPool.execute(p);
-                    players.add(p);
-
+                    String newName = ((Connection) Packer.unpackData(input)).getClientName();
+                    PrintWriter out = new PrintWriter(playerSocket.getOutputStream());
+                    if(names.contains(newName)){
+                        out.println(Packer.packData(DataType.CONFIRM, Boolean.FALSE));
+                        out.close();
+                    }else {
+                        out.println(Packer.packData(DataType.CONFIRM, Boolean.TRUE));
+                        out.close();
+                        p.setUsername(newName);
+                        names.add(newName);
+                        players.add(p);
+                        threadPool.execute(p);
+                    }
 
                 } catch (IOException e) {
                     e.printStackTrace();

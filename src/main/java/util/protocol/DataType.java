@@ -4,5 +4,5 @@ package util.protocol;
  * Contains allowed types of data
  */
 public enum DataType {
-    CONNECT, DECONNECT, CHATMESSAGE, GAMEMESSAGE
+    CONNECT, CONFIRM, DECONNECT, CHATMESSAGE, GAMEMESSAGE
 }
