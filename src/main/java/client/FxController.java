@@ -78,13 +78,13 @@ public class FxController {
                 try {
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("/client/gui/game.fxml"));
                     Parent gameRoot = loader.load();
-                    //game.setTitle("Mau Mau");
 
                     Scene gameScene = new Scene(gameRoot, 1000, 700);
                     gameScene.getStylesheets().add(getClass().getResource("/client/style/gameStyle.css").toExternalForm());
 
                     Stage window = (Stage) ((Node)event.getSource()).getScene().getWindow();
 
+                    window.setTitle("Mau Mau");
                     window.setScene(gameScene);
                     window.show();
 
