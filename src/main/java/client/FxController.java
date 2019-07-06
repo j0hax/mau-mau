@@ -1,18 +1,26 @@
 package client;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Rectangle2D;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
+import util.cards.Card;
+import util.cards.CardRank;
+import util.cards.CardSuite;
 import util.protocol.DataType;
 import util.protocol.Packer;
 import util.protocol.messages.Connection;
 
+import javax.swing.*;
 import java.io.IOException;
 
 
@@ -39,7 +47,7 @@ public class FxController {
     * Adds functionality to the "connect" Button from the Login Gui
     */
     @FXML
-    public void buttonClickHandler() {
+    public void buttonClickHandler(ActionEvent event) {
 
         String port = portField.getText();
         // Checks if the input is valid
@@ -65,21 +73,28 @@ public class FxController {
             //Closes the Log in Window after the Client is successfully connected to the server
 
             if (client.getConnectionStatus()) {
-                Stage game = (Stage) button.getScene().getWindow();
+                //Stage game = (Stage) button.getScene().getWindow();
 
-                Parent gameRoot = null;
                 try {
-                    gameRoot = FXMLLoader.load(getClass().getResource("/client/gui/game.fxml"));
-                    game.setTitle("Mau Mau");
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/client/gui/game.fxml"));
+                    Parent gameRoot = loader.load();
+                    GameController gameController = loader.getController();
+                    //game.setTitle("Mau Mau");
 
                     Scene gameScene = new Scene(gameRoot, 1000, 700);
                     gameScene.getStylesheets().add(getClass().getResource("/client/style/gameStyle.css").toExternalForm());
 
-                    game.setScene(gameScene);
+                    Stage window = (Stage) ((Node)event.getSource()).getScene().getWindow();
+
+                    window.setScene(gameScene);
+                    window.show();
 
                     Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
-                    game.setX((screenBounds.getWidth() - game.getWidth()) / 2);
-                    game.setY((screenBounds.getHeight() - game.getHeight()) / 2);
+                    window.setX((screenBounds.getWidth() - window.getWidth()) / 2);
+                    window.setY((screenBounds.getHeight() - window.getHeight()) / 2);
+
+
+
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
