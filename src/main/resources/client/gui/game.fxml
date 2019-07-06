@@ -2,6 +2,7 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
@@ -10,7 +11,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.GameController">
+<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1000.0" stylesheets="@../style/gameStyle.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.GameController">
   <columnConstraints>
       <ColumnConstraints hgrow="SOMETIMES" maxWidth="200.0" minWidth="10.0" prefWidth="100.0" />
     <ColumnConstraints hgrow="SOMETIMES" maxWidth="200.0" minWidth="10.0" prefWidth="100.0" />
@@ -52,12 +53,24 @@
                </font>
             </Label>
             <Label alignment="CENTER" prefHeight="21.0" prefWidth="166.0" text="WISH:" />
-            <HBox prefHeight="42.0" prefWidth="166.0">
+            <HBox prefHeight="42.0" prefWidth="166.0" spacing="17.0">
                <children>
-                  <ImageView fitHeight="42.0" fitWidth="42.0" pickOnBounds="true" preserveRatio="true" />
-                  <ImageView fitHeight="42.0" fitWidth="42.0" pickOnBounds="true" preserveRatio="true" />
-                  <ImageView fitHeight="42.0" fitWidth="42.0" pickOnBounds="true" preserveRatio="true" />
-                  <ImageView fitHeight="42.0" fitWidth="42.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView fx:id="spadesView" onMousePressed="#spadesClicked" fitHeight="42.0" fitWidth="42.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../cards/PNG-cards-1.3/ace_of_spades.png" />
+                     </image></ImageView>
+                  <ImageView fx:id="heartsView" onMousePressed="#heartsClicked" fitHeight="42.0" fitWidth="42.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../cards/PNG-cards-1.3/ace_of_hearts.png" />
+                     </image></ImageView>
+                  <ImageView fx:id="clubsView" onMousePressed="#clubsClicked" fitHeight="42.0" fitWidth="42.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../cards/PNG-cards-1.3/ace_of_clubs.png" />
+                     </image></ImageView>
+                  <ImageView fx:id="diamondsView" onMousePressed="#diamondsClicked" fitHeight="42.0" fitWidth="42.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../cards/PNG-cards-1.3/ace_of_diamonds.png" />
+                     </image></ImageView>
                </children>
                <VBox.margin>
                   <Insets top="5.0" />
