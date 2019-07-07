@@ -26,21 +26,21 @@ public class RegistrationFormController {
         Window owner = submitButton.getScene().getWindow();
         if(nameField.getText().isEmpty()) {
             AlertHelper.showAlert(Alert.AlertType.ERROR, owner, "Form Error!",
-                    "Please enter your name");
+                                  "Please enter your name");
             return;
         }
         if(emailField.getText().isEmpty()) {
             AlertHelper.showAlert(Alert.AlertType.ERROR, owner, "Form Error!",
-                    "Please enter your email id");
+                                  "Please enter your email id");
             return;
         }
         if(passwordField.getText().isEmpty()) {
             AlertHelper.showAlert(Alert.AlertType.ERROR, owner, "Form Error!",
-                    "Please enter a password");
+                                  "Please enter a password");
             return;
         }
 
         AlertHelper.showAlert(Alert.AlertType.CONFIRMATION, owner, "Registration Successful!",
-                "Welcome " + nameField.getText());
+                              "Welcome " + nameField.getText());
     }
 }

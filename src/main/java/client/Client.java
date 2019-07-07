@@ -39,8 +39,8 @@ public class Client {
      * Connects the Client to the Server
      *
      * */
-    private void connectClient(){
-        try{
+    private void connectClient() {
+        try {
             //a lot of Print outs  to the console for debugging purpose
             System.out.println("Trying to Connect to: " +serverIP+" on port: " +port);
             clientSocket = new Socket(serverIP,port);
@@ -50,10 +50,9 @@ public class Client {
             out = new PrintWriter(clientSocket.getOutputStream(), true);
             in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
 
-        }catch (UnknownHostException ue){
+        } catch (UnknownHostException ue) {
             System.out.println("Unknown Host, Check your ip-address/Port input" +ue.getMessage());
-        }
-        catch (IOException io){
+        } catch (IOException io) {
             System.out.println("IOError: Check your ip-address/Port input " + io.getMessage());
         }
 
@@ -63,11 +62,11 @@ public class Client {
      * Disconnects the Client from the Server
      *
      * */
-    public void closeConnetion(){
+    public void closeConnetion() {
         connected = false;
         try {
             clientSocket.close();
-        }catch (IOException e){
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
@@ -84,28 +83,28 @@ public class Client {
      * Getter for the name of the Client
      * @return Name of the Client
      * */
-    public String getName(){
+    public String getName() {
         return name;
     }
     /**
      * Getter for the port on which the Client wants to connect
      * @return port of the client
      * */
-    public int getPort(){
+    public int getPort() {
         return port;
     }
     /**
      * Getter for the serverIp of the Client
      * @return ip of the server the client wants to connect to
      * */
-    public String getServerIP(){
+    public String getServerIP() {
         return serverIP;
     }
     /**
      * Getter for the connectionStatus of the client
      * @return true/false whether or not the client is connected
      * */
-    public boolean getConnectionStatus(){
+    public boolean getConnectionStatus() {
         return connected;
     }
 }

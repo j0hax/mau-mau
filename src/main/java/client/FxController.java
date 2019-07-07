@@ -9,18 +9,12 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.HBox;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
-import util.cards.Card;
-import util.cards.CardRank;
-import util.cards.CardSuite;
 import util.protocol.DataType;
 import util.protocol.Packer;
 import util.protocol.messages.Connection;
 
-import javax.swing.*;
 import java.io.IOException;
 
 
@@ -53,7 +47,7 @@ public class FxController {
         // Checks if the input is valid
         if (port.matches("[0-9]+")  && nameField.getText().length()>0 && serverIPField.getText().length()>0) {
             int portValue = Integer.valueOf(port);
-           // System.out.println("user with the name: "+nameField.getText()+" is trying to connect to Ip: " +serverIPField.getText()+" on Port:" + portField.getText());
+            // System.out.println("user with the name: "+nameField.getText()+" is trying to connect to Ip: " +serverIPField.getText()+" on Port:" + portField.getText());
 
 
             //Create and connect Client to Server
@@ -62,10 +56,10 @@ public class FxController {
                 transmitter = new Transmitter(client.getOutput(), client.getInput());
                 transmitter.send(Packer.packData(DataType.CONNECT, new Connection(client.getName())));
                 boolean nameConfirmed = (boolean) Packer.unpackData(transmitter.receive());
-                if(!nameConfirmed){
+                if(!nameConfirmed) {
                     System.out.println("You cannot use this name.");
                     client.closeConnetion();
-                }else {
+                } else {
                     System.out.println("Server has confirmed your name.");
                 }
             }

@@ -44,11 +44,11 @@ public class Player implements Runnable {
         ioHandler.send(t);*/
 
         String[] packets = {
-                "First packet",
-                "Second packet",
-                "Third packet",
-                "Fourth packet",
-                "End"
+            "First packet",
+            "Second packet",
+            "Third packet",
+            "Fourth packet",
+            "End"
         };
 
         while (ioHandler == null) {

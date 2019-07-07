@@ -45,10 +45,10 @@ public class StartServer {
                     input = p.getInput().readLine();
                     String newName = ((Connection) Packer.unpackData(input)).getClientName();
                     PrintWriter out = new PrintWriter(playerSocket.getOutputStream());
-                    if(names.contains(newName)){
+                    if(names.contains(newName)) {
                         out.println(Packer.packData(DataType.CONFIRM, Boolean.FALSE));
                         out.close();
-                    }else {
+                    } else {
                         out.println(Packer.packData(DataType.CONFIRM, Boolean.TRUE));
                         out.close();
                         p.setUsername(newName);

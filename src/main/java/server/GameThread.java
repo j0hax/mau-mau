@@ -48,8 +48,8 @@ public class GameThread implements Runnable {
         //System.out.println(thisThread.getName() + "\t\t\t>> " + "New client\t>> " + newConnection.getClientName());
 
         for (String receivedMessage = gameIOHandler.receive();
-             !"End".equals(receivedMessage);
-             receivedMessage = gameIOHandler.receive()) {
+                !"End".equals(receivedMessage);
+                receivedMessage = gameIOHandler.receive()) {
 
             System.out.println(thisThread.getName() + "\t\t\t>> " + receivedMessage);
 

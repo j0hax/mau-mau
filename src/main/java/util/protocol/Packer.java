@@ -32,16 +32,16 @@ public class Packer {
         DataPacket packet = gson.fromJson(packetString, DataPacket.class);
         // TODO IDEA: each kind of message has its own class containing different kinds of data
         switch (packet.getDataType()) {
-            case CONNECT:
-                // example that will be changed later
-                // in this case the connect message is a single string; could be something more complex later
-                return gson.fromJson(packet.getData(), Connection.class);
-            case CONFIRM:
-                return gson.fromJson(packet.getData(), Boolean.class);
-            case DECONNECT:
-            case CHATMESSAGE:
-            case GAMEMESSAGE:
-                break;
+        case CONNECT:
+            // example that will be changed later
+            // in this case the connect message is a single string; could be something more complex later
+            return gson.fromJson(packet.getData(), Connection.class);
+        case CONFIRM:
+            return gson.fromJson(packet.getData(), Boolean.class);
+        case DECONNECT:
+        case CHATMESSAGE:
+        case GAMEMESSAGE:
+            break;
         }
         return null;
     }
