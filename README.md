@@ -29,6 +29,12 @@ The game should then be played according to the following rules according to [Wi
    * Added functionality to Login Window and implemented MVC Pattern
    * Searched PNGs for playing cards
    * Server implementations: Server creates lobby thread, game thread (2 players) and player thread for each client
+* **Week 3:**
+   * Defined protocol for communications
+   * Proper Client/Server communication with name
+   * Cards now have compareTo() and getImage() functions for logic and UI
+   * Game can now display the player's cards
+   * Updated Gradle Build Script to include libraries
 
 ## Mau-Mau
 
