@@ -94,19 +94,3 @@ task serverJar(type: Jar) {
         compile 'com.google.code.gson:gson:2.8.5'
     }
 }
-
-// build the server JAR
-task launcherJar(type: Jar) {
-
-    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
-
-    archiveFileName = 'Launcher.jar'
-
-    from(sourceSets.main.output) {
-        include "launcher/**"
-    }
-
-    manifest {
-        attributes 'Main-Class': 'launcher.Launcher'
-    }
-}
