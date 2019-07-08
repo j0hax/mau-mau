@@ -29,10 +29,15 @@ sourceSets {
 
 dependencies {
     implementation 'com.google.code.gson:gson:2.8.5'
-    implementation 'org.openjfx:javafx-base:12.0.1'
+    /*implementation 'org.openjfx:javafx-base:12.0.1'
     implementation 'org.openjfx:javafx-controls:12.0.1'
     implementation 'org.openjfx:javafx-fxml:12.0.1'
+
+
+     */
+
 }
+
 
 javafx {
     version = '12'
@@ -57,10 +62,16 @@ task clientJar(type: Jar) {
 
     dependencies {
         compile 'com.google.code.gson:gson:2.8.5'
-        compile 'org.openjfx.javafx-base:12.0.1'
+        
+        /*compile 'org.openjfx.javafx-base:12.0.1'
         compile 'org.openjfx.javafx-controls:12.0.1'
         compile 'org.openjfx.javafx-fxml:12.0.1'
+    
+    
+         */
     }
+
+
 
 }
 
@@ -82,5 +93,21 @@ task serverJar(type: Jar) {
 
     dependencies {
         compile 'com.google.code.gson:gson:2.8.5'
+    }
+}
+
+// build the server JAR
+task launcherJar(type: Jar) {
+
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+
+    archiveFileName = 'Launcher.jar'
+
+    from(sourceSets.main.output) {
+        include "launcher/**"
+    }
+
+    manifest {
+        attributes 'Main-Class': 'launcher.Launcher'
     }
 }
