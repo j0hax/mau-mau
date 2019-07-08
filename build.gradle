@@ -1,11 +1,7 @@
 plugins {
-    id 'java'
+    id 'application'
     id 'org.openjfx.javafxplugin' version '0.0.7'
 }
-
-//untere Zeile zusätzlich zum JFX Plugin bei der Run... config unter JVM hinzufügen (Pfad ändern)
-//javafx library muss heruntergeladen sein und im Projekt importiert
-//--module-path /home/cedric/java_lib/javafx-sdk-11.0.2/lib --add-modules=javafx.controls,javafx.fxml
 
 group 'de.uni_hannover.hci.cardgame'
 version '1.0-SNAPSHOT'
@@ -27,17 +23,6 @@ sourceSets {
     }
 }
 
-dependencies {
-    implementation 'com.google.code.gson:gson:2.8.5'
-    /*implementation 'org.openjfx:javafx-base:12.0.1'
-    implementation 'org.openjfx:javafx-controls:12.0.1'
-    implementation 'org.openjfx:javafx-fxml:12.0.1'
-
-
-     */
-
-}
-
 
 javafx {
     version = '12'
@@ -57,18 +42,30 @@ task clientJar(type: Jar) {
     }
 
     manifest {
-        attributes 'Main-Class': 'client.StartClient'
+        attributes 'Main-Class': 'client.Launcher'
     }
 
     dependencies {
         compile 'com.google.code.gson:gson:2.8.5'
-        
-        /*compile 'org.openjfx.javafx-base:12.0.1'
-        compile 'org.openjfx.javafx-controls:12.0.1'
-        compile 'org.openjfx.javafx-fxml:12.0.1'
-    
-    
-         */
+        compile 'org.openjfx:javafx:12'
+
+        // Linux Compatability
+        compile group: 'org.openjfx', name: 'javafx-base', version: "$javafx.version", classifier: 'linux'
+        compile group: 'org.openjfx', name: 'javafx-graphics', version: "$javafx.version", classifier: 'linux'
+        compile group: 'org.openjfx', name: 'javafx-controls', version: "$javafx.version", classifier: 'linux'
+        compile group: 'org.openjfx', name: 'javafx-fxml', version: "$javafx.version", classifier: 'linux'
+
+        // Mac Compatability
+        runtimeOnly group: 'org.openjfx', name: 'javafx-base', version: "$javafx.version", classifier: 'mac'
+        runtimeOnly group: 'org.openjfx', name: 'javafx-graphics', version: "$javafx.version", classifier: 'mac'
+        runtimeOnly group: 'org.openjfx', name: 'javafx-controls', version: "$javafx.version", classifier: 'mac'
+        runtimeOnly group: 'org.openjfx', name: 'javafx-fxml', version: "$javafx.version", classifier: 'mac'
+
+        // Windows Compatability
+        runtimeOnly group: 'org.openjfx', name: 'javafx-base', version: "$javafx.version", classifier: 'win'
+        runtimeOnly group: 'org.openjfx', name: 'javafx-graphics', version: "$javafx.version", classifier: 'win'
+        runtimeOnly group: 'org.openjfx', name: 'javafx-controls', version: "$javafx.version", classifier: 'win'
+        runtimeOnly group: 'org.openjfx', name: 'javafx-fxml', version: "$javafx.version", classifier: 'win'
     }
 
 
