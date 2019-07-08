@@ -36,6 +36,8 @@ task clientJar(type: Jar) {
 
     archiveFileName = 'Client.jar'
 
+    applicationDefaultJvmArgs = ["-Xmx64m"]
+
     from(sourceSets.main.output) {
         include "client/**"
         include "util/**"
