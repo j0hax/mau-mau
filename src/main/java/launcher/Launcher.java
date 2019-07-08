@@ -55,7 +55,7 @@ public class Launcher extends JFrame {
                 if (f.exists()) {
                     Scanner sc = new Scanner(f);
                     whereIsJavaFX = sc.nextLine();
-                    Process pro = Runtime.getRuntime().exec("java -jar -Xms256m -Xmx1g --module-path " + whereIsJavaFX.toString() + " --add-modules=javafx.controls,javafx.fxml Client.jar");
+                    Process pro = Runtime.getRuntime().exec("java -jar -Xms256m -Xmx1g --module-path " + whereIsJavaFX + " --add-modules=javafx.controls,javafx.fxml Client.jar");
                     System.exit(0);
                 } else {
                     System.out.println("No JavaFX Lib Path found");
