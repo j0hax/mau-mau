@@ -3,7 +3,6 @@ package server;
 import util.cards.Card;
 
 import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.LinkedList;
@@ -24,16 +23,12 @@ public class Player implements Runnable {
      * @param playerSocket own socket
      * @param ioHandler    IOHandler that connects to the lobby thread
      */
-    public Player(Socket playerSocket, IOHandler ioHandler) {
+    public Player(Socket playerSocket, BufferedReader in, PrintWriter out, IOHandler ioHandler) {
         this.playerSocket = playerSocket;
         this.ioHandler = ioHandler;
         this.username = username;
-        try {
-            out = new PrintWriter(playerSocket.getOutputStream(), true);
-            in = new BufferedReader(new InputStreamReader(playerSocket.getInputStream()));
-        } catch (Exception e) {
-            System.out.println("Error: Client " + username + " " + e.toString());
-        }
+        this.in = in;
+        this.out = out;
     }
 
     @Override
@@ -102,6 +97,14 @@ public class Player implements Runnable {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public synchronized void send(String msg) {
+        out.println(msg);
+    }
+
+    public void setOut(PrintWriter out) {
+        this.out = out;
     }
 
 }

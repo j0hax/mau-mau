@@ -4,7 +4,9 @@ import util.protocol.DataType;
 import util.protocol.Packer;
 import util.protocol.messages.Connection;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -39,18 +41,20 @@ public class StartServer {
             while (true) {
                 try {
                     Socket playerSocket = server.accept();
+                    PrintWriter out = new PrintWriter(playerSocket.getOutputStream(), true);
+                    BufferedReader in = new BufferedReader(new InputStreamReader(playerSocket.getInputStream()));
+
                     System.out.println("SERVER\t\t\t>> New connection: " + playerSocket.getInetAddress());
-                    Player p = new Player(playerSocket, null);
+                    Player p = new Player(playerSocket, in, out, null);
 
                     input = p.getInput().readLine();
                     String newName = ((Connection) Packer.unpackData(input)).getClientName();
-                    PrintWriter out = new PrintWriter(playerSocket.getOutputStream());
                     if(names.contains(newName)) {
-                        out.println(Packer.packData(DataType.CONFIRM, Boolean.FALSE));
+                        p.send(Packer.packData(DataType.CONFIRM, Boolean.FALSE));
                         out.close();
                     } else {
-                        out.println(Packer.packData(DataType.CONFIRM, Boolean.TRUE));
-                        out.close();
+                        p.send(Packer.packData(DataType.CONFIRM, Boolean.TRUE));
+
                         p.setUsername(newName);
                         names.add(newName);
                         players.add(p);

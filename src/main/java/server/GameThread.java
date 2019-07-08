@@ -1,6 +1,9 @@
 package server;
 
 import util.cards.Deck;
+import util.protocol.DataType;
+import util.protocol.Packer;
+import util.protocol.messages.NewGame;
 
 import java.util.LinkedList;
 
@@ -8,6 +11,7 @@ public class GameThread implements Runnable {
 
     private int ID;
     private LinkedList<Player> players;
+    private String[] playerNames;
     private Deck deck = new Deck();
     private IOHandler gameIOHandler;
 
@@ -20,6 +24,7 @@ public class GameThread implements Runnable {
     GameThread(int ID, LinkedList<Player> players, IOHandler gameIOHandler) {
         this.ID = ID;
         this.players = players;
+        this.playerNames = new String[players.size()];
         this.gameIOHandler = gameIOHandler;
     }
 
@@ -37,12 +42,19 @@ public class GameThread implements Runnable {
 
         // some testing:
 
-        String pString = "";
-        for (Player p : players) {
-            pString += "'" + p.getName() + "'";
+        StringBuilder pString = new StringBuilder();
+        for (int i = 0; i < playerNames.length; i++) {
+            pString.append("'" + players.get(i).getName() + "'");
+            playerNames[i] = players.get(i).getName();
         }
         System.out.println(thisThread.getName() + "\t\t\t>> [" + pString + "]");
 
+
+        for (Player p : players) {
+            String s = Packer.packData(DataType.NEWGAME, new NewGame(playerNames));
+            p.send(s);
+            System.out.println(s);
+        }
 
         //Connection newConnection = (Connection) Packer.unpackData(gameIOHandler.receive());
         //System.out.println(thisThread.getName() + "\t\t\t>> " + "New client\t>> " + newConnection.getClientName());

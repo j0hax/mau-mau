@@ -62,7 +62,7 @@ public class Client {
      * Disconnects the Client from the Server
      *
      * */
-    public void closeConnetion() {
+    public void closeConnection() {
         connected = false;
         try {
             clientSocket.close();

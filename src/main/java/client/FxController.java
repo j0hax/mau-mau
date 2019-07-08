@@ -14,6 +14,7 @@ import javafx.stage.Stage;
 import util.protocol.DataType;
 import util.protocol.Packer;
 import util.protocol.messages.Connection;
+import util.protocol.messages.NewGame;
 
 import java.io.IOException;
 
@@ -58,7 +59,7 @@ public class FxController {
                 boolean nameConfirmed = (boolean) Packer.unpackData(transmitter.receive());
                 if(!nameConfirmed) {
                     System.out.println("You cannot use this name.");
-                    client.closeConnetion();
+                    client.closeConnection();
                 } else {
                     System.out.println("Server has confirmed your name.");
                 }
@@ -67,6 +68,12 @@ public class FxController {
             //Closes the Log in Window after the Client is successfully connected to the server
 
             if (client.getConnectionStatus()) {
+
+                NewGame ng = (NewGame) Packer.unpackData(transmitter.receive());
+                for (String p : ng.getAllPlayers()) {
+                    System.out.println(p);
+                }
+
                 //Stage game = (Stage) button.getScene().getWindow();
 
                 try {
