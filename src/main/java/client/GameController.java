@@ -2,6 +2,7 @@ package client;
 
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
@@ -43,6 +44,11 @@ public class GameController {
 
         /*Card c = new Card(CardSuite.CLUBS, CardRank.KING);
         hBox.getChildren().add(new ImageView(c.getImage()));*/
+
+        spadesButton.setCursor(Cursor.HAND);
+        heartsButton.setCursor(Cursor.HAND);
+        clubsButton.setCursor(Cursor.HAND);
+        diamondsButton.setCursor(Cursor.HAND);
 
         Card[] testHand = new Card[4];
 
