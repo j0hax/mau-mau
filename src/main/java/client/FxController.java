@@ -11,6 +11,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
+import util.cards.Card;
 import util.protocol.DataType;
 import util.protocol.Packer;
 import util.protocol.messages.Connection;
@@ -52,7 +53,7 @@ public class FxController {
 
 
             //Create and connect Client to Server
-            client = new Client(nameField.getText(), portValue, serverIPField.getText());
+            client = new Client(nameField.getText(), portValue, serverIPField.getText(), this);
             if (client.getConnectionStatus()) {
                 transmitter = new Transmitter(client.getOutput(), client.getInput());
                 transmitter.send(Packer.packData(DataType.CONNECT, new Connection(client.getName())));
@@ -72,6 +73,10 @@ public class FxController {
                 NewGame ng = (NewGame) Packer.unpackData(transmitter.receive());
                 for (String p : ng.getAllPlayers()) {
                     System.out.println(p);
+                }
+
+                for(Card c : ng.getInitialHand()){
+                    System.out.println(c);
                 }
 
                 //Stage game = (Stage) button.getScene().getWindow();

@@ -13,7 +13,8 @@ import java.net.UnknownHostException;
 /**
 * Client Class, creates the Client and connects it to the Server when it's possible
 * */
-public class Client {
+public class Client implements Runnable {
+    private final FxController fxController;
     private String name;
     private int port;
     private String serverIP;
@@ -29,10 +30,11 @@ public class Client {
      * @param port Port on which the Client wants to connect
      * @param serverIP Ip of the Server the client wants to connect to
      * */
-    Client(String name, int port, String serverIP) {
+    Client(String name, int port, String serverIP, FxController fxController) {
         this.name=name;
         this.port=port;
         this.serverIP = serverIP;
+        this.fxController = fxController;
         connectClient();
     }
     /**
@@ -40,6 +42,7 @@ public class Client {
      *
      * */
     private void connectClient() {
+        fxController.nameField.setText("sgfhfdsdztdetrdzdtrdstd");
         try {
             //a lot of Print outs  to the console for debugging purpose
             System.out.println("Trying to Connect to: " +serverIP+" on port: " +port);
@@ -106,5 +109,15 @@ public class Client {
      * */
     public boolean getConnectionStatus() {
         return connected;
+    }
+
+    /**
+     * Continuously reads from socket to update the GUI
+     */
+    @Override
+    public void run() {
+        while (true) {
+
+        }
     }
 }

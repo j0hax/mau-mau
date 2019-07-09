@@ -1,5 +1,6 @@
 package server;
 
+import util.cards.Card;
 import util.cards.Deck;
 import util.protocol.DataType;
 import util.protocol.Packer;
@@ -51,7 +52,8 @@ public class GameThread implements Runnable {
 
 
         for (Player p : players) {
-            String s = Packer.packData(DataType.NEWGAME, new NewGame(playerNames));
+            // share player names and their hand
+            String s = Packer.packData(DataType.NEWGAME, new NewGame(playerNames, deck.deal(5)));
             p.send(s);
             System.out.println(s);
         }

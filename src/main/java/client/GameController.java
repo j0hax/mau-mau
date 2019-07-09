@@ -50,15 +50,6 @@ public class GameController {
         clubsButton.setCursor(Cursor.HAND);
         diamondsButton.setCursor(Cursor.HAND);
 
-        Card[] testHand = new Card[4];
-
-        testHand[0] = new Card(CardSuite.CLUBS, CardRank.KING);
-        testHand[1] = new Card(CardSuite.DIAMONDS, CardRank.KING);
-        testHand[2] = new Card(CardSuite.HEARTS, CardRank.KING);
-        testHand[3] = new Card(CardSuite.SPADES, CardRank.KING);
-
-        setHand(testHand);
-
         Card ca = new Card(CardSuite.SPADES, CardRank.QUEEN);
         currentCard.setImage(ca.getImage());
 
