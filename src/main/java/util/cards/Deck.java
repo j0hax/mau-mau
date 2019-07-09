@@ -27,7 +27,7 @@ public class Deck {
     // TODO: Mau-Mau only uses certain cards from the deck, not all 52. Implement a constructor to only use those.
 
     /**
-     * Deals a card at random.
+     * Deals a random card.
      * The card will be removed from the deck.
      * @return the dealt card.
      */
@@ -35,6 +35,21 @@ public class Deck {
         Random randGen = new Random();
         int randIndex = randGen.nextInt(getSize());
         return cards.remove(randIndex);
+    }
+
+    /**
+     * Deals a number of random cards
+     * which will be removed from the deck
+     * @param count the number of cards
+     * @return array containing the dealt cards
+     */
+    public Card[] deal(int count) {
+        Card[] dealt = new Card[count];
+        for (int i = 0; i < count; i++) {
+            dealt[i] = deal();
+        }
+
+        return dealt;
     }
 
     /**
