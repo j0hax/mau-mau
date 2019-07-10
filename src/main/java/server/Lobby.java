@@ -25,9 +25,15 @@ public class Lobby implements Runnable {
 
             System.out.println("LOBBY\t\t\t>> Waiting for players to start new game: " + (GAMESIZE - players.size()));
 
-            while (players.size() != GAMESIZE) {
-                Thread.onSpinWait();
+            while (players.size() < GAMESIZE) {
+                try {
+                    Thread.onSpinWait();
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
+
 
             String pString = "";
             for (Player p : players) {
