@@ -48,7 +48,7 @@ public class GameThread implements Runnable {
         }
         System.out.println(thisThread.getName() + "\t\t\t>> [" + pString + "]");
 
-        // sendData each player the NewGame message
+        // send each player the NewGame message
         for (Player p : players) {
             // share player names and their hand
             String s = Packer.packData(DataType.NEWGAME, new NewGame(playerNames, deck.deal(5)));

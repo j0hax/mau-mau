@@ -126,7 +126,7 @@ public class Client implements Runnable {
     /**
      * Sends an object to the server
      *
-     * @param tag         Type of the object to sendData
+     * @param tag         Type of the object to send
      * @param classToPack Data structure which will be sent to the server
      */
     public void sendData(DataType tag, Object classToPack) {

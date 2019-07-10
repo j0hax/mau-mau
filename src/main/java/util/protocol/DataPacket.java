@@ -1,7 +1,7 @@
 package util.protocol;
 
 /**
- * Class represents the data that is sendData between clients and server
+ * Class represents the data that is send between clients and server
  * TODO create classes for datatypes and
  */
 public class DataPacket {
