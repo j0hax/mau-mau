@@ -9,6 +9,6 @@
 | | IF players.size() = GAMESIZE: &darr; ELSE: GOTO START | |
 | Transmitter.receive()  | &larr; | allPlayers.send(new Game(playerNames, hand)) |
 | | GAME LOOP: &darr; | |
-| Transmitter.send(data...)  | &rarr; | gameIOHandler.receive(Boolean.TRUE / Boolean.FALSE) |
+| Transmitter.send(data...)  | &rarr; | gameIOHandler.receive() |
 | Transmitter.receive()  | &larr; | allPlayers.send(new GameState(...)) |
 | | Disconnect: in progress  | |
