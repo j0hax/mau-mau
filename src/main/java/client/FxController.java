@@ -79,7 +79,10 @@ public class FxController {
                     System.out.println(c);
                 }
 
-                //Stage game = (Stage) button.getScene().getWindow();
+                transmitter.send("Hello");
+                System.out.println("Sent hello");
+                transmitter.send("End");
+                System.out.println("Sent end");
 
                 try {
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("/client/gui/game.fxml"));

@@ -1,6 +1,5 @@
 package server;
 
-import util.cards.Card;
 import util.cards.Deck;
 import util.protocol.DataType;
 import util.protocol.Packer;
@@ -36,31 +35,28 @@ public class GameThread implements Runnable {
 
     @Override
     public void run() {
+        // initializing
         Thread thisThread = Thread.currentThread();
         thisThread.setName("Game-" + this.ID);
-
         System.out.println(thisThread.getName() + "\t\t\t>> Starting new game");
 
-        // some testing:
-
+        // prints out all players in the current game
         StringBuilder pString = new StringBuilder();
         for (int i = 0; i < playerNames.length; i++) {
-            pString.append("'" + players.get(i).getName() + "'");
+            pString.append("'").append(players.get(i).getName()).append("'");
             playerNames[i] = players.get(i).getName();
         }
         System.out.println(thisThread.getName() + "\t\t\t>> [" + pString + "]");
 
-
+        // send each player the NewGame message
         for (Player p : players) {
             // share player names and their hand
             String s = Packer.packData(DataType.NEWGAME, new NewGame(playerNames, deck.deal(5)));
             p.send(s);
-            System.out.println(s);
+            //System.out.println(s);
         }
 
-        //Connection newConnection = (Connection) Packer.unpackData(gameIOHandler.receive());
-        //System.out.println(thisThread.getName() + "\t\t\t>> " + "New client\t>> " + newConnection.getClientName());
-
+        // tests
         for (String receivedMessage = gameIOHandler.receive();
                 !"End".equals(receivedMessage);
                 receivedMessage = gameIOHandler.receive()) {

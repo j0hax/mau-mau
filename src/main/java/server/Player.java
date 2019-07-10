@@ -3,6 +3,7 @@ package server;
 import util.cards.Card;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.LinkedList;
@@ -33,24 +34,32 @@ public class Player implements Runnable {
 
     @Override
     public void run() {
-        System.out.println("starting player thread");
+        Thread thisThread = Thread.currentThread();
+        thisThread.setName("Player\t" + this.username);
 
-        /*String t = in.nextLine();
-        ioHandler.send(t);*/
-
-        String[] packets = {
-            "First packet",
-            "Second packet",
-            "Third packet",
-            "Fourth packet",
-            "End"
-        };
+        System.out.println(thisThread.getName() + "\t\t>> starting player thread");
 
         while (ioHandler == null) {
             Thread.onSpinWait();
+            try {
+                Thread.sleep(250);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
 
-        ioHandler.send("End");
+        String incomingMsg = "";
+        do {
+            try {
+                incomingMsg = in.readLine();
+                System.out.println(thisThread.getName() + "\t\t>> received: " + incomingMsg);
+                ioHandler.send(incomingMsg);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } while (!incomingMsg.equals("End"));
+
+        //ioHandler.send("End");
 
 
         //ioHandler.send(in.next());
@@ -68,7 +77,7 @@ public class Player implements Runnable {
         }*/
 
         // TODO: read player name from socket
-        System.out.println("ending player thread");
+        System.out.println(thisThread.getName() + "\t\t>> " + "ending player thread");
     }
 
     synchronized void changeIOHandler(IOHandler ioHandler) {
