@@ -13,7 +13,6 @@ import javafx.stage.Screen;
 import javafx.stage.Stage;
 import util.cards.Card;
 import util.protocol.DataType;
-import util.protocol.Packer;
 import util.protocol.messages.Connection;
 import util.protocol.messages.NewGame;
 
@@ -36,7 +35,6 @@ public class FxController {
 
 
     private Client client;
-    private Transmitter transmitter;
 
 
     /**
@@ -55,9 +53,14 @@ public class FxController {
             //Create and connect Client to Server
             client = new Client(nameField.getText(), portValue, serverIPField.getText(), this);
             if (client.getConnectionStatus()) {
+                /* OLD CODE EXAMPLE -- now managed by Client class
                 transmitter = new Transmitter(client.getOutput(), client.getInput());
-                transmitter.send(Packer.packData(DataType.CONNECT, new Connection(client.getName())));
-                boolean nameConfirmed = (boolean) Packer.unpackData(transmitter.receive());
+                transmitter.sendData(Packer.packData(DataType.CONNECT, new Connection(client.getName())));
+                */
+
+                client.sendData(DataType.CONNECT, new Connection(client.getName()));
+
+                boolean nameConfirmed = (boolean) client.recieveData();
                 if(!nameConfirmed) {
                     System.out.println("You cannot use this name.");
                     client.closeConnection();
@@ -70,7 +73,7 @@ public class FxController {
 
             if (client.getConnectionStatus()) {
 
-                NewGame ng = (NewGame) Packer.unpackData(transmitter.receive());
+                NewGame ng = (NewGame) client.recieveData();
                 for (String p : ng.getAllPlayers()) {
                     System.out.println(p);
                 }
@@ -80,14 +83,14 @@ public class FxController {
                 }
 
                 for (int i = 0; i < 3; i++) {
-                    transmitter.send("Hello " + i);
+                    //transmitter.send("Hello " + i);
                     try {
                         Thread.sleep(100);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
                 }
-                transmitter.send("End");
+                //transmitter.send("End");
                 System.out.println("Sent end");
 
                 try {

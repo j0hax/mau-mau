@@ -1,14 +1,15 @@
 package client;
 
+
+import util.protocol.DataType;
+import util.protocol.Packer;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
-
-
-//TODO: Send Client Name to Server? Not sure how to do that right now, maybe per OutputStream message?
 
 /**
 * Client Class, creates the Client and connects it to the Server when it's possible
@@ -22,6 +23,7 @@ public class Client implements Runnable {
     private boolean connected= false;
     private PrintWriter out;
     private BufferedReader in;
+    private Transmitter transmitter;
 
 
     /**
@@ -59,6 +61,7 @@ public class Client implements Runnable {
             System.out.println("IOError: Check your ip-address/Port input " + io.getMessage());
         }
 
+        transmitter = new Transmitter(out, in);
     }
 
     /**
@@ -109,6 +112,25 @@ public class Client implements Runnable {
      * */
     public boolean getConnectionStatus() {
         return connected;
+    }
+
+    /**
+     * Wrapper for unpacking data from the Transmitter
+     *
+     * @return object from the Transmitter
+     */
+    public Object recieveData() {
+        return Packer.unpackData(transmitter.receive());
+    }
+
+    /**
+     * Sends an object to the server
+     *
+     * @param tag         Type of the object to sendData
+     * @param classToPack Data structure which will be sent to the server
+     */
+    public void sendData(DataType tag, Object classToPack) {
+        transmitter.send(Packer.packData(tag, classToPack));
     }
 
     /**

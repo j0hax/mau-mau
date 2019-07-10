@@ -59,14 +59,14 @@ public class Player implements Runnable {
             }
         } while (!incomingMsg.equals("End"));
 
-        //ioHandler.send("End");
+        //ioHandler.sendData("End");
 
 
-        //ioHandler.send(in.next());
+        //ioHandler.sendData(in.next());
         /*
         for (String packet : packets) {
 
-            ioHandler.send(packet);
+            ioHandler.sendData(packet);
 
             // Thread.sleep() to mimic heavy server-side processing
             try {
