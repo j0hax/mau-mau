@@ -60,7 +60,7 @@ public class FxController {
 
                 client.sendData(DataType.CONNECT, new Connection(client.getName()));
 
-                boolean nameConfirmed = (boolean) client.recieveData();
+                boolean nameConfirmed = (boolean) client.receiveData();
                 if(!nameConfirmed) {
                     System.out.println("You cannot use this name.");
                     client.closeConnection();
@@ -73,7 +73,7 @@ public class FxController {
 
             if (client.getConnectionStatus()) {
 
-                NewGame ng = (NewGame) client.recieveData();
+                NewGame ng = (NewGame) client.receiveData();
                 for (String p : ng.getAllPlayers()) {
                     System.out.println(p);
                 }

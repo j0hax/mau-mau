@@ -119,7 +119,7 @@ public class Client implements Runnable {
      *
      * @return object from the Transmitter
      */
-    public Object recieveData() {
+    public Object receiveData() {
         return Packer.unpackData(transmitter.receive());
     }
 
