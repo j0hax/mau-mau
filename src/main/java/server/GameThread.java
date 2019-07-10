@@ -57,28 +57,23 @@ public class GameThread implements Runnable {
         }
 
         // tests
-        for (String receivedMessage = gameIOHandler.receive();
+        /*for (String receivedMessage = gameIOHandler.receive();
                 !"End".equals(receivedMessage);
                 receivedMessage = gameIOHandler.receive()) {
 
             System.out.println(thisThread.getName() + "\t\t\t>> " + receivedMessage);
 
-        }
+        }*/
 
-        // TODO: deal the cards
-        /*while (!isOver()) {
-            if(gameIOHandler != null){
-                String packet = gameIOHandler.receive();
-
-                System.out.println("Packet: " + packet);
-                System.out.println("loop");
-            }
-
+        String receivedMessage;
+        while (!isOver()) {
+            receivedMessage = gameIOHandler.receive();
+            System.out.println(thisThread.getName() + "\t\t\t>> " + receivedMessage);
 
             //for (Player p : players) {
                 // TODO: Each player will have their turn here
             //}
-        }*/
+        }
         System.out.println(thisThread.getName() + "\t\t\t>> Stopping game");
     }
 }

@@ -79,8 +79,14 @@ public class FxController {
                     System.out.println(c);
                 }
 
-                transmitter.send("Hello");
-                System.out.println("Sent hello");
+                for (int i = 0; i < 3; i++) {
+                    transmitter.send("Hello " + i);
+                    try {
+                        Thread.sleep(100);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
                 transmitter.send("End");
                 System.out.println("Sent end");
 
