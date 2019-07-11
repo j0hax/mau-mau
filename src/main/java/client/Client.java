@@ -3,6 +3,8 @@ package client;
 
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
+import util.cards.Card;
+import util.game.GameState;
 import util.protocol.DataType;
 import util.protocol.Packer;
 
@@ -24,7 +26,7 @@ public class Client implements Runnable {
     private boolean connected= false;
     private PrintWriter out;
     private BufferedReader in;
-    private Transmitter transmitter;
+    private GameState currentGameState;
 
     private BooleanProperty handUpdatedProperty = new SimpleBooleanProperty(false);
 
@@ -62,7 +64,6 @@ public class Client implements Runnable {
             System.out.println("IOError: Check your ip-address/Port input " + io.getMessage());
         }
 
-        transmitter = new Transmitter(out, in);
     }
 
     /**
@@ -116,12 +117,28 @@ public class Client implements Runnable {
     }
 
     /**
-     * Wrapper for unpacking data from the Transmitter
+     * unpacking data from the BufferedReader
      *
-     * @return object from the Transmitter
+     * @return object from the Packer
      */
     public Object receiveData() {
-        return Packer.unpackData(transmitter.receive());
+        String msg;
+        try {
+            msg = in.readLine();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return e.toString();
+        }
+        return Packer.unpackData(msg);
+    }
+
+    /**
+     * used by GameController to update hand
+     *
+     * @return current hand from GameState
+     */
+    public synchronized Card[] getCurrentHand() {
+        return this.currentGameState.getHand();
     }
 
     /**
@@ -131,7 +148,7 @@ public class Client implements Runnable {
      * @param classToPack Data structure which will be sent to the server
      */
     public void sendData(DataType tag, Object classToPack) {
-        transmitter.send(Packer.packData(tag, classToPack));
+        out.println(Packer.packData(tag, classToPack));
     }
 
     public boolean gethandUpdated() {
@@ -142,7 +159,7 @@ public class Client implements Runnable {
         return handUpdatedProperty;
     }
 
-    public void setHandUpdatedProperty(boolean b) {
+    public synchronized void setHandUpdatedProperty(boolean b) {
         handUpdatedProperty.set(b);
     }
 
@@ -151,15 +168,13 @@ public class Client implements Runnable {
      */
     @Override
     public void run() {
+        Thread t = Thread.currentThread();
+        t.setName("ClientT");
         while (true) {
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+            currentGameState = (GameState) receiveData();
             setHandUpdatedProperty(true);
             try {
-                Thread.sleep(1000);
+                Thread.sleep(5000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

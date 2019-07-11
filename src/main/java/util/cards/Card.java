@@ -35,7 +35,7 @@ public class Card implements Comparable {
 
     @Override
     public String toString() {
-        return rank + " of " + suite + "S";
+        return rank + " of " + suite;
     }
 
     @Override
@@ -46,6 +46,7 @@ public class Card implements Comparable {
     }
 
     public Image getImage() {
+        System.out.println("getImage");
         String rank = getRank().name().toLowerCase();
         String suite = getSuite().name().toLowerCase();
 
