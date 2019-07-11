@@ -1,6 +1,8 @@
 package client;
 
 
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import util.protocol.DataType;
 import util.protocol.Packer;
 
@@ -15,7 +17,6 @@ import java.net.UnknownHostException;
 * Client Class, creates the Client and connects it to the Server when it's possible
 * */
 public class Client implements Runnable {
-    private final FxController fxController;
     private String name;
     private int port;
     private String serverIP;
@@ -25,6 +26,8 @@ public class Client implements Runnable {
     private BufferedReader in;
     private Transmitter transmitter;
 
+    private BooleanProperty handUpdatedProperty = new SimpleBooleanProperty(false);
+
 
     /**
      * Constructor for Client
@@ -32,11 +35,10 @@ public class Client implements Runnable {
      * @param port Port on which the Client wants to connect
      * @param serverIP Ip of the Server the client wants to connect to
      * */
-    Client(String name, int port, String serverIP, FxController fxController) {
+    Client(String name, int port, String serverIP) {
         this.name=name;
         this.port=port;
         this.serverIP = serverIP;
-        this.fxController = fxController;
         connectClient();
     }
     /**
@@ -44,7 +46,6 @@ public class Client implements Runnable {
      *
      * */
     private void connectClient() {
-        fxController.nameField.setText("sgfhfdsdztdetrdzdtrdstd");
         try {
             //a lot of Print outs  to the console for debugging purpose
             System.out.println("Trying to Connect to: " +serverIP+" on port: " +port);
@@ -133,13 +134,36 @@ public class Client implements Runnable {
         transmitter.send(Packer.packData(tag, classToPack));
     }
 
+    public boolean gethandUpdated() {
+        return handUpdatedProperty.get();
+    }
+
+    public BooleanProperty getHandUpdatedProperty() {
+        return handUpdatedProperty;
+    }
+
+    public void setHandUpdatedProperty(boolean b) {
+        handUpdatedProperty.set(b);
+    }
+
     /**
      * Continuously reads from socket to update the GUI
      */
     @Override
     public void run() {
         while (true) {
-
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            setHandUpdatedProperty(true);
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            setHandUpdatedProperty(false);
         }
     }
 }

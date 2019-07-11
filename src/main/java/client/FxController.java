@@ -51,8 +51,14 @@ public class FxController {
 
 
             //Create and connect Client to Server
-            client = new Client(nameField.getText(), portValue, serverIPField.getText(), this);
+            client = new Client(nameField.getText(), portValue, serverIPField.getText());
             if (client.getConnectionStatus()) {
+                client.getHandUpdatedProperty().addListener((observable, oldValue, newValue) -> {
+                    if (newValue) {
+                        System.out.println("New hand is ready to be printed...");
+                        client.setHandUpdatedProperty(false);
+                    }
+                });
                 /* OLD CODE EXAMPLE -- now managed by Client class
                 transmitter = new Transmitter(client.getOutput(), client.getInput());
                 transmitter.sendData(Packer.packData(DataType.CONNECT, new Connection(client.getName())));
@@ -81,6 +87,8 @@ public class FxController {
                 for(Card c : ng.getInitialHand()){
                     System.out.println(c);
                 }
+
+                new Thread(client).start();
 
                 for (int i = 0; i < 3; i++) {
                     //transmitter.send("Hello " + i);
