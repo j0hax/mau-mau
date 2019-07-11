@@ -15,6 +15,8 @@ import util.protocol.DataPacket;
 
 public class GameController {
 
+    private Client client;
+
     @FXML
     public HBox hBox;
 
@@ -41,9 +43,12 @@ public class GameController {
 
     @FXML
     public void initialize() {
+        System.out.println(this.toString());
 
-        /*Card c = new Card(CardSuite.CLUBS, CardRank.KING);
-        hBox.getChildren().add(new ImageView(c.getImage()));*/
+        Card c = new Card(CardSuite.CLUBS, CardRank.KING);
+        //Card[] cA = {new Card(CardSuite.CLUBS, CardRank.KING)};
+        //setHand(cA);
+        hBox.getChildren().add(new ImageView(c.getImage()));
 
         spadesButton.setCursor(Cursor.HAND);
         heartsButton.setCursor(Cursor.HAND);
@@ -52,6 +57,13 @@ public class GameController {
 
         Card ca = new Card(CardSuite.SPADES, CardRank.QUEEN);
         currentCard.setImage(ca.getImage());
+
+        /*Platform.runLater(() -> {
+            Card[] cards = ((GameState) client.receiveData()).getHand();
+            System.out.println(cards[0].toString());
+            setHand(cards);
+        });*/
+
 
     }
 
@@ -69,11 +81,13 @@ public class GameController {
      */
     public void setHand(Card[] playerHand) {
         ObservableList<Node> children = hBox.getChildren();
-
         children.clear();
+        hBox.getChildren().add(new Label("Hello"));
+
 
         for (Card c : playerHand) {
-            children.add(new ImageView(c.getImage()));
+            System.out.println(c.toString());
+            hBox.getChildren().add(new ImageView(c.getImage()));
         }
     }
 
@@ -99,4 +113,15 @@ public class GameController {
 
     }
 
+    public void setClient(Client client) {
+        this.client = client;
+        this.client.getHandUpdatedProperty().addListener((observable, oldValue, newValue) -> {
+            System.out.println(newValue);
+            if (newValue) {
+                System.out.println("New hand is ready to be printed...");
+                setHand(client.getCurrentHand());
+                //client.setHandUpdatedProperty(false);
+            }
+        });
+    }
 }

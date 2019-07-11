@@ -1,6 +1,7 @@
 package server;
 
 import util.cards.Deck;
+import util.game.GameState;
 import util.protocol.DataType;
 import util.protocol.Packer;
 import util.protocol.messages.NewGame;
@@ -67,12 +68,22 @@ public class GameThread implements Runnable {
 
         String receivedMessage;
         while (!isOver()) {
-            receivedMessage = gameIOHandler.receive();
-            System.out.println(thisThread.getName() + "\t\t\t>> " + receivedMessage);
+            //receivedMessage = gameIOHandler.receive();
+            //System.out.println(thisThread.getName() + "\t\t\t>> " + receivedMessage);
 
-            //for (Player p : players) {
-                // TODO: Each player will have their turn here
-            //}
+            for (Player p : players) {
+                // share player names and their hand
+                String s = Packer.packData(DataType.GAMESTATE, new GameState(0, deck.deal(1)));
+                p.send(s);
+                System.out.println(s);
+            }
+            try {
+                Thread.sleep(2000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            // TODO: Each player will have their turn here
+
         }
         System.out.println(thisThread.getName() + "\t\t\t>> Stopping game");
     }

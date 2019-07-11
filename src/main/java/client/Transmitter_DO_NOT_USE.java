@@ -4,12 +4,12 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-public class Transmitter {
+public class Transmitter_DO_NOT_USE {
 
     private PrintWriter out;
     private BufferedReader in;
 
-    public Transmitter(PrintWriter out, BufferedReader in) {
+    public Transmitter_DO_NOT_USE(PrintWriter out, BufferedReader in) {
         this.out = out;
         this.in = in;
     }
