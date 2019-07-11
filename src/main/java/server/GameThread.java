@@ -73,7 +73,7 @@ public class GameThread implements Runnable {
 
             for (Player p : players) {
                 // share player names and their hand
-                String s = Packer.packData(DataType.GAMESTATE, new GameState(0, deck.deal(1)));
+                String s = Packer.packData(DataType.GAMESTATE, new GameState(0, deck.deal(5)));
                 p.send(s);
                 System.out.println(s);
             }

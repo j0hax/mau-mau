@@ -1,5 +1,6 @@
 package client;
 
+import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.Cursor;
@@ -58,13 +59,6 @@ public class GameController {
         Card ca = new Card(CardSuite.SPADES, CardRank.QUEEN);
         currentCard.setImage(ca.getImage());
 
-        /*Platform.runLater(() -> {
-            Card[] cards = ((GameState) client.receiveData()).getHand();
-            System.out.println(cards[0].toString());
-            setHand(cards);
-        });*/
-
-
     }
 
     /**
@@ -82,8 +76,6 @@ public class GameController {
     public void setHand(Card[] playerHand) {
         ObservableList<Node> children = hBox.getChildren();
         children.clear();
-        hBox.getChildren().add(new Label("Hello"));
-
 
         for (Card c : playerHand) {
             System.out.println(c.toString());
@@ -118,9 +110,12 @@ public class GameController {
         this.client.getHandUpdatedProperty().addListener((observable, oldValue, newValue) -> {
             System.out.println(newValue);
             if (newValue) {
-                System.out.println("New hand is ready to be printed...");
-                setHand(client.getCurrentHand());
-                //client.setHandUpdatedProperty(false);
+                Platform.runLater(() -> {
+                    System.out.println("New hand is ready to be printed...");
+                    setHand(client.getCurrentHand());
+                    client.setHandUpdatedProperty(false);
+                });
+
             }
         });
     }

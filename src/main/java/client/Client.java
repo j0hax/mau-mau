@@ -173,12 +173,8 @@ public class Client implements Runnable {
         while (true) {
             currentGameState = (GameState) receiveData();
             setHandUpdatedProperty(true);
-            try {
-                Thread.sleep(5000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            setHandUpdatedProperty(false);
+
+            //setHandUpdatedProperty(false);
         }
     }
 }
