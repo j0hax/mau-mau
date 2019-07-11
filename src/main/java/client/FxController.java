@@ -53,12 +53,7 @@ public class FxController {
             //Create and connect Client to Server
             client = new Client(nameField.getText(), portValue, serverIPField.getText());
             if (client.getConnectionStatus()) {
-                client.getHandUpdatedProperty().addListener((observable, oldValue, newValue) -> {
-                    if (newValue) {
-                        System.out.println("New hand is ready to be printed...");
-                        client.setHandUpdatedProperty(false);
-                    }
-                });
+
                 /* OLD CODE EXAMPLE -- now managed by Client class
                 transmitter = new Transmitter(client.getOutput(), client.getInput());
                 transmitter.sendData(Packer.packData(DataType.CONNECT, new Connection(client.getName())));
@@ -88,8 +83,6 @@ public class FxController {
                     System.out.println(c);
                 }
 
-                new Thread(client).start();
-
                 for (int i = 0; i < 3; i++) {
                     //transmitter.send("Hello " + i);
                     try {
@@ -104,6 +97,10 @@ public class FxController {
                 try {
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("/client/gui/game.fxml"));
                     Parent gameRoot = loader.load();
+                    GameController g = loader.getController();
+                    g.setClient(client);
+                    System.out.println(g.toString());
+                    new Thread(client).start();
 
                     Scene gameScene = new Scene(gameRoot, 1000, 700);
                     gameScene.getStylesheets().add(getClass().getResource("/client/style/gameStyle.css").toExternalForm());

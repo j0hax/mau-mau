@@ -15,6 +15,8 @@ import util.protocol.DataPacket;
 
 public class GameController {
 
+    private Client client;
+
     @FXML
     public HBox hBox;
 
@@ -41,6 +43,7 @@ public class GameController {
 
     @FXML
     public void initialize() {
+        System.out.println(this.toString());
 
         /*Card c = new Card(CardSuite.CLUBS, CardRank.KING);
         hBox.getChildren().add(new ImageView(c.getImage()));*/
@@ -99,4 +102,14 @@ public class GameController {
 
     }
 
+    public void setClient(Client client) {
+        this.client = client;
+        this.client.getHandUpdatedProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue) {
+                System.out.println("New hand is ready to be printed...");
+                // setHand(.....)
+                this.client.setHandUpdatedProperty(false);
+            }
+        });
+    }
 }
