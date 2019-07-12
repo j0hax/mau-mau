@@ -52,6 +52,26 @@ public class FxController {
 
             //Create and connect Client to Server
             client = new Client(nameField.getText(), portValue, serverIPField.getText());
+<<<<<<< HEAD
+=======
+            if (client.getConnectionStatus()) {
+
+                /* OLD CODE EXAMPLE -- now managed by Client class
+                transmitter = new Transmitter(client.getOutput(), client.getInput());
+                transmitter.sendData(Packer.packData(DataType.CONNECT, new Connection(client.getName())));
+                */
+
+                client.sendData(DataType.CONNECT, new Connection(client.getName()));
+
+                boolean nameConfirmed = (boolean) client.receiveData();
+                if(!nameConfirmed) {
+                    System.out.println("You cannot use this name.");
+                    client.closeConnection();
+                } else {
+                    System.out.println("Server has confirmed your name.");
+                }
+            }
+>>>>>>> parent of 1b3524c... game calls client.close() function when closing window
 
             //Closes the Log in Window after the Client is successfully connected to the server
 
@@ -69,10 +89,6 @@ public class FxController {
                     gameScene.getStylesheets().add(getClass().getResource("/client/style/gameStyle.css").toExternalForm());
 
                     Stage window = (Stage) ((Node)event.getSource()).getScene().getWindow();
-                    window.setOnCloseRequest(event1 -> {
-                        System.out.println("Closing client");
-                        client.close();
-                    });
 
                     window.setTitle("Mau Mau");
                     window.setScene(gameScene);
