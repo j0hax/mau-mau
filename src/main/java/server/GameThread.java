@@ -15,6 +15,7 @@ public class GameThread implements Runnable {
     private Deck deck = new Deck();
     private IOHandler gameIOHandler;
     private int closed = 0;
+    private int activePlayer;
 
     /**
      * Creates a game
@@ -36,6 +37,7 @@ public class GameThread implements Runnable {
 
     @Override
     public void run() {
+        activePlayer = 0;
         // initializing
         Thread thisThread = Thread.currentThread();
         thisThread.setName("Game-" + this.ID + "\t\t\t>> ");
@@ -60,7 +62,9 @@ public class GameThread implements Runnable {
 
         //String receivedMessage;
         while (!isOver() && players.length != closed) {
-            System.out.println(closed);
+            System.out.println("Active player = " + activePlayer);
+
+            //System.out.println(closed);
             System.out.println("Receive");
             String receivedMessage = gameIOHandler.receive();
             DataPacket packet = Packer.getDataPacket(receivedMessage);
@@ -76,15 +80,24 @@ public class GameThread implements Runnable {
 
             for (Player p : players) {
                 // share player names and their hand
-                String s = Packer.packData(DataType.GAMESTATE, new GameState(0, deck.deal(1)));
+                String s = Packer.packData(DataType.GAMESTATE, new GameState(activePlayer, deck.deal(1)));
                 p.send(s);
                 System.out.println(s);
             }
+
+            if (activePlayer == players.length - 1) {
+                activePlayer = 0;
+            } else {
+                ++activePlayer;
+            }
+
             try {
                 Thread.sleep(500);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
+
+
             // TODO: Each player will have their turn here
 
         }

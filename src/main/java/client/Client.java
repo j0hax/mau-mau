@@ -199,7 +199,7 @@ public class Client implements Runnable {
      * @param classToPack Data structure which will be sent to the server
      */
     public void sendData(DataType tag, Object classToPack) {
-        if (activePlayer == ID || tag != DataType.GAMESTATE) {
+        if (activePlayer == ID || tag != DataType.CHATMESSAGE) { // TODO CHANGE TO GameState LATER
             out.println(Packer.packData(tag, classToPack));
         } else {
             System.out.println("Not your turn");
