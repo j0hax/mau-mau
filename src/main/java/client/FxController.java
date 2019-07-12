@@ -64,7 +64,7 @@ public class FxController {
                 boolean nameConfirmed = (boolean) client.receiveData();
                 if(!nameConfirmed) {
                     System.out.println("You cannot use this name.");
-                    client.closeConnection();
+                    client.close();
                 } else {
                     System.out.println("Server has confirmed your name.");
                 }
@@ -106,6 +106,10 @@ public class FxController {
                     gameScene.getStylesheets().add(getClass().getResource("/client/style/gameStyle.css").toExternalForm());
 
                     Stage window = (Stage) ((Node)event.getSource()).getScene().getWindow();
+                    window.setOnCloseRequest(event1 -> {
+                        System.out.println("Closing client");
+                        client.close();
+                    });
 
                     window.setTitle("Mau Mau");
                     window.setScene(gameScene);
