@@ -6,7 +6,7 @@ package util.cards;
  */
 public enum CardSet {
     MAU_MAU  (new CardRank[] {CardRank.SEVEN, CardRank.EIGHT, CardRank.NINE, CardRank.TEN, CardRank.JACK, CardRank.QUEEN, CardRank.KING, CardRank.ACE}),
-    POKER   (CardRank.values());
+    /*POKER   (CardRank.values())*/;
 
     /**
      * Ranks for the type of game

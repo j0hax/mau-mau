@@ -7,6 +7,8 @@ import util.cards.Card;
 import util.game.GameState;
 import util.protocol.DataType;
 import util.protocol.Packer;
+import util.protocol.messages.Connection;
+import util.protocol.messages.NewGame;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -58,6 +60,25 @@ public class Client implements Runnable {
 
             out = new PrintWriter(clientSocket.getOutputStream(), true);
             in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+
+            sendData(DataType.CONNECT, new Connection(this.getName()));
+
+            boolean nameConfirmed = (boolean) receiveData();
+            if(!nameConfirmed) {
+                System.out.println("You cannot use this name.");
+                close();
+            } else {
+                System.out.println("Server has confirmed your name.");
+            }
+
+            NewGame ng = (NewGame) receiveData();
+            for (String p : ng.getAllPlayers()) {
+                System.out.println(p);
+            }
+
+            for(Card c : ng.getInitialHand()){
+                System.out.println(c);
+            }
 
         } catch (UnknownHostException ue) {
             System.out.println("Unknown Host, Check your ip-address/Port input" +ue.getMessage());

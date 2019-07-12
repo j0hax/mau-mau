@@ -52,47 +52,10 @@ public class FxController {
 
             //Create and connect Client to Server
             client = new Client(nameField.getText(), portValue, serverIPField.getText());
-            if (client.getConnectionStatus()) {
-
-                /* OLD CODE EXAMPLE -- now managed by Client class
-                transmitter = new Transmitter(client.getOutput(), client.getInput());
-                transmitter.sendData(Packer.packData(DataType.CONNECT, new Connection(client.getName())));
-                */
-
-                client.sendData(DataType.CONNECT, new Connection(client.getName()));
-
-                boolean nameConfirmed = (boolean) client.receiveData();
-                if(!nameConfirmed) {
-                    System.out.println("You cannot use this name.");
-                    client.close();
-                } else {
-                    System.out.println("Server has confirmed your name.");
-                }
-            }
 
             //Closes the Log in Window after the Client is successfully connected to the server
 
             if (client.getConnectionStatus()) {
-
-                NewGame ng = (NewGame) client.receiveData();
-                for (String p : ng.getAllPlayers()) {
-                    System.out.println(p);
-                }
-
-                for(Card c : ng.getInitialHand()){
-                    System.out.println(c);
-                }
-
-                for (int i = 0; i < 3; i++) {
-                    //transmitter.send("Hello " + i);
-                    try {
-                        Thread.sleep(100);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
-                //transmitter.send("End");
-                System.out.println("Sent end");
 
                 try {
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("/client/gui/game.fxml"));
