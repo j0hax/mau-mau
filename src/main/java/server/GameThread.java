@@ -60,6 +60,8 @@ public class GameThread implements Runnable {
 
         //String receivedMessage;
         while (!isOver() && players.length != closed) {
+            System.out.println(closed);
+            System.out.println("Receive");
             String receivedMessage = gameIOHandler.receive();
             DataPacket packet = Packer.getDataPacket(receivedMessage);
             if(packet.getDataType() == DataType.DISCONNECT){
@@ -70,6 +72,7 @@ public class GameThread implements Runnable {
                 ++closed;
             }
             //System.out.println(thisThread.getName() + "\t\t\t>> " + receivedMessage);
+
 
             for (Player p : players) {
                 // share player names and their hand

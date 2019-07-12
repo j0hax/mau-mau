@@ -69,7 +69,6 @@ public class Player implements Runnable {
                 break;
             }
         }
-        disconnect();
         System.out.println(thisThread.getName() + "ending player thread");
 
         // TODO: read player name from socket

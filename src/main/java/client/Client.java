@@ -36,7 +36,7 @@ public class Client implements Runnable {
 
     private BooleanProperty handUpdatedProperty = new SimpleBooleanProperty(false);
     private boolean stopClientThreads = false;
-
+    private int activePlayer;
 
 
     /**
@@ -199,7 +199,12 @@ public class Client implements Runnable {
      * @param classToPack Data structure which will be sent to the server
      */
     public void sendData(DataType tag, Object classToPack) {
-        out.println(Packer.packData(tag, classToPack));
+        if (activePlayer == ID || tag != DataType.GAMESTATE) {
+            out.println(Packer.packData(tag, classToPack));
+        } else {
+            System.out.println("Not your turn");
+        }
+
     }
 
     public boolean gethandUpdated() {
@@ -268,6 +273,7 @@ public class Client implements Runnable {
                     break;
                 } else if (d.getDataType() == DataType.GAMESTATE) {
                     currentGameState = ((GameState) Packer.unpackData(input));
+                    activePlayer = currentGameState.activePlayerIndex();
                 }
             } catch (Exception e) {
                 e.printStackTrace();
