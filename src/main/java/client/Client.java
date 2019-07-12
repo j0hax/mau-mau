@@ -4,6 +4,7 @@ package client;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import util.cards.Card;
+import util.cards.CardSuite;
 import util.game.GameState;
 import util.protocol.DataType;
 import util.protocol.Packer;
@@ -214,6 +215,36 @@ public class Client implements Runnable {
 
     public synchronized void setHandUpdatedProperty(boolean b) {
         handUpdatedProperty.set(b);
+    }
+
+    /**
+     * Submit the players "wish" for a card to the server.
+     *
+     * @param s the suite of card the opponent should get next.
+     */
+    public void wishCard(CardSuite s) {
+
+    }
+
+    /**
+     * Submit the chosen card from the hand to the server.
+     *
+     * @param c the card to be used
+     * @return boolean indicating success or fail (invalid move)
+     */
+    public boolean layCard(Card c) {
+
+        // faster than converting to an List, etc.
+        for (Card h : getCurrentHand()) {
+            if (c.equals(h)) {
+                return false;
+            }
+        }
+
+        // TODO: submit code to the server. We may need a new tag type for the protocol.
+
+        // placeholder to avoid compilation errors
+        return true;
     }
 
     /**
