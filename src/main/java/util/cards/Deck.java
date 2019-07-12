@@ -14,17 +14,23 @@ public class Deck {
     private LinkedList<Card> cards = new LinkedList<>();
 
     /**
-     * Instantiate an ordered deck of 52 Cards
+     * Instantiate an ordered deck of Mau-Mau cards
      */
     public Deck() {
+        this(CardSet.MAU_MAU);
+    }
+
+    /**
+     * Instantiate an ordered deck with a specified set of ranks
+     * @param type the collection of cards to be used
+     */
+    public Deck(CardSet type) {
         for (CardSuite s : CardSuite.values()) {
-            for (CardRank r : CardRank.values()) {
+            for (CardRank r : type.ranks) {
                 cards.add(new Card(s, r));
             }
         }
     }
-
-    // TODO: Mau-Mau only uses certain cards from the deck, not all 52. Implement a constructor to only use those.
 
     /**
      * Deals a random card.
