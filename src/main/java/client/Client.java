@@ -6,6 +6,7 @@ import javafx.beans.property.SimpleBooleanProperty;
 import util.cards.Card;
 import util.cards.CardSuite;
 import util.game.GameState;
+import util.protocol.DataPacket;
 import util.protocol.DataType;
 import util.protocol.Packer;
 import util.protocol.messages.Connect;
@@ -70,7 +71,7 @@ public class Client implements Runnable {
             boolean nameConfirmed = (boolean) receiveData();
             if(!nameConfirmed) {
                 System.out.println("You cannot use this name.");
-                close();
+                closeConnection();
             } else {
                 System.out.println("Server has confirmed your name.");
 
@@ -103,6 +104,13 @@ public class Client implements Runnable {
 
         // TODO SEND DISCONNECT MESSAGE TO SERVER
 
+        try {
+            Thread.sleep(2000);
+            in.close();
+            out.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         connected = false;
         try {
@@ -112,20 +120,9 @@ public class Client implements Runnable {
         }
     }
 
-    public void close() {
-
-        sendData(DataType.DISCONNECT, new Disconnect(true));
-
-        try {
-            in.close();
-            out.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    void close() {
         stopClientThreads = true;
-
-        closeConnection();
-
+        sendData(DataType.DISCONNECT, new Disconnect(true));
     }
 
     private boolean stopThreads() {
@@ -166,7 +163,7 @@ public class Client implements Runnable {
      * Getter for the connectionStatus of the client
      * @return true/false whether or not the client is connected
      * */
-    public boolean getConnectionStatus() {
+    boolean getConnectionStatus() {
         return connected;
     }
 
@@ -175,7 +172,7 @@ public class Client implements Runnable {
      *
      * @return object from the Packer
      */
-    public Object receiveData() {
+    Object receiveData() {
         String msg;
         try {
             msg = in.readLine();
@@ -263,7 +260,18 @@ public class Client implements Runnable {
                 e.printStackTrace();
             }
             sendData(DataType.CHATMESSAGE, "hi");
-            currentGameState = (GameState) receiveData();
+            try {
+                String input = in.readLine();
+                DataPacket d = Packer.getDataPacket(input);
+                if (d.getDataType() == DataType.CONFIRM) {
+                    closeConnection();
+                    break;
+                } else if (d.getDataType() == DataType.GAMESTATE) {
+                    currentGameState = ((GameState) Packer.unpackData(input));
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             setHandUpdatedProperty(true);
 
             //setHandUpdatedProperty(false);

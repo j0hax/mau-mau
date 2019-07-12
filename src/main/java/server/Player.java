@@ -1,12 +1,12 @@
 package server;
 
 import util.cards.Card;
-import util.protocol.Packer;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.net.SocketException;
 import java.util.LinkedList;
 
 public class Player implements Runnable {
@@ -20,6 +20,7 @@ public class Player implements Runnable {
     private volatile IOHandler ioHandler;
     private boolean disconnected = false;
     private int id;
+    private Thread thisThread;
 
     /**
      * Creates game object
@@ -37,10 +38,9 @@ public class Player implements Runnable {
 
     @Override
     public void run() {
-        Thread thisThread = Thread.currentThread();
-        thisThread.setName("\tPlayer - " + this.username);
-
-        System.out.println(thisThread.getName() + "\t>> starting player thread");
+        thisThread = Thread.currentThread();
+        thisThread.setName("\tPlayer - " + this.username + "\t\t>> ");
+        System.out.println(thisThread.getName() + "starting player thread");
 
         while (ioHandler == null) {
             Thread.onSpinWait();
@@ -52,18 +52,27 @@ public class Player implements Runnable {
         }
 
         String incomingMsg = "";
-        do {
+        while (!disconnected && !playerSocket.isClosed()) {
             try {
                 incomingMsg = in.readLine();
-                System.out.println(thisThread.getName() + "\t\t>> received: " + incomingMsg);
-                ioHandler.send(incomingMsg);
+                System.out.println(thisThread.getName() + "received: " + incomingMsg);
+                if (incomingMsg != null) {
+                    ioHandler.send(incomingMsg);
+                } else {
+                    break;
+                }
+            } catch (SocketException se) {
+                System.out.println(username + " > socket is closed");
+                break;
             } catch (IOException e) {
                 e.printStackTrace();
+                break;
             }
-        } while (!disconnected);
+        }
+        disconnect();
+        System.out.println(thisThread.getName() + "ending player thread");
 
         // TODO: read player name from socket
-        System.out.println(thisThread.getName() + "\t\t>> " + "ending player thread");
     }
 
     synchronized void disconnect(){
@@ -71,6 +80,7 @@ public class Player implements Runnable {
         try {
             in.close();
             out.close();
+            playerSocket.close();
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -101,7 +111,7 @@ public class Player implements Runnable {
         return this.in;
     }
 
-    public void setUsername(String username) {
+    synchronized void setUsername(String username) {
         this.username = username;
     }
 
@@ -109,16 +119,20 @@ public class Player implements Runnable {
         out.println(msg);
     }
 
-    public void setOut(PrintWriter out) {
+    public synchronized void setOut(PrintWriter out) {
         this.out = out;
     }
 
-    public void setID(int i) {
-        System.out.println("PlayerThread: ID : " + id);
+    synchronized void setID(int i) {
+        System.out.println("setID : " + i);
         id = i;
     }
 
     public int getID(){
         return id;
+    }
+
+    public Socket getPlayerSocket() {
+        return playerSocket;
     }
 }

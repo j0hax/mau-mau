@@ -44,7 +44,6 @@ public class GameController {
 
     @FXML
     public void initialize() {
-        System.out.println(this.toString());
 
         Card c = new Card(CardSuite.CLUBS, CardRank.KING);
         //Card[] cA = {new Card(CardSuite.CLUBS, CardRank.KING)};
@@ -108,10 +107,10 @@ public class GameController {
     public void setClient(Client client) {
         this.client = client;
         this.client.getHandUpdatedProperty().addListener((observable, oldValue, newValue) -> {
-            System.out.println(newValue);
+            //System.out.println(newValue);
             if (newValue) {
                 Platform.runLater(() -> {
-                    System.out.println("New hand is ready to be printed...");
+                    //System.out.println("New hand is ready to be printed...");
                     setHand(client.getCurrentHand());
                     client.setHandUpdatedProperty(false);
                 });

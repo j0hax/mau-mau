@@ -45,13 +45,10 @@ public class FxController {
             int portValue = Integer.valueOf(port);
             // System.out.println("user with the name: "+nameField.getText()+" is trying to connect to Ip: " +serverIPField.getText()+" on Port:" + portField.getText());
 
-
             //Create and connect Client to Server
             client = new Client(nameField.getText(), portValue, serverIPField.getText());
 
-
             //Closes the Log in Window after the Client is successfully connected to the server
-
             if (client.getConnectionStatus()) {
 
                 try {
@@ -59,7 +56,6 @@ public class FxController {
                     Parent gameRoot = loader.load();
                     GameController g = loader.getController();
                     g.setClient(client);
-                    System.out.println(g.toString());
                     new Thread(client).start();
 
                     Scene gameScene = new Scene(gameRoot, 1000, 700);
@@ -80,7 +76,6 @@ public class FxController {
                     Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
                     window.setX((screenBounds.getWidth() - window.getWidth()) / 2);
                     window.setY((screenBounds.getHeight() - window.getHeight()) / 2);
-
 
 
                 } catch (IOException e) {

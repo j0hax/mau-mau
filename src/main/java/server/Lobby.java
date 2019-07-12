@@ -42,13 +42,15 @@ public class Lobby implements Runnable {
             System.out.println("LOBBY\t\t\t>> Players in Lobby [" + pString + "]");
 
             // this block will be changed later
-            LinkedList<Player> playersInGame = new LinkedList<>(players);
+            Player[] playersInGame = players.toArray(new Player[players.size()]);
             players.clear();
 
             IOHandler gameIOHandler = new IOHandler();
             for (int i = 0; i < GAMESIZE; i++) {
-                playersInGame.get(i).changeIOHandler(gameIOHandler);
-                playersInGame.get(i).setID(i);
+                playersInGame[i].changeIOHandler(gameIOHandler);
+                playersInGame[i].setID(i);
+                System.out.println(i);
+                System.out.println(playersInGame[i].getID());
             }
 
             gamePool.execute(new GameThread(gameID++, playersInGame, gameIOHandler));

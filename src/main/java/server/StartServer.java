@@ -61,7 +61,7 @@ public class StartServer {
                         threadPool.execute(p);
                     }
 
-                } catch (IOException e) {
+                } catch (IOException | NullPointerException e) {
                     e.printStackTrace();
                 }
             }
