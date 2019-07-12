@@ -6,6 +6,7 @@ package util.protocol;
  */
 public class DataPacket {
 
+    private int playerID;
     private DataType dataType;
     private String data;
 
@@ -27,6 +28,10 @@ public class DataPacket {
 
     public DataType getDataType() {
         return this.dataType;
+    }
+
+    public int getPlayerID(){
+        return this.playerID;
     }
 
 }

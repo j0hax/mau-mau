@@ -51,7 +51,6 @@ public class Packer {
                 return gson.fromJson(packet.getData(), Boolean.class);
             case DISCONNECT:
                 return gson.fromJson(packet.getData(), Disconnect.class);
-
             case CHATMESSAGE:
                 return gson.fromJson(packet.getData(), String.class);
             case GAMESTATE:

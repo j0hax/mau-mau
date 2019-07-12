@@ -19,6 +19,7 @@ public class Player implements Runnable {
     private PrintWriter out;
     private volatile IOHandler ioHandler;
     private boolean disconnected = false;
+    private int id;
 
     /**
      * Creates game object
@@ -60,23 +61,6 @@ public class Player implements Runnable {
                 e.printStackTrace();
             }
         } while (!disconnected);
-
-        //ioHandler.sendData("End");
-
-
-        //ioHandler.sendData(in.next());
-        /*
-        for (String packet : packets) {
-
-            ioHandler.sendData(packet);
-
-            // Thread.sleep() to mimic heavy server-side processing
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
-            }
-        }*/
 
         // TODO: read player name from socket
         System.out.println(thisThread.getName() + "\t\t>> " + "ending player thread");
@@ -129,4 +113,12 @@ public class Player implements Runnable {
         this.out = out;
     }
 
+    public void setID(int i) {
+        System.out.println("PlayerThread: ID : " + id);
+        id = i;
+    }
+
+    public int getID(){
+        return id;
+    }
 }

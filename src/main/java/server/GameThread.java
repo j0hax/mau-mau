@@ -53,7 +53,7 @@ public class GameThread implements Runnable {
         // send each player the NewGame message
         for (Player p : players) {
             // share player names and their hand
-            String s = Packer.packData(DataType.NEWGAME, new NewGame(playerNames, deck.deal(5)));
+            String s = Packer.packData(DataType.NEWGAME, new NewGame(playerNames, deck.deal(5), p.getID()));
             p.send(s);
             //System.out.println(s);
         }
@@ -73,7 +73,7 @@ public class GameThread implements Runnable {
             DataPacket packet = Packer.getDataPacket(receivedMessage);
             if(packet.getDataType() == DataType.DISCONNECT){
                 System.out.println("Received disconnect");
-                Player p = players.remove(0);
+                Player p = players.remove(packet.getPlayerID());
                 p.disconnect();
             }
             //System.out.println(thisThread.getName() + "\t\t\t>> " + receivedMessage);

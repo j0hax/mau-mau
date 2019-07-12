@@ -6,7 +6,7 @@ import java.util.concurrent.Executors;
 
 public class Lobby implements Runnable {
 
-    private final int GAMESIZE = 1;
+    private final int GAMESIZE = 2;
     private final int MAXGAMES = 10;
     private int gameID = 0;
     private LinkedList<Player> players;
@@ -35,9 +35,9 @@ public class Lobby implements Runnable {
             }
 
 
-            String pString = "";
+            StringBuilder pString = new StringBuilder();
             for (Player p : players) {
-                pString += "'" + p.getName() + "'";
+                pString.append("'").append(p.getName()).append("'");
             }
             System.out.println("LOBBY\t\t\t>> Players in Lobby [" + pString + "]");
 
@@ -48,6 +48,7 @@ public class Lobby implements Runnable {
             IOHandler gameIOHandler = new IOHandler();
             for (int i = 0; i < GAMESIZE; i++) {
                 playersInGame.get(i).changeIOHandler(gameIOHandler);
+                playersInGame.get(i).setID(i);
             }
 
             gamePool.execute(new GameThread(gameID++, playersInGame, gameIOHandler));

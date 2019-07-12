@@ -23,6 +23,7 @@ import java.net.UnknownHostException;
 * */
 public class Client implements Runnable {
     private String name;
+    private int ID;
     private int port;
     private String serverIP;
     private Socket clientSocket;
@@ -71,16 +72,19 @@ public class Client implements Runnable {
                 close();
             } else {
                 System.out.println("Server has confirmed your name.");
+
+                NewGame ng = (NewGame) receiveData();
+                ID = ng.getPlayerID();
+                System.out.println("ID: " + ID);
+                for (String p : ng.getAllPlayers()) {
+                    System.out.println(p);
+                }
+
+                for(Card c : ng.getInitialHand()){
+                    System.out.println(c);
+                }
             }
 
-            NewGame ng = (NewGame) receiveData();
-            for (String p : ng.getAllPlayers()) {
-                System.out.println(p);
-            }
-
-            for(Card c : ng.getInitialHand()){
-                System.out.println(c);
-            }
 
         } catch (UnknownHostException ue) {
             System.out.println("Unknown Host, Check your ip-address/Port input" +ue.getMessage());
@@ -176,7 +180,7 @@ public class Client implements Runnable {
             msg = in.readLine();
         } catch (IOException e) {
             e.printStackTrace();
-            return e.toString();
+            return null;
         }
         return Packer.unpackData(msg);
     }
