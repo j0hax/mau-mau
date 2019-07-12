@@ -31,6 +31,8 @@ public class Client implements Runnable {
     private GameState currentGameState;
 
     private BooleanProperty handUpdatedProperty = new SimpleBooleanProperty(false);
+    private boolean stopClientThreads = false;
+
 
 
     /**
@@ -92,6 +94,10 @@ public class Client implements Runnable {
      *
      * */
     public void closeConnection() {
+
+        // TODO SEND DISCONNECT MESSAGE TO SERVER
+
+
         connected = false;
         try {
             clientSocket.close();
@@ -99,6 +105,24 @@ public class Client implements Runnable {
             e.printStackTrace();
         }
     }
+
+    public void close() {
+        try {
+            in.close();
+            out.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        stopClientThreads = true;
+
+        closeConnection();
+
+    }
+
+    private boolean stopThreads() {
+        return stopClientThreads;
+    }
+
 
     public PrintWriter getOutput() {
         return out;
@@ -189,13 +213,17 @@ public class Client implements Runnable {
      */
     @Override
     public void run() {
+        System.out.println("Client listener thread started.");
+
         Thread t = Thread.currentThread();
         t.setName("ClientT");
-        while (true) {
+        while (!stopThreads()) {
             currentGameState = (GameState) receiveData();
             setHandUpdatedProperty(true);
 
             //setHandUpdatedProperty(false);
         }
+        System.out.println("Client listener thread closed.");
+
     }
 }
