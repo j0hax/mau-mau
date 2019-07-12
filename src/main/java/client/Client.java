@@ -220,7 +220,7 @@ public class Client implements Runnable {
      * @param s the suite of card the opponent should get next.
      */
     public void wishCard(CardSuite s) {
-
+        System.out.println("Client wished " + s);
     }
 
     /**

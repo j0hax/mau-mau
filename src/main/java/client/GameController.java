@@ -85,22 +85,20 @@ public class GameController {
     // Buttonactions for the whish cardSuite buttons
     @FXML
     public void spadesClicked() {
-        System.out.println("You've wished spades");
-
+        client.wishCard(CardSuite.SPADES);
     }
     @FXML
     public void heartsClicked() {
-        System.out.println("You've wished hearts");
+        client.wishCard(CardSuite.HEARTS);
 
     }
     @FXML
     public void clubsClicked() {
-        System.out.println("You've wished clubs");
+        client.wishCard(CardSuite.CLUBS);
 
     }
-    @FXML
     public void diamondsClicked() {
-        System.out.println("You've wished diamonds");
+        client.wishCard(CardSuite.DIAMONDS);
 
     }
 
