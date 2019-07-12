@@ -1,10 +1,10 @@
 package util.protocol.messages;
 
-public class Connection {
+public class Connect {
 
     private String clientName;
 
-    public Connection(String clientName) {
+    public Connect(String clientName) {
         this.clientName = clientName;
     }
 

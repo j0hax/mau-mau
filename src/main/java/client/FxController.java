@@ -11,10 +11,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
-import util.cards.Card;
-import util.protocol.DataType;
-import util.protocol.messages.Connection;
-import util.protocol.messages.NewGame;
 
 import java.io.IOException;
 

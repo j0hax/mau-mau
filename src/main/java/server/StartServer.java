@@ -2,7 +2,7 @@ package server;
 
 import util.protocol.DataType;
 import util.protocol.Packer;
-import util.protocol.messages.Connection;
+import util.protocol.messages.Connect;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -48,7 +48,7 @@ public class StartServer {
                     Player p = new Player(playerSocket, in, out, null);
 
                     input = p.getInput().readLine();
-                    String newName = ((Connection) Packer.unpackData(input)).getClientName();
+                    String newName = ((Connect) Packer.unpackData(input)).getClientName();
                     if(names.contains(newName)) {
                         p.send(Packer.packData(DataType.CONFIRM, Boolean.FALSE));
                         out.close();

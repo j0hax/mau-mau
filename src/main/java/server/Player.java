@@ -1,6 +1,7 @@
 package server;
 
 import util.cards.Card;
+import util.protocol.Packer;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -17,6 +18,7 @@ public class Player implements Runnable {
     private BufferedReader in;
     private PrintWriter out;
     private volatile IOHandler ioHandler;
+    private boolean disconnected = false;
 
     /**
      * Creates game object
@@ -35,9 +37,9 @@ public class Player implements Runnable {
     @Override
     public void run() {
         Thread thisThread = Thread.currentThread();
-        thisThread.setName("Player\t" + this.username);
+        thisThread.setName("\tPlayer - " + this.username);
 
-        System.out.println(thisThread.getName() + "\t\t>> starting player thread");
+        System.out.println(thisThread.getName() + "\t>> starting player thread");
 
         while (ioHandler == null) {
             Thread.onSpinWait();
@@ -57,7 +59,7 @@ public class Player implements Runnable {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        } while (!incomingMsg.equals("End"));
+        } while (!disconnected);
 
         //ioHandler.sendData("End");
 
@@ -78,6 +80,17 @@ public class Player implements Runnable {
 
         // TODO: read player name from socket
         System.out.println(thisThread.getName() + "\t\t>> " + "ending player thread");
+    }
+
+    synchronized void disconnect(){
+        disconnected = true;
+        try {
+            in.close();
+            out.close();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     synchronized void changeIOHandler(IOHandler ioHandler) {

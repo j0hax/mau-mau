@@ -2,8 +2,11 @@ package util.protocol;
 
 import com.google.gson.Gson;
 import util.game.GameState;
-import util.protocol.messages.Connection;
+import util.protocol.messages.Connect;
+import util.protocol.messages.Disconnect;
 import util.protocol.messages.NewGame;
+
+import javax.xml.crypto.Data;
 
 /**
  * Packer should be used if you want to pack data in a DataPacket structure
@@ -30,19 +33,27 @@ public class Packer {
      * @param packetString String to unpack
      * @return Returns an object that has been stored in the DataPacket when it was created
      */
-    public static Object unpackData(String packetString) {
+
+    public static DataPacket getDataPacket(String packetString) {
+        return gson.fromJson(packetString, DataPacket.class);
+    }
+
+
+        public static Object unpackData(String packetString) {
         DataPacket packet = gson.fromJson(packetString, DataPacket.class);
         // TODO IDEA: each kind of message has its own class containing different kinds of data
         switch (packet.getDataType()) {
             case CONNECT:
                 // example that will be changed later
                 // in this case the connect message is a single string; could be something more complex later
-                return gson.fromJson(packet.getData(), Connection.class);
+                return gson.fromJson(packet.getData(), Connect.class);
             case CONFIRM:
                 return gson.fromJson(packet.getData(), Boolean.class);
-            case DECONNECT:
+            case DISCONNECT:
+                return gson.fromJson(packet.getData(), Disconnect.class);
+
             case CHATMESSAGE:
-                break;
+                return gson.fromJson(packet.getData(), String.class);
             case GAMESTATE:
                 return gson.fromJson(packet.getData(), GameState.class);
             case NEWGAME:

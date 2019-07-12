@@ -2,6 +2,7 @@ package server;
 
 import util.cards.Deck;
 import util.game.GameState;
+import util.protocol.DataPacket;
 import util.protocol.DataType;
 import util.protocol.Packer;
 import util.protocol.messages.NewGame;
@@ -67,8 +68,14 @@ public class GameThread implements Runnable {
         }*/
 
         String receivedMessage;
-        while (!isOver()) {
-            //receivedMessage = gameIOHandler.receive();
+        while (!isOver() && players.size() != 0) {
+            receivedMessage = gameIOHandler.receive();
+            DataPacket packet = Packer.getDataPacket(receivedMessage);
+            if(packet.getDataType() == DataType.DISCONNECT){
+                System.out.println("Received disconnect");
+                Player p = players.remove(0);
+                p.disconnect();
+            }
             //System.out.println(thisThread.getName() + "\t\t\t>> " + receivedMessage);
 
             for (Player p : players) {

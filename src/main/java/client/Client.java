@@ -7,7 +7,8 @@ import util.cards.Card;
 import util.game.GameState;
 import util.protocol.DataType;
 import util.protocol.Packer;
-import util.protocol.messages.Connection;
+import util.protocol.messages.Connect;
+import util.protocol.messages.Disconnect;
 import util.protocol.messages.NewGame;
 
 import java.io.BufferedReader;
@@ -62,7 +63,7 @@ public class Client implements Runnable {
             out = new PrintWriter(clientSocket.getOutputStream(), true);
             in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
 
-            sendData(DataType.CONNECT, new Connection(this.getName()));
+            sendData(DataType.CONNECT, new Connect(this.getName()));
 
             boolean nameConfirmed = (boolean) receiveData();
             if(!nameConfirmed) {
@@ -107,6 +108,9 @@ public class Client implements Runnable {
     }
 
     public void close() {
+
+        sendData(DataType.DISCONNECT, new Disconnect(true));
+
         try {
             in.close();
             out.close();
@@ -218,6 +222,12 @@ public class Client implements Runnable {
         Thread t = Thread.currentThread();
         t.setName("ClientT");
         while (!stopThreads()) {
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            sendData(DataType.CHATMESSAGE, "hi");
             currentGameState = (GameState) receiveData();
             setHandUpdatedProperty(true);
 
