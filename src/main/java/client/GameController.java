@@ -102,13 +102,12 @@ public class GameController {
     @FXML
     public void diamondsClicked() {
         System.out.println("You've wished diamonds");
-
     }
+
 
     public void setClient(Client client) {
         this.client = client;
         this.client.getHandUpdatedProperty().addListener((observable, oldValue, newValue) -> {
-            System.out.println(newValue);
             if (newValue) {
                 Platform.runLater(() -> {
                     System.out.println("New hand is ready to be printed...");
