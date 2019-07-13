@@ -233,7 +233,6 @@ public class Client implements Runnable {
      * Submit the chosen card from the hand to the server.
      *
      * @param c the card to be used
-     * @return boolean indicating success or fail (invalid move)
      */
     public void layCard(Card c) {
 
