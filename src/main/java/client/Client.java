@@ -226,6 +226,7 @@ public class Client implements Runnable {
      */
     public void wishCard(CardSuite s) {
         System.out.println("Client wished " + s);
+        sendData(DataType.CARDWISH, s);
     }
 
     /**
@@ -239,14 +240,12 @@ public class Client implements Runnable {
         // faster than converting to an List, etc.
         for (Card h : getCurrentHand()) {
             if (c.equals(h)) {
-                return false;
+                sendData(DataType.CARDSUBMISSION, c);
+                return true;
             }
         }
 
-        // TODO: submit code to the server. We may need a new tag type for the protocol.
-
-        // placeholder to avoid compilation errors
-        return true;
+        return false;
     }
 
     /**
