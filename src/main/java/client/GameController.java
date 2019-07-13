@@ -7,6 +7,7 @@ import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import util.cards.Card;
 import util.cards.CardRank;
@@ -72,8 +73,13 @@ public class GameController {
         children.clear();
 
         for (Card c : playerHand) {
-            System.out.println(c.toString());
-            hBox.getChildren().add(new ImageView(c.getImage()));
+            ImageView im = new ImageView(c.getImage());
+            im.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
+                System.out.println("User clicked on " + c.toString());
+                client.layCard(c);
+                event.consume();
+            });
+            hBox.getChildren().add(im);
         }
     }
 
