@@ -29,7 +29,8 @@ public class Player implements Runnable {
      * @param playerSocket own socket
      * @param ioHandler    IOHandler that connects to the lobby thread
      */
-    public Player(Socket playerSocket, BufferedReader in, PrintWriter out, IOHandler ioHandler) {
+    public Player(Socket playerSocket, BufferedReader in, PrintWriter out,
+                  IOHandler ioHandler) {
         this.playerSocket = playerSocket;
         this.ioHandler = ioHandler;
         this.username = username;
@@ -45,6 +46,7 @@ public class Player implements Runnable {
 
         while (ioHandler == null) {
             Thread.onSpinWait();
+
             try {
                 Thread.sleep(250);
             } catch (InterruptedException e) {
@@ -53,10 +55,12 @@ public class Player implements Runnable {
         }
 
         String incomingMsg = "";
+
         while (!disconnected && !playerSocket.isClosed()) {
             try {
                 incomingMsg = in.readLine();
                 System.out.println(thisThread.getName() + "received: " + incomingMsg);
+
                 if (incomingMsg != null) {
                     ioHandler.send(incomingMsg);
                 } else {
@@ -70,18 +74,18 @@ public class Player implements Runnable {
                 break;
             }
         }
-        System.out.println(thisThread.getName() + "ending player thread");
 
+        System.out.println(thisThread.getName() + "ending player thread");
         // TODO: read player name from socket
     }
 
-    synchronized void disconnect(){
+    synchronized void disconnect() {
         disconnected = true;
+
         try {
             in.close();
             out.close();
             playerSocket.close();
-
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -104,6 +108,7 @@ public class Player implements Runnable {
                 c) {
             System.out.println(card.toString());
         }
+
         hand.addAll(Arrays.asList(c));
     }
 
@@ -136,7 +141,7 @@ public class Player implements Runnable {
         id = i;
     }
 
-    public int getID(){
+    public int getID() {
         return id;
     }
 

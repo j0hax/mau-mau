@@ -14,8 +14,8 @@ class IOHandler {
                 Thread.currentThread().interrupt();
             }
         }
-        currentlyNewDataAvailable = true;
 
+        currentlyNewDataAvailable = true;
         this.packet = packet;
         notifyAll();
     }
@@ -28,8 +28,8 @@ class IOHandler {
                 Thread.currentThread().interrupt();
             }
         }
-        currentlyNewDataAvailable = false;
 
+        currentlyNewDataAvailable = false;
         notifyAll();
         return packet;
     }

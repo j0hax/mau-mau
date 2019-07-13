@@ -29,7 +29,7 @@ public class Client implements Runnable {
     private int port;
     private String serverIP;
     private Socket clientSocket;
-    private boolean connected= false;
+    private boolean connected = false;
     private PrintWriter out;
     private BufferedReader in;
     private GameState currentGameState;
@@ -46,8 +46,8 @@ public class Client implements Runnable {
      * @param serverIP Ip of the Server the client wants to connect to
      * */
     Client(String name, int port, String serverIP) {
-        this.name=name;
-        this.port=port;
+        this.name = name;
+        this.port = port;
         this.serverIP = serverIP;
         connectClient();
     }
@@ -58,45 +58,40 @@ public class Client implements Runnable {
     private void connectClient() {
         try {
             //a lot of Print outs  to the console for debugging purpose
-            System.out.println("Trying to Connect to: " +serverIP+" on port: " +port);
-            clientSocket = new Socket(serverIP,port);
+            System.out.println("Trying to Connect to: " + serverIP + " on port: " + port);
+            clientSocket = new Socket(serverIP, port);
             System.out.println("Connected");
             connected = true;
-
             out = new PrintWriter(clientSocket.getOutputStream(), true);
             in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-
             sendData(DataType.CONNECT, new Connect(this.getName()));
-
             boolean nameConfirmed = (boolean) receiveData();
-            if(!nameConfirmed) {
+
+            if (!nameConfirmed) {
                 System.out.println("You cannot use this name.");
                 closeConnection();
             } else {
                 System.out.println("Server has confirmed your name.");
-
                 NewGame ng = (NewGame) receiveData();
                 ID = ng.getPlayerID();
                 currentGameState = new GameState(ID, ng.getInitialHand());
-
-
                 System.out.println("ID: " + ID);
+
                 for (String p : ng.getAllPlayers()) {
                     System.out.println(p);
                 }
 
-                for(Card c : ng.getInitialHand()){
+                for (Card c : ng.getInitialHand()) {
                     System.out.println(c);
                 }
             }
-
-
         } catch (UnknownHostException ue) {
-            System.out.println("Unknown Host, Check your ip-address/Port input" +ue.getMessage());
+            System.out.println("Unknown Host, Check your ip-address/Port input" +
+                    ue.getMessage());
         } catch (IOException io) {
-            System.out.println("IOError: Check your ip-address/Port input " + io.getMessage());
+            System.out.println("IOError: Check your ip-address/Port input " +
+                    io.getMessage());
         }
-
     }
 
     /**
@@ -104,9 +99,7 @@ public class Client implements Runnable {
      *
      * */
     public void closeConnection() {
-
         // TODO SEND DISCONNECT MESSAGE TO SERVER
-
         try {
             Thread.sleep(2000);
             in.close();
@@ -116,6 +109,7 @@ public class Client implements Runnable {
         }
 
         connected = false;
+
         try {
             clientSocket.close();
         } catch (IOException e) {
@@ -177,12 +171,14 @@ public class Client implements Runnable {
      */
     Object receiveData() {
         String msg;
+
         try {
             msg = in.readLine();
         } catch (IOException e) {
             e.printStackTrace();
             return null;
         }
+
         return Packer.unpackData(msg);
     }
 
@@ -202,12 +198,12 @@ public class Client implements Runnable {
      * @param classToPack Data structure which will be sent to the server
      */
     public void sendData(DataType tag, Object classToPack) {
-        if (activePlayer == ID || (tag != DataType.CARDSUBMISSION && tag != DataType.CARDWISH)) {
+        if (activePlayer == ID || (tag != DataType.CARDSUBMISSION
+                && tag != DataType.CARDWISH)) {
             out.println(Packer.packData(tag, classToPack));
         } else {
             System.out.println("Not your turn");
         }
-
     }
 
     public boolean gethandUpdated() {
@@ -238,7 +234,6 @@ public class Client implements Runnable {
      * @param c the card to be used
      */
     public void layCard(Card c) {
-
         // faster than converting to an List, etc.
         for (Card h : getCurrentHand()) {
             if (c.equals(h)) {
@@ -253,10 +248,8 @@ public class Client implements Runnable {
     @Override
     public void run() {
         System.out.println("Client listener thread started.");
-
         Thread t = Thread.currentThread();
         t.setName("ClientT");
-
         setHandUpdatedProperty(true);
 
         while (!stopThreads()) {
@@ -265,10 +258,12 @@ public class Client implements Runnable {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
+
             //sendData(DataType.CHATMESSAGE, "hi");
             try {
                 String input = in.readLine();
                 DataPacket d = Packer.getDataPacket(input);
+
                 if (d.getDataType() == DataType.CONFIRM) {
                     closeConnection();
                     break;
@@ -279,11 +274,11 @@ public class Client implements Runnable {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            setHandUpdatedProperty(true);
 
+            setHandUpdatedProperty(true);
             //setHandUpdatedProperty(false);
         }
-        System.out.println("Client listener thread closed.");
 
+        System.out.println("Client listener thread closed.");
     }
 }

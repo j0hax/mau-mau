@@ -37,23 +37,30 @@ public class Packer {
     }
 
 
-        public static Object unpackData(String packetString) {
+    public static Object unpackData(String packetString) {
         DataPacket packet = gson.fromJson(packetString, DataPacket.class);
+
         // TODO IDEA: each kind of message has its own class containing different kinds of data
         switch (packet.getDataType()) {
             case CONNECT:
                 return gson.fromJson(packet.getData(), Connect.class);
+
             case CONFIRM:
                 return gson.fromJson(packet.getData(), Boolean.class);
+
             case DISCONNECT:
                 return gson.fromJson(packet.getData(), Disconnect.class);
+
             case CHATMESSAGE:
                 return gson.fromJson(packet.getData(), String.class);
+
             case GAMESTATE:
                 return gson.fromJson(packet.getData(), GameState.class);
+
             case NEWGAME:
                 return gson.fromJson(packet.getData(), NewGame.class);
         }
+
         return null;
     }
 

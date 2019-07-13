@@ -60,7 +60,6 @@ public class Card implements Comparable {
     }
 
     public Image getImage() {
-
         String rank;
         String suite;
 
@@ -68,27 +67,35 @@ public class Card implements Comparable {
             case TWO:
                 rank = "2";
                 break;
+
             case THREE:
                 rank = "3";
                 break;
+
             case FOUR:
                 rank = "4";
                 break;
+
             case FIVE:
                 rank = "5";
                 break;
+
             case SIX:
                 rank = "6";
                 break;
+
             case SEVEN:
                 rank = "7";
                 break;
+
             case EIGHT:
                 rank = "8";
                 break;
+
             case NINE:
                 rank = "9";
                 break;
+
             case TEN:
                 rank = "10";
                 break;
@@ -98,9 +105,9 @@ public class Card implements Comparable {
         }
 
         suite = getSuite().name().toLowerCase();
-
-        String fileName = "/client/cards/PNG-cards-1.3/" + rank + "_of_" + suite + ".png";
-
-        return new Image(this.getClass().getResourceAsStream(fileName), 125, 181, true, true);
+        String fileName = "/client/cards/PNG-cards-1.3/" + rank + "_of_" + suite +
+                ".png";
+        return new Image(this.getClass().getResourceAsStream(fileName), 125, 181, true,
+                true);
     }
 }

@@ -22,8 +22,8 @@ public class Lobby implements Runnable {
         ExecutorService gamePool = Executors.newFixedThreadPool(MAXGAMES);
 
         while (true) {
-
-            System.out.println("LOBBY\t\t\t>> Waiting for players to start new game: " + (GAMESIZE - players.size()));
+            System.out.println("LOBBY\t\t\t>> Waiting for players to start new game: " +
+                    (GAMESIZE - players.size()));
 
             while (players.size() < GAMESIZE) {
                 try {
@@ -34,18 +34,18 @@ public class Lobby implements Runnable {
                 }
             }
 
-
             StringBuilder pString = new StringBuilder();
+
             for (Player p : players) {
                 pString.append("'").append(p.getName()).append("'");
             }
-            System.out.println("LOBBY\t\t\t>> Players in Lobby [" + pString + "]");
 
+            System.out.println("LOBBY\t\t\t>> Players in Lobby [" + pString + "]");
             // this block will be changed later
             Player[] playersInGame = players.toArray(new Player[players.size()]);
             players.clear();
-
             IOHandler gameIOHandler = new IOHandler();
+
             for (int i = 0; i < GAMESIZE; i++) {
                 playersInGame[i].changeIOHandler(gameIOHandler);
                 playersInGame[i].setID(i);
@@ -54,10 +54,7 @@ public class Lobby implements Runnable {
             }
 
             gamePool.execute(new GameThread(gameID++, playersInGame, gameIOHandler));
-
         }
-
-
     }
 
 }

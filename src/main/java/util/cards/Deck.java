@@ -51,6 +51,7 @@ public class Deck {
      */
     public Card[] deal(int count) {
         Card[] dealt = new Card[count];
+
         for (int i = 0; i < count; i++) {
             dealt[i] = deal();
         }

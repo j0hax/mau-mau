@@ -60,13 +60,14 @@ public class GameThread implements Runnable {
         Thread thisThread = Thread.currentThread();
         thisThread.setName("Game-" + this.ID + "\t\t\t>> ");
         System.out.println(thisThread.getName() + "Starting new game");
-
         // prints out all players in the current game
         StringBuilder pString = new StringBuilder();
+
         for (int i = 0; i < playerNames.length; i++) {
             pString.append("'").append(players[i].getName()).append("'");
             playerNames[i] = players[i].getName();
         }
+
         System.out.println(thisThread.getName() + "[" + pString + "]");
 
         // send each player the NewGame message
@@ -74,54 +75,56 @@ public class GameThread implements Runnable {
             p.addToHand(deck.deal(5));
             // share player names and their hand
             System.out.println("Sending new game to id: " + p.getID());
-            String s = Packer.packData(DataType.NEWGAME, new NewGame(playerNames, p.getHand(), p.getID()));
+            String s = Packer.packData(DataType.NEWGAME, new NewGame(playerNames,
+                    p.getHand(), p.getID()));
             p.send(s);
             //System.out.println(s);
         }
 
         //String receivedMessage;
         while (!isOver() && players.length != closed) {
-
             System.out.println("Active player = " + activePlayer); //debugging
-
             Player current = players[activePlayer];
-
             String receivedMessage = gameIOHandler.receive();
-
             DataType type = Packer.getDataPacket(receivedMessage).getDataType();
-
             DataPacket packet = Packer.getDataPacket(receivedMessage);
 
             switch (type) {
                 case CARDSUBMISSION:
                     Card c = (Card) Packer.unpackData(receivedMessage);
+
                     //TODO: process if card is legal
                     switch (c.getRank()) {
                         case SEVEN:
                             players[activePlayer + 1].addToHand(deck.deal(2));
                             break;
+
                         case EIGHT:
                             activePlayer++;
                             break;
+
                         case JACK:
                             //TODO: allow current player to choose the next card
                             break;
+
                         case ACE:
                             //TODO: force current player to play another card
                     }
-                    nextPlayer();
 
+                    nextPlayer();
                     current.removeFromHand(c);
                     lastPlaced = c;
                     // TODO add the last lastPlaced card back to deck
-
                     break;
+
                 case CARDWISH:
                     //TODO: should only work if card was jack
                     nextPlayer();
                     break;
+
                 case CHATMESSAGE:
                     break;
+
                 case DISCONNECT:
                     Player rmPlayer = players[packet.getPlayerID()];
                     //System.out.println(thisThread + " disconnecting ID: " + players[packet.getPlayerID()].getID());
@@ -133,7 +136,8 @@ public class GameThread implements Runnable {
 
             for (Player allP : players) {
                 // share player names and their hand
-                String s = Packer.packData(DataType.GAMESTATE, new GameState(activePlayer, allP.getHand()));
+                String s = Packer.packData(DataType.GAMESTATE, new GameState(activePlayer,
+                        allP.getHand()));
                 allP.send(s);
                 System.out.println(s);
             }
@@ -144,9 +148,8 @@ public class GameThread implements Runnable {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }*/
-
-
         }
+
         System.out.println(thisThread.getName() + "\t\t\t>> Stopping game");
     }
 }

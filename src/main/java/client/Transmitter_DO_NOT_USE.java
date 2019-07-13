@@ -15,20 +15,16 @@ public class Transmitter_DO_NOT_USE {
     }
 
     public void send(String s) {
-
         out.println(s);
-
     }
 
     public String receive() {
-
         try {
             return in.readLine();
         } catch (IOException e) {
             e.printStackTrace();
             return e.toString();
         }
-
     }
 
 }

@@ -44,20 +44,16 @@ public class GameController {
 
     @FXML
     public void initialize() {
-
         Card c = new Card(CardSuite.CLUBS, CardRank.KING);
         //Card[] cA = {new Card(CardSuite.CLUBS, CardRank.KING)};
         //setHand(cA);
         hBox.getChildren().add(new ImageView(c.getImage()));
-
         spadesButton.setCursor(Cursor.HAND);
         heartsButton.setCursor(Cursor.HAND);
         clubsButton.setCursor(Cursor.HAND);
         diamondsButton.setCursor(Cursor.HAND);
-
         Card ca = new Card(CardSuite.SPADES, CardRank.QUEEN);
         currentCard.setImage(ca.getImage());
-
     }
 
     /**
@@ -65,7 +61,6 @@ public class GameController {
      * @param packet A packet describing the game state
      */
     public void setGameState(DataPacket packet) {
-
     }
 
     /**
@@ -90,21 +85,19 @@ public class GameController {
     @FXML
     public void heartsClicked() {
         client.wishCard(CardSuite.HEARTS);
-
     }
     @FXML
     public void clubsClicked() {
         client.wishCard(CardSuite.CLUBS);
-
     }
     public void diamondsClicked() {
         client.wishCard(CardSuite.DIAMONDS);
-
     }
 
     public void setClient(Client client) {
         this.client = client;
-        this.client.getHandUpdatedProperty().addListener((observable, oldValue, newValue) -> {
+        this.client.getHandUpdatedProperty().addListener((observable, oldValue,
+                                                          newValue) -> {
             //System.out.println(newValue);
             if (newValue) {
                 Platform.runLater(() -> {
@@ -112,7 +105,6 @@ public class GameController {
                     setHand(client.getCurrentHand());
                     client.setHandUpdatedProperty(false);
                 });
-
             }
         });
     }

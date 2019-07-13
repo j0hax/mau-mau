@@ -17,7 +17,6 @@ public class DataPacket {
      * @param message Message to store
      */
     public DataPacket(DataType type, String message) {
-
         this.dataType = type;
         this.data = message;
     }
@@ -30,7 +29,7 @@ public class DataPacket {
         return this.dataType;
     }
 
-    public int getPlayerID(){
+    public int getPlayerID() {
         return this.playerID;
     }
 

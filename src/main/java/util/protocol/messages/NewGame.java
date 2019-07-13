@@ -18,11 +18,11 @@ public class NewGame {
         return allPlayers;
     }
 
-    public Card[] getInitialHand(){
+    public Card[] getInitialHand() {
         return initialHand;
     }
 
-    public int getPlayerID(){
+    public int getPlayerID() {
         return playerID;
     }
 

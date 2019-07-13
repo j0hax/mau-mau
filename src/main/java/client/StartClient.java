@@ -25,8 +25,6 @@ public class StartClient extends Application {
      */
     @Override
     public void start(Stage primaryStage) throws Exception {
-
-
         // Game
         /*Stage game = primaryStage;
 
@@ -43,8 +41,6 @@ public class StartClient extends Application {
         game.setScene(gameScene);
         game.setResizable(false);
         game.show();*/
-
-
         // Lobby
         /*Stage lobby = new Stage();
 
@@ -57,21 +53,18 @@ public class StartClient extends Application {
         lobby.setScene(lobbyScene);
         lobby.setResizable(false);
         lobby.show();*/
-
-
         // Login
         Stage login = new Stage();
-        Parent loginRoot = FXMLLoader.load(getClass().getResource("/client/gui/login.fxml"));
+        Parent loginRoot = FXMLLoader.load(
+                getClass().getResource("/client/gui/login.fxml"));
         login.setTitle("Mau Mau Login");
-
-        Scene loginScene = new Scene(loginRoot, 300,250);
-        loginScene.getStylesheets().add(getClass().getResource("/client/style/loginStyle.css").toExternalForm());
-
+        Scene loginScene = new Scene(loginRoot, 300, 250);
+        loginScene.getStylesheets().add(
+                getClass().getResource("/client/style/loginStyle.css").toExternalForm());
         login.setScene(loginScene);
         // TODO: glitch with KWin results in tiny window if setResizable(false)
         login.setResizable(true);
         login.show();
-
     }
 
     /**
