@@ -45,13 +45,21 @@ public class GameThread implements Runnable {
         return false;
     }
 
+    private void nextPlayer() {
+        if (activePlayer == players.length - 1) {
+            activePlayer = 0;
+        } else {
+            ++activePlayer;
+        }
+    }
+
     @Override
     public void run() {
         activePlayer = 0;
         // initializing
         Thread thisThread = Thread.currentThread();
         thisThread.setName("Game-" + this.ID + "\t\t\t>> ");
-        System.out.println(thisThread.getName() + "\t\t\t>> Starting new game");
+        System.out.println(thisThread.getName() + "Starting new game");
 
         // prints out all players in the current game
         StringBuilder pString = new StringBuilder();
@@ -59,64 +67,35 @@ public class GameThread implements Runnable {
             pString.append("'").append(players[i].getName()).append("'");
             playerNames[i] = players[i].getName();
         }
-        System.out.println(thisThread.getName() + "\t\t\t>> [" + pString + "]");
+        System.out.println(thisThread.getName() + "[" + pString + "]");
 
         // send each player the NewGame message
         for (Player p : players) {
+            p.addToHand(deck.deal(5));
             // share player names and their hand
             System.out.println("Sending new game to id: " + p.getID());
-            String s = Packer.packData(DataType.NEWGAME, new NewGame(playerNames, deck.deal(5), p.getID()));
+            String s = Packer.packData(DataType.NEWGAME, new NewGame(playerNames, p.getHand(), p.getID()));
             p.send(s);
             //System.out.println(s);
         }
 
         //String receivedMessage;
         while (!isOver() && players.length != closed) {
-            System.out.println("Active player = " + activePlayer);
 
-            //System.out.println(closed);
-            System.out.println("Receive");
-            String receivedMessage = gameIOHandler.receive();
-            DataPacket packet = Packer.getDataPacket(receivedMessage);
-            if(packet.getDataType() == DataType.DISCONNECT){
-                Player p = players[packet.getPlayerID()];
-                //System.out.println(thisThread + " disconnecting ID: " + players[packet.getPlayerID()].getID());
-                p.send(Packer.packData(DataType.CONFIRM, true));
-                p.disconnect();
-                ++closed;
-            }
-            //System.out.println(thisThread.getName() + "\t\t\t>> " + receivedMessage);
-
-            for (Player p : players) {
-                // share player names and their hand
-                String s = Packer.packData(DataType.GAMESTATE, new GameState(activePlayer, deck.deal(1)));
-                p.send(s);
-                System.out.println(s);
-            }
-
-            if (activePlayer == players.length - 1) {
-                activePlayer = 0;
-            } else {
-                ++activePlayer;
-            }
-
-            try {
-                Thread.sleep(500);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+            System.out.println("Active player = " + activePlayer); //debugging
 
             Player current = players[activePlayer];
 
-            String rec = gameIOHandler.receive();
+            String receivedMessage = gameIOHandler.receive();
 
-            DataType type = Packer.getDataPacket(rec).getDataType();
+            DataType type = Packer.getDataPacket(receivedMessage).getDataType();
+
+            DataPacket packet = Packer.getDataPacket(receivedMessage);
 
             switch (type) {
                 case CARDSUBMISSION:
-                    Card c = (Card) Packer.unpackData(rec);
+                    Card c = (Card) Packer.unpackData(receivedMessage);
                     //TODO: process if card is legal
-
                     switch (c.getRank()) {
                         case SEVEN:
                             players[activePlayer + 1].addToHand(deck.deal(2));
@@ -130,17 +109,42 @@ public class GameThread implements Runnable {
                         case ACE:
                             //TODO: force current player to play another card
                     }
+                    nextPlayer();
 
                     current.removeFromHand(c);
                     lastPlaced = c;
+                    // TODO add the last lastPlaced card back to deck
 
                     break;
                 case CARDWISH:
                     //TODO: should only work if card was jack
+                    nextPlayer();
                     break;
                 case CHATMESSAGE:
                     break;
+                case DISCONNECT:
+                    Player rmPlayer = players[packet.getPlayerID()];
+                    //System.out.println(thisThread + " disconnecting ID: " + players[packet.getPlayerID()].getID());
+                    rmPlayer.send(Packer.packData(DataType.CONFIRM, true));
+                    rmPlayer.disconnect();
+                    ++closed;
+                    break;
             }
+
+            for (Player allP : players) {
+                // share player names and their hand
+                String s = Packer.packData(DataType.GAMESTATE, new GameState(activePlayer, allP.getHand()));
+                allP.send(s);
+                System.out.println(s);
+            }
+
+            /*
+            try {
+                Thread.sleep(500);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }*/
+
 
         }
         System.out.println(thisThread.getName() + "\t\t\t>> Stopping game");

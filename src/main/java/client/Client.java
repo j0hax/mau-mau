@@ -77,6 +77,9 @@ public class Client implements Runnable {
 
                 NewGame ng = (NewGame) receiveData();
                 ID = ng.getPlayerID();
+                currentGameState = new GameState(ID, ng.getInitialHand());
+
+
                 System.out.println("ID: " + ID);
                 for (String p : ng.getAllPlayers()) {
                     System.out.println(p);
@@ -199,7 +202,7 @@ public class Client implements Runnable {
      * @param classToPack Data structure which will be sent to the server
      */
     public void sendData(DataType tag, Object classToPack) {
-        if (activePlayer == ID || tag != DataType.CHATMESSAGE) { // TODO CHANGE TO GameState LATER
+        if (activePlayer == ID || (tag != DataType.CARDSUBMISSION && tag != DataType.CARDWISH)) {
             out.println(Packer.packData(tag, classToPack));
         } else {
             System.out.println("Not your turn");
@@ -253,13 +256,16 @@ public class Client implements Runnable {
 
         Thread t = Thread.currentThread();
         t.setName("ClientT");
+
+        setHandUpdatedProperty(true);
+
         while (!stopThreads()) {
             try {
                 Thread.sleep(1000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            sendData(DataType.CHATMESSAGE, "hi");
+            //sendData(DataType.CHATMESSAGE, "hi");
             try {
                 String input = in.readLine();
                 DataPacket d = Packer.getDataPacket(input);

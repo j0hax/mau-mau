@@ -6,8 +6,6 @@ import util.protocol.messages.Connect;
 import util.protocol.messages.Disconnect;
 import util.protocol.messages.NewGame;
 
-import javax.xml.crypto.Data;
-
 /**
  * Packer should be used if you want to pack data in a DataPacket structure
  */
@@ -44,8 +42,6 @@ public class Packer {
         // TODO IDEA: each kind of message has its own class containing different kinds of data
         switch (packet.getDataType()) {
             case CONNECT:
-                // example that will be changed later
-                // in this case the connect message is a single string; could be something more complex later
                 return gson.fromJson(packet.getData(), Connect.class);
             case CONFIRM:
                 return gson.fromJson(packet.getData(), Boolean.class);

@@ -14,7 +14,7 @@ public class Player implements Runnable {
 
     private String username = "no-username";
     private Socket playerSocket;
-    private LinkedList<Card> hand;
+    private LinkedList<Card> hand = new LinkedList<>();
 
     private BufferedReader in;
     private PrintWriter out;
@@ -92,7 +92,7 @@ public class Player implements Runnable {
     }
 
     Card[] getHand() {
-        return (Card[]) hand.toArray();
+        return hand.toArray(new Card[hand.size()]);
     }
 
     void addToHand(Card c) {
@@ -100,6 +100,10 @@ public class Player implements Runnable {
     }
 
     void addToHand(Card[] c) {
+        for (Card card :
+                c) {
+            System.out.println(card.toString());
+        }
         hand.addAll(Arrays.asList(c));
     }
 
