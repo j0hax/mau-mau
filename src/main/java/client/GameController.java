@@ -37,7 +37,8 @@ public class GameController {
     public Label player3Cards;
     @FXML
     public Label player4Cards;
-
+    @FXML
+    public Label turnLabel;
     @FXML
     public ImageView currentCard;
     @FXML
@@ -70,7 +71,7 @@ public class GameController {
      */
     public void setHand(Card[] playerHand) {
         ObservableList<Node> children = hBox.getChildren();
-        children.clear();
+        hBox.getChildren().clear();
 
         for (Card c : playerHand) {
             ImageView im = new ImageView(c.getImage());
@@ -80,6 +81,11 @@ public class GameController {
                 event.consume();
             });
             hBox.getChildren().add(im);
+        }
+        if(client.getActivePlayer()==client.getID()){
+            turnLabel.setText("Turn: You");
+        }else{
+            turnLabel.setText("Not your Turn!");
         }
     }
 

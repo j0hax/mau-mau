@@ -126,7 +126,12 @@ public class Client implements Runnable {
         return stopClientThreads;
     }
 
-
+    public int getID(){
+        return ID;
+    }
+    public int getActivePlayer(){
+        return activePlayer;
+    }
     public PrintWriter getOutput() {
         return out;
     }

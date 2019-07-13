@@ -1,6 +1,7 @@
 package util.protocol;
 
 import com.google.gson.Gson;
+import util.cards.Card;
 import util.game.GameState;
 import util.protocol.messages.Connect;
 import util.protocol.messages.Disconnect;
@@ -59,6 +60,8 @@ public class Packer {
 
             case NEWGAME:
                 return gson.fromJson(packet.getData(), NewGame.class);
+            case CARDSUBMISSION:
+                return gson.fromJson(packet.getData(), Card.class);
         }
 
         return null;

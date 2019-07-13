@@ -52,6 +52,17 @@ public class GameThread implements Runnable {
             ++activePlayer;
         }
     }
+    /**
+    * Returns the index of the next player
+    * */
+    private int nextPlayerIndex(){
+        if (activePlayer == players.length - 1) {
+            return  0;
+        } else {
+            return activePlayer+1;
+        }
+
+    }
 
     @Override
     public void run() {
@@ -96,11 +107,11 @@ public class GameThread implements Runnable {
                     //TODO: process if card is legal
                     switch (c.getRank()) {
                         case SEVEN:
-                            players[activePlayer + 1].addToHand(deck.deal(2));
+                            players[nextPlayerIndex()].addToHand(deck.deal(2));
                             break;
 
                         case EIGHT:
-                            activePlayer++;
+                            nextPlayer();
                             break;
 
                         case JACK:
@@ -110,6 +121,7 @@ public class GameThread implements Runnable {
                         case ACE:
                             //TODO: force current player to play another card
                     }
+                    // TODO Remove from hand does not work correctly
 
                     nextPlayer();
                     current.removeFromHand(c);

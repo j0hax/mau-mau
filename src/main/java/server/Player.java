@@ -112,8 +112,16 @@ public class Player implements Runnable {
         hand.addAll(Arrays.asList(c));
     }
 
-    boolean removeFromHand(Card c) {
-        return hand.remove(c);
+    void removeFromHand(Card c) {
+        Card ca = new Card(c.getSuite(),c.getRank());
+        for(int i=0; i<hand.size(); i++){
+            Card k = hand.get(i);
+            if(k.getRank().equals(ca.getRank())&&k.getSuite().equals(ca.getSuite())){
+
+                hand.remove(i);
+            }
+        }
+
     }
 
     String getName() {
