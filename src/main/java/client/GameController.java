@@ -90,6 +90,8 @@ public class GameController {
     public void clubsClicked() {
         client.wishCard(CardSuite.CLUBS);
     }
+
+    @FXML
     public void diamondsClicked() {
         client.wishCard(CardSuite.DIAMONDS);
     }
