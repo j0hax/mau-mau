@@ -235,17 +235,14 @@ public class Client implements Runnable {
      * @param c the card to be used
      * @return boolean indicating success or fail (invalid move)
      */
-    public boolean layCard(Card c) {
+    public void layCard(Card c) {
 
         // faster than converting to an List, etc.
         for (Card h : getCurrentHand()) {
             if (c.equals(h)) {
                 sendData(DataType.CARDSUBMISSION, c);
-                return true;
             }
         }
-
-        return false;
     }
 
     /**
