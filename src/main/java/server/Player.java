@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.SocketException;
+import java.util.Arrays;
 import java.util.LinkedList;
 
 public class Player implements Runnable {
@@ -98,8 +99,12 @@ public class Player implements Runnable {
         hand.add(c);
     }
 
-    Card removeFromHand(int index) {
-        return hand.remove(index);
+    void addToHand(Card[] c) {
+        hand.addAll(Arrays.asList(c));
+    }
+
+    boolean removeFromHand(Card c) {
+        return hand.remove(c);
     }
 
     String getName() {
