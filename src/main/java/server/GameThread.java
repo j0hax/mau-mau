@@ -110,12 +110,36 @@ public class GameThread implements Runnable {
 
             String rec = gameIOHandler.receive();
 
-            // check if the player has submitted a card
-            if (Packer.getDataPacket(rec).getDataType() == DataType.CARDSUBMISSION) {
-                Card played = (Card) Packer.unpackData(rec);
-                //TODO: check if that card is legal
-            } else {
-                //TODO: handle something other than a card
+            DataType type = Packer.getDataPacket(rec).getDataType();
+
+            switch (type) {
+                case CARDSUBMISSION:
+                    Card c = (Card) Packer.unpackData(rec);
+                    //TODO: process if card is legal
+
+                    switch (c.getRank()) {
+                        case SEVEN:
+                            players[activePlayer + 1].addToHand(deck.deal(2));
+                            break;
+                        case EIGHT:
+                            activePlayer++;
+                            break;
+                        case JACK:
+                            //TODO: allow current player to choose the next card
+                            break;
+                        case ACE:
+                            //TODO: force current player to play another card
+                    }
+
+                    current.removeFromHand(c);
+                    lastPlaced = c;
+
+                    break;
+                case CARDWISH:
+                    //TODO: should only work if card was jack
+                    break;
+                case CHATMESSAGE:
+                    break;
             }
 
         }
