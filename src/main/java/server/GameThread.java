@@ -1,5 +1,6 @@
 package server;
 
+import util.cards.Card;
 import util.cards.Deck;
 import util.game.GameState;
 import util.protocol.DataPacket;
@@ -15,7 +16,16 @@ public class GameThread implements Runnable {
     private Deck deck = new Deck();
     private IOHandler gameIOHandler;
     private int closed = 0;
+
+    /**
+     * Index of the player who has the turn
+     */
     private int activePlayer;
+
+    /**
+     * The last card that was placed in the middle of the "stack"
+     */
+    private Card lastPlaced;
 
     /**
      * Creates a game
@@ -77,7 +87,6 @@ public class GameThread implements Runnable {
             }
             //System.out.println(thisThread.getName() + "\t\t\t>> " + receivedMessage);
 
-
             for (Player p : players) {
                 // share player names and their hand
                 String s = Packer.packData(DataType.GAMESTATE, new GameState(activePlayer, deck.deal(1)));
@@ -97,8 +106,17 @@ public class GameThread implements Runnable {
                 e.printStackTrace();
             }
 
+            Player current = players[activePlayer];
 
-            // TODO: Each player will have their turn here
+            String rec = gameIOHandler.receive();
+
+            // check if the player has submitted a card
+            if (Packer.getDataPacket(rec).getDataType() == DataType.CARDSUBMISSION) {
+                Card played = (Card) Packer.unpackData(rec);
+                //TODO: check if that card is legal
+            } else {
+                //TODO: handle something other than a card
+            }
 
         }
         System.out.println(thisThread.getName() + "\t\t\t>> Stopping game");
