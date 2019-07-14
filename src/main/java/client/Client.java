@@ -36,8 +36,7 @@ public class Client implements Runnable {
 
     private BooleanProperty handUpdatedProperty = new SimpleBooleanProperty(false);
     private boolean stopClientThreads = false;
-    private int activePlayer;
-
+    private String[] allPlayerNames;
 
     /**
      * Constructor for Client
@@ -74,7 +73,8 @@ public class Client implements Runnable {
                 System.out.println("Server has confirmed your name.");
                 NewGame ng = (NewGame) receiveData();
                 ID = ng.getPlayerID();
-                currentGameState = new GameState(ID, ng.getInitialHand());
+                setNewGame(ng);
+
                 System.out.println("ID: " + ID);
 
                 for (String p : ng.getAllPlayers()) {
@@ -92,6 +92,19 @@ public class Client implements Runnable {
             System.out.println("IOError: Check your ip-address/Port input " +
                     io.getMessage());
         }
+    }
+
+    private void setNewGame(NewGame ng) {
+        allPlayerNames = ng.getAllPlayers();
+        currentGameState = new GameState(ID, ng.getInitialHand(), ng.getNumberOfCards());
+    }
+
+    private void setGameState(GameState gameState) {
+        currentGameState = gameState;
+    }
+
+    public String[] getAllPlayerNames() {
+        return allPlayerNames;
     }
 
     /**
@@ -129,9 +142,7 @@ public class Client implements Runnable {
     public int getID(){
         return ID;
     }
-    public int getActivePlayer(){
-        return activePlayer;
-    }
+
     public PrintWriter getOutput() {
         return out;
     }
@@ -188,12 +199,13 @@ public class Client implements Runnable {
     }
 
     /**
-     * used by GameController to update hand
      *
-     * @return current hand from GameState
+     * used by GameController to update GameState
+     *
+     * @return current GameState
      */
-    public synchronized Card[] getCurrentHand() {
-        return this.currentGameState.getHand();
+    public synchronized GameState getCurrentGameState() {
+        return this.currentGameState;
     }
 
     /**
@@ -203,7 +215,9 @@ public class Client implements Runnable {
      * @param classToPack Data structure which will be sent to the server
      */
     public void sendData(DataType tag, Object classToPack) {
-        if (activePlayer == ID || (tag != DataType.CARDSUBMISSION
+        if (tag == DataType.CONNECT) {
+            out.println(Packer.packData(tag, classToPack));
+        } else if (getCurrentGameState().activePlayerIndex() == ID || (tag != DataType.CARDSUBMISSION
                 && tag != DataType.CARDWISH)) {
             out.println(Packer.packData(tag, classToPack));
         } else {
@@ -240,7 +254,7 @@ public class Client implements Runnable {
      */
     public void layCard(Card c) {
         // faster than converting to an List, etc.
-        for (Card h : getCurrentHand()) {
+        for (Card h : getCurrentGameState().getHand()) {
             if (c.equals(h)) {
                 sendData(DataType.CARDSUBMISSION, c);
             }
@@ -273,8 +287,7 @@ public class Client implements Runnable {
                     closeConnection();
                     break;
                 } else if (d.getDataType() == DataType.GAMESTATE) {
-                    currentGameState = ((GameState) Packer.unpackData(input));
-                    activePlayer = currentGameState.activePlayerIndex();
+                    setGameState(((GameState) Packer.unpackData(input)));
                 }
             } catch (Exception e) {
                 e.printStackTrace();

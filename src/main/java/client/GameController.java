@@ -12,12 +12,14 @@ import javafx.scene.layout.HBox;
 import util.cards.Card;
 import util.cards.CardRank;
 import util.cards.CardSuite;
-import util.protocol.DataPacket;
+import util.game.GameState;
 
 
 public class GameController {
 
     private Client client;
+    private String[] allPlayerNames;
+    private Label[] allPlayerLabels;
 
     @FXML
     public HBox hBox;
@@ -54,22 +56,44 @@ public class GameController {
         heartsButton.setCursor(Cursor.HAND);
         clubsButton.setCursor(Cursor.HAND);
         diamondsButton.setCursor(Cursor.HAND);
-        Card ca = new Card(CardSuite.SPADES, CardRank.QUEEN);
-        currentCard.setImage(ca.getImage());
+
+        allPlayerLabels = new Label[]{player2Cards, player3Cards, player4Cards};
+
+
     }
 
     /**
      * Sets the view according to a packet sent from the server
-     * @param packet A packet describing the game state
+     * @param gameState A packet describing the game state
      */
-    public void setGameState(DataPacket packet) {
+    private void setGameState(GameState gameState) {
+
+        setHand(gameState.getHand());
+
+        Integer[] numberOfCards = gameState.getNumberOfCards();
+
+        int handIndex = 0;
+        for (int playerIndex = 0; handIndex < numberOfCards.length; handIndex++) {
+            if (true /*handIndex != client.getID()*/) {
+                allPlayerLabels[handIndex].setText("Cards of Player " + allPlayerNames[playerIndex] + numberOfCards[playerIndex]);
+            }
+            ++handIndex;
+        }
+
+
+        if (gameState.activePlayerIndex() == client.getID()) {
+            turnLabel.setText("Turn: You");
+        } else {
+            turnLabel.setText("Not your Turn!");
+        }
+
     }
 
     /**
      * Sets the player's displayed hand.
      * @param playerHand Array of cards
      */
-    public void setHand(Card[] playerHand) {
+    private void setHand(Card[] playerHand) {
         ObservableList<Node> children = hBox.getChildren();
         hBox.getChildren().clear();
 
@@ -82,14 +106,9 @@ public class GameController {
             });
             hBox.getChildren().add(im);
         }
-        if(client.getActivePlayer()==client.getID()){
-            turnLabel.setText("Turn: You");
-        }else{
-            turnLabel.setText("Not your Turn!");
-        }
     }
 
-    // Buttonactions for the whish cardSuite buttons
+    // Button actions for the wish cardSuite buttons
     @FXML
     public void spadesClicked() {
         client.wishCard(CardSuite.SPADES);
@@ -110,13 +129,17 @@ public class GameController {
 
     public void setClient(Client client) {
         this.client = client;
+
+        allPlayerNames = client.getAllPlayerNames();
+        setGameState(client.getCurrentGameState());
+
         this.client.getHandUpdatedProperty().addListener((observable, oldValue,
                                                           newValue) -> {
             //System.out.println(newValue);
             if (newValue) {
                 Platform.runLater(() -> {
                     //System.out.println("New hand is ready to be printed...");
-                    setHand(client.getCurrentHand());
+                    setGameState(client.getCurrentGameState());
                     client.setHandUpdatedProperty(false);
                 });
             }

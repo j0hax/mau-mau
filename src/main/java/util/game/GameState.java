@@ -8,15 +8,17 @@ import util.cards.Card;
 public class GameState {
 
     private int activePlayerIndex;
-    private Card[] hand = new Card[32];
+    private Integer[] numberOfCards;
+    private Card[] hand;
 
     /**
      * @param activePlayer the index of the currently active player (from String[] allPlayers in class NewGame)
      * @param hand         the individual players current hand
      */
-    public GameState(int activePlayer, Card[] hand) {
+    public GameState(int activePlayer, Card[] hand, Integer[] numberOfCards) {
         this.activePlayerIndex = activePlayer;
         this.hand = hand;
+        this.numberOfCards = numberOfCards;
     }
 
     /**
@@ -32,4 +34,9 @@ public class GameState {
     public int activePlayerIndex() {
         return activePlayerIndex;
     }
+
+    public Integer[] getNumberOfCards() {
+        return numberOfCards;
+    }
+
 }

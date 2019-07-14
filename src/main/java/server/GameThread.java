@@ -64,6 +64,19 @@ public class GameThread implements Runnable {
 
     }
 
+    /**
+     * Gives number of cards of each player
+     *
+     * @return Integer Array of number of cards
+     */
+    private Integer[] getNumberOfCards() {
+        Integer[] numberOfCards = new Integer[players.length];
+        for (int i = 0; i < players.length; i++) {
+            numberOfCards[i] = players[i].getHand().length;
+        }
+        return numberOfCards;
+    }
+
     @Override
     public void run() {
         activePlayer = 0;
@@ -87,7 +100,7 @@ public class GameThread implements Runnable {
             // share player names and their hand
             System.out.println("Sending new game to id: " + p.getID());
             String s = Packer.packData(DataType.NEWGAME, new NewGame(playerNames,
-                    p.getHand(), p.getID()));
+                    p.getHand(), p.getID(), getNumberOfCards()));
             p.send(s);
             //System.out.println(s);
         }
@@ -148,8 +161,7 @@ public class GameThread implements Runnable {
 
             for (Player allP : players) {
                 // share player names and their hand
-                String s = Packer.packData(DataType.GAMESTATE, new GameState(activePlayer,
-                        allP.getHand()));
+                String s = Packer.packData(DataType.GAMESTATE, new GameState(activePlayer, allP.getHand(), getNumberOfCards()));
                 allP.send(s);
                 System.out.println(s);
             }
@@ -164,4 +176,5 @@ public class GameThread implements Runnable {
 
         System.out.println(thisThread.getName() + "\t\t\t>> Stopping game");
     }
+
 }
