@@ -103,6 +103,9 @@ public class GameController {
     private void setHand(Card[] playerHand) {
         hBox.getChildren().clear();
 
+        //LinkedList<Card> hand = new LinkedList<>(Arrays.asList(playerHand));
+        //Collections.sort(hand);
+
         for (Card c : playerHand) {
             ImageView im = new ImageView(c.getImage());
             im.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {

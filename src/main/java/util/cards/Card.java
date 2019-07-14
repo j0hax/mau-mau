@@ -2,7 +2,7 @@ package util.cards;
 
 import javafx.scene.image.Image;
 
-public class Card implements Comparable {
+public class Card implements Comparable<Card> {
 
     private final CardSuite suite;
     private final CardRank rank;
@@ -41,18 +41,18 @@ public class Card implements Comparable {
     /**
      * Compares two cards according to Mau-Mau rules.
      * IMPORTANT: Special cards such as Jack, 7 & 8 should be checked before externally.
-     * @param o
+     * @param c
      * @return
      */
     @Override
-    public int compareTo(Object o) {
-        Card c = (Card)o;
+    public int compareTo(Card c) {
+        //Card c = (Card)o;
 
-        if (c.getRank() == getRank()) {
+        if (c.getSuite() == getSuite()) {
             return 0;
         }
 
-        if (c.getSuite() == getSuite()) {
+        if (c.getRank() == getRank()) {
             return 0;
         }
 
