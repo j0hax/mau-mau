@@ -173,11 +173,17 @@ public class GameThread implements Runnable {
                     break;
 
                 case DISCONNECT:
-                    Player rmPlayer = players[packet.getPlayerID()];
+                    Player rmPlayer = players[(Integer) Packer.unpackData(receivedMessage)];
                     //System.out.println(thisThread + " disconnecting ID: " + players[packet.getPlayerID()].getID());
                     rmPlayer.send(Packer.packData(DataType.CONFIRM, true));
                     rmPlayer.disconnect();
                     ++closed;
+                    nextPlayer();
+                    break;
+
+                case CARDREQUEST:
+                    players[(Integer) Packer.unpackData(receivedMessage)].addToHand(deck.deal());
+                    nextPlayer();
                     break;
             }
 

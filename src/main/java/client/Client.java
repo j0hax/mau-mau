@@ -10,7 +10,6 @@ import util.protocol.DataPacket;
 import util.protocol.DataType;
 import util.protocol.Packer;
 import util.protocol.messages.Connect;
-import util.protocol.messages.Disconnect;
 import util.protocol.messages.NewGame;
 
 import java.io.BufferedReader;
@@ -132,7 +131,7 @@ public class Client implements Runnable {
 
     void close() {
         stopClientThreads = true;
-        sendData(DataType.DISCONNECT, new Disconnect(true));
+        sendData(DataType.DISCONNECT, ID);
     }
 
     private boolean stopThreads() {
@@ -204,7 +203,7 @@ public class Client implements Runnable {
      *
      * @return current GameState
      */
-    public synchronized GameState getCurrentGameState() {
+    synchronized GameState getCurrentGameState() {
         return this.currentGameState;
     }
 
@@ -214,11 +213,11 @@ public class Client implements Runnable {
      * @param tag         Type of the object to send
      * @param classToPack Data structure which will be sent to the server
      */
-    public void sendData(DataType tag, Object classToPack) {
+    void sendData(DataType tag, Object classToPack) {
         if (tag == DataType.CONNECT) {
             out.println(Packer.packData(tag, classToPack));
         } else if (getCurrentGameState().activePlayerIndex() == ID || (tag != DataType.CARDSUBMISSION
-                && tag != DataType.CARDWISH)) {
+                && tag != DataType.CARDWISH && tag != DataType.CARDREQUEST)) {
             out.println(Packer.packData(tag, classToPack));
         } else {
             System.out.println("Not your turn");
@@ -229,11 +228,11 @@ public class Client implements Runnable {
         return handUpdatedProperty.get();
     }
 
-    public BooleanProperty getHandUpdatedProperty() {
+    BooleanProperty getHandUpdatedProperty() {
         return handUpdatedProperty;
     }
 
-    public synchronized void setHandUpdatedProperty(boolean b) {
+    synchronized void setHandUpdatedProperty(boolean b) {
         handUpdatedProperty.set(b);
     }
 
@@ -242,7 +241,7 @@ public class Client implements Runnable {
      *
      * @param s the suite of card the opponent should get next.
      */
-    public void wishCard(CardSuite s) {
+    void wishCard(CardSuite s) {
         System.out.println("Client wished " + s);
         sendData(DataType.CARDWISH, s);
     }
@@ -252,13 +251,20 @@ public class Client implements Runnable {
      *
      * @param c the card to be used
      */
-    public void layCard(Card c) {
+    void layCard(Card c) {
         // faster than converting to an List, etc.
         for (Card h : getCurrentGameState().getHand()) {
             if (c.equals(h)) {
                 sendData(DataType.CARDSUBMISSION, c);
             }
         }
+    }
+
+    /**
+     * Submit the new card request to the server
+     */
+    void requestCard() {
+        sendData(DataType.CARDREQUEST, ID);
     }
 
     /**

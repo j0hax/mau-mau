@@ -59,6 +59,11 @@ public class GameController {
         allPlayerLabels = new Label[]{player2Cards, player3Cards, player4Cards};
 
         deck.setImage(new Image("client/cards/PNG-cards-1.3/back.png"));
+        deck.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
+            System.out.println("User clicked on card back");
+            client.requestCard();
+            event.consume();
+        });
 
     }
 

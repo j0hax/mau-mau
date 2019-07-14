@@ -4,7 +4,6 @@ import com.google.gson.Gson;
 import util.cards.Card;
 import util.game.GameState;
 import util.protocol.messages.Connect;
-import util.protocol.messages.Disconnect;
 import util.protocol.messages.NewGame;
 
 /**
@@ -49,8 +48,6 @@ public class Packer {
             case CONFIRM:
                 return gson.fromJson(packet.getData(), Boolean.class);
 
-            case DISCONNECT:
-                return gson.fromJson(packet.getData(), Disconnect.class);
 
             case CHATMESSAGE:
                 return gson.fromJson(packet.getData(), String.class);
@@ -60,8 +57,13 @@ public class Packer {
 
             case NEWGAME:
                 return gson.fromJson(packet.getData(), NewGame.class);
+
             case CARDSUBMISSION:
                 return gson.fromJson(packet.getData(), Card.class);
+
+            case CARDREQUEST:
+            case DISCONNECT:
+                return gson.fromJson(packet.getData(), Integer.class);
         }
 
         return null;
