@@ -1,6 +1,8 @@
 package server;
 
 import util.cards.Card;
+import util.cards.CardRank;
+import util.cards.CardSuite;
 import util.cards.Deck;
 import util.game.GameState;
 import util.protocol.DataPacket;
@@ -39,12 +41,53 @@ public class GameThread implements Runnable {
         this.playerNames = new String[players.length];
         this.gameIOHandler = gameIOHandler;
     }
-
+    /**
+     * Check if one player has an empty hand
+     * @return true/false if a player has an empty hand
+     * */
     private boolean isOver() {
-        // TODO: implement game logic
+        for(Player player : players){
+            if(player.getHand().length==0){
+
+                    // TODO Add message to the winners gui and simplify this whole section
+
+
+
+                    //Special cases when the game end with a special card that skips turns(Increments activePlayer twice)
+
+
+                    if(lastPlaced.getRank().equals(CardRank.EIGHT) || lastPlaced.getRank().equals(CardRank.SEVEN)){
+                        System.out.println("Player "+ players[activePlayer].getName() +" Won");
+                        players[activePlayer].send(Packer.packData(DataType.GAMEOVER,"you Won"));
+                    }
+
+                    // Tells the previous player that he won. It has to be the previous player because this only gets checked after the activePlayer id gets incremented
+                    else {
+                        System.out.println("Player "+ players[previousPlayer(activePlayer)].getName() +" Won");
+                        players[previousPlayer(activePlayer)].send(Packer.packData(DataType.GAMEOVER,"you Won"));
+                    }
+
+
+
+                return true;
+            }
+        }
         return false;
     }
-
+    /**
+     * Returns the Integer of the previous player of the current player
+     * @param id Index from which the previous player gets calculated
+     * @return Id number of the previous player
+     * */
+    public int previousPlayer(int id){
+        if(id==0){
+            return 1;
+        }
+        if(id==1){
+            return 0;
+        }
+        return 0;
+    }
     private void nextPlayer() {
         if (activePlayer == players.length - 1) {
             activePlayer = 0;
@@ -63,7 +106,6 @@ public class GameThread implements Runnable {
         }
 
     }
-
     /**
      * Determines if the submitted card is legal to place
      *
@@ -151,16 +193,18 @@ public class GameThread implements Runnable {
 
                         case EIGHT:
                             nextPlayer();
+
                             break;
 
                         case JACK:
+
                             //TODO: allow current player to choose the next card
                             break;
 
                         case ACE:
                             //TODO: force current player to play another card
                     }
-                    // TODO Remove from hand does not work correctly
+
 
                     nextPlayer();
                     current.removeFromHand(c);
@@ -168,7 +212,7 @@ public class GameThread implements Runnable {
                     break;
 
                 case CARDWISH:
-                    //TODO: should only work if card was jack
+
                     nextPlayer();
                     break;
 

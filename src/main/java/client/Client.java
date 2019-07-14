@@ -296,6 +296,8 @@ public class Client implements Runnable {
                     break;
                 } else if (d.getDataType() == DataType.GAMESTATE) {
                     setGameState(((GameState) Packer.unpackData(input)));
+                } else if(d.getDataType() == DataType.GAMEOVER){
+                    System.out.println((String) Packer.unpackData(input));
                 }
             } catch (Exception e) {
                 e.printStackTrace();
