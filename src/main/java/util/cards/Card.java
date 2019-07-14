@@ -60,6 +60,12 @@ public class Card implements Comparable {
         return getRank().compareTo(c.getRank());
     }
 
+    @Override
+    public boolean equals(Object o) {
+        Card other = (Card) o;
+        return other.getSuite() == this.getSuite() && other.getRank() == this.getRank();
+    }
+
     public Image getImage() {
         String rank;
         String suite;

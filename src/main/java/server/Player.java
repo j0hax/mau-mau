@@ -112,17 +112,9 @@ public class Player implements Runnable {
     }
 
     void removeFromHand(Card c) {
-        /*Card ca = new Card(c.getSuite(),c.getRank());
-        for(int i=0; i<hand.size(); i++){
-            Card k = hand.get(i);
-            if(k.getRank().equals(ca.getRank())&&k.getSuite().equals(ca.getSuite())){
-                hand.remove(i);
-                break;
-            }
-        }*/
 
         for (Card handCard : hand) {
-            if (handCard.getRank() == c.getRank() && handCard.getSuite() == c.getSuite()) {
+            if (c.equals(handCard)) {
                 hand.remove(handCard);
                 break;
             }

@@ -10,15 +10,17 @@ public class GameState {
     private int activePlayerIndex;
     private Integer[] numberOfCards;
     private Card[] hand;
+    private Card lastPlaced;
 
     /**
      * @param activePlayer the index of the currently active player (from String[] allPlayers in class NewGame)
      * @param hand         the individual players current hand
      */
-    public GameState(int activePlayer, Card[] hand, Integer[] numberOfCards) {
+    public GameState(int activePlayer, Card[] hand, Integer[] numberOfCards, Card lastPlaced) {
         this.activePlayerIndex = activePlayer;
         this.hand = hand;
         this.numberOfCards = numberOfCards;
+        this.lastPlaced = lastPlaced;
     }
 
     /**
@@ -37,6 +39,10 @@ public class GameState {
 
     public Integer[] getNumberOfCards() {
         return numberOfCards;
+    }
+
+    public Card getLastPlaced() {
+        return lastPlaced;
     }
 
 }

@@ -95,7 +95,9 @@ public class Client implements Runnable {
 
     private void setNewGame(NewGame ng) {
         allPlayerNames = ng.getAllPlayers();
-        currentGameState = new GameState(0, ng.getInitialHand(), ng.getNumberOfCards());
+        System.out.println("First card: " + ng.getFirstCard().toString());
+        setGameState(new GameState(0, ng.getInitialHand(), ng.getNumberOfCards(), ng.getFirstCard()));
+        System.out.println(ng.getFirstCard().toString());
     }
 
     private void setGameState(GameState gameState) {

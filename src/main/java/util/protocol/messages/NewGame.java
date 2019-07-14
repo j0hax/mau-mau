@@ -8,12 +8,14 @@ public class NewGame {
     private Integer[] numberOfCards;
     private int playerID;
     private Card[] initialHand;
+    private Card firstCard;
 
-    public NewGame(String[] allPlayers, Card[] initialHand, int id, Integer[] numberOfCards) {
+    public NewGame(String[] allPlayers, Card[] initialHand, int id, Integer[] numberOfCards, Card firstCard) {
         this.playerID = id;
         this.allPlayers = allPlayers;
         this.initialHand = initialHand;
         this.numberOfCards = numberOfCards;
+        this.firstCard = firstCard;
     }
 
     public String[] getAllPlayers() {
@@ -30,6 +32,10 @@ public class NewGame {
 
     public Integer[] getNumberOfCards() {
         return numberOfCards;
+    }
+
+    public Card getFirstCard() {
+        return firstCard;
     }
 
 }

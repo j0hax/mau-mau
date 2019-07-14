@@ -73,10 +73,7 @@ public class GameThread implements Runnable {
      */
     public boolean legalMove(Card last, Card current) {
         switch (current.getRank()) {
-            case SEVEN:
-            case EIGHT:
-            case JACK:
-            case ACE:
+            case JACK: // TODO implement seven rule
                 return true;
             default:
                 return last.compareTo(current) == 0;
@@ -114,19 +111,20 @@ public class GameThread implements Runnable {
         System.out.println(thisThread.getName() + "[" + pString + "]");
 
         // send each player the NewGame message
+        lastPlaced = deck.deal();
         for (Player p : players) {
             p.addToHand(deck.deal(5));
             // share player names and their hand
-            System.out.println("Sending new game to id: " + p.getID());
+            System.out.println(thisThread.getName() + "Sending new game to id: " + p.getID());
             String s = Packer.packData(DataType.NEWGAME, new NewGame(playerNames,
-                    p.getHand(), p.getID(), getNumberOfCards()));
+                    p.getHand(), p.getID(), getNumberOfCards(), lastPlaced));
             p.send(s);
             //System.out.println(s);
         }
 
         //String receivedMessage;
         while (!isOver() && players.length != closed) {
-            System.out.println("Active player = " + activePlayer); //debugging
+            System.out.println(thisThread.getName() + "Active player = " + activePlayer); //debugging
             Player current = players[activePlayer];
             String receivedMessage = gameIOHandler.receive();
             DataType type = Packer.getDataPacket(receivedMessage).getDataType();
@@ -137,13 +135,18 @@ public class GameThread implements Runnable {
                     Card c = (Card) Packer.unpackData(receivedMessage);
 
                     // if not legal, do nothing
-                    /*if (!legalMove(lastPlaced, c)) {
+                    if (!legalMove(lastPlaced, c)) {
                         break;
-                    }*/
+                    }
+
+                    //add the last placed card back to the deck
+                    deck.add(lastPlaced);
+
 
                     switch (c.getRank()) {
                         case SEVEN:
                             players[nextPlayerIndex()].addToHand(deck.deal(2));
+                            nextPlayer();
                             break;
 
                         case EIGHT:
@@ -189,10 +192,12 @@ public class GameThread implements Runnable {
 
             for (Player allP : players) {
                 // share player names and their hand
-                String s = Packer.packData(DataType.GAMESTATE, new GameState(activePlayer, allP.getHand(), getNumberOfCards()));
+                String s = Packer.packData(DataType.GAMESTATE, new GameState(activePlayer, allP.getHand(), getNumberOfCards(), lastPlaced));
                 allP.send(s);
-                System.out.println(s);
+                //System.out.println(s);
             }
+
+            System.out.println(thisThread.getName() + "Deck size: " + deck.getSize());
 
             /*
             try {
