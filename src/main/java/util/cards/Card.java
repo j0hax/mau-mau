@@ -56,6 +56,7 @@ public class Card implements Comparable {
             return 0;
         }
 
+        // we just need a nonzero to know that this doesnt work
         return getRank().compareTo(c.getRank());
     }
 

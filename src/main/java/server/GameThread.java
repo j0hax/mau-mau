@@ -65,6 +65,25 @@ public class GameThread implements Runnable {
     }
 
     /**
+     * Determines if the submitted card is legal to place
+     *
+     * @param last    the last card that was placed
+     * @param current the card that wants to be placed
+     * @return the determination
+     */
+    public boolean legalMove(Card last, Card current) {
+        switch (current.getRank()) {
+            case SEVEN:
+            case EIGHT:
+            case JACK:
+            case ACE:
+                return true;
+            default:
+                return last.compareTo(current) == 0;
+        }
+    }
+
+    /**
      * Gives number of cards of each player
      *
      * @return Integer Array of number of cards
@@ -117,7 +136,11 @@ public class GameThread implements Runnable {
                 case CARDSUBMISSION:
                     Card c = (Card) Packer.unpackData(receivedMessage);
 
-                    //TODO: process if card is legal
+                    // if not legal, do nothing
+                    if (!legalMove(lastPlaced, c)) {
+                        break;
+                    }
+
                     switch (c.getRank()) {
                         case SEVEN:
                             players[nextPlayerIndex()].addToHand(deck.deal(2));
@@ -139,7 +162,6 @@ public class GameThread implements Runnable {
                     nextPlayer();
                     current.removeFromHand(c);
                     lastPlaced = c;
-                    // TODO add the last lastPlaced card back to deck
                     break;
 
                 case CARDWISH:
@@ -176,5 +198,4 @@ public class GameThread implements Runnable {
 
         System.out.println(thisThread.getName() + "\t\t\t>> Stopping game");
     }
-
 }
