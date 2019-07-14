@@ -33,7 +33,6 @@ public class Player implements Runnable {
                   IOHandler ioHandler) {
         this.playerSocket = playerSocket;
         this.ioHandler = ioHandler;
-        this.username = username;
         this.in = in;
         this.out = out;
     }

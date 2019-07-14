@@ -96,7 +96,7 @@ public class Client implements Runnable {
 
     private void setNewGame(NewGame ng) {
         allPlayerNames = ng.getAllPlayers();
-        currentGameState = new GameState(ID, ng.getInitialHand(), ng.getNumberOfCards());
+        currentGameState = new GameState(0, ng.getInitialHand(), ng.getNumberOfCards());
     }
 
     private void setGameState(GameState gameState) {
@@ -185,7 +185,7 @@ public class Client implements Runnable {
      *
      * @return object from the Packer
      */
-    Object receiveData() {
+    private Object receiveData() {
         String msg;
 
         try {

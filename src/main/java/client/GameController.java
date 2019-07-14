@@ -1,10 +1,8 @@
 package client;
 
 import javafx.application.Platform;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.Cursor;
-import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -59,14 +57,13 @@ public class GameController {
 
         allPlayerLabels = new Label[]{player2Cards, player3Cards, player4Cards};
 
-
     }
 
     /**
      * Sets the view according to a packet sent from the server
      * @param gameState A packet describing the game state
      */
-    private void setGameState(GameState gameState) {
+    private void updateGame(GameState gameState) {
 
         setHand(gameState.getHand());
 
@@ -94,7 +91,6 @@ public class GameController {
      * @param playerHand Array of cards
      */
     private void setHand(Card[] playerHand) {
-        ObservableList<Node> children = hBox.getChildren();
         hBox.getChildren().clear();
 
         for (Card c : playerHand) {
@@ -131,7 +127,7 @@ public class GameController {
         this.client = client;
 
         allPlayerNames = client.getAllPlayerNames();
-        setGameState(client.getCurrentGameState());
+        updateGame(client.getCurrentGameState());
 
         this.client.getHandUpdatedProperty().addListener((observable, oldValue,
                                                           newValue) -> {
@@ -139,7 +135,7 @@ public class GameController {
             if (newValue) {
                 Platform.runLater(() -> {
                     //System.out.println("New hand is ready to be printed...");
-                    setGameState(client.getCurrentGameState());
+                    updateGame(client.getCurrentGameState());
                     client.setHandUpdatedProperty(false);
                 });
             }
