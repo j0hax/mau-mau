@@ -272,11 +272,11 @@ public class Client implements Runnable {
         setHandUpdatedProperty(true);
 
         while (!stopThreads()) {
-            try {
+            /*try {
                 Thread.sleep(1000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
-            }
+            }*/
 
             //sendData(DataType.CHATMESSAGE, "hi");
             try {

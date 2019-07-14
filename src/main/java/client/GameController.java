@@ -72,12 +72,12 @@ public class GameController {
 
         Integer[] numberOfCards = gameState.getNumberOfCards();
 
-        int handIndex = 0;
-        for (int playerIndex = 0; handIndex < numberOfCards.length; handIndex++) {
-            if (true /*handIndex != client.getID()*/) {
-                allPlayerLabels[handIndex].setText("Cards of Player " + allPlayerNames[playerIndex] + numberOfCards[playerIndex]);
+        int playerIndex = 0;
+        for (int handIndex = 0; handIndex < numberOfCards.length; handIndex++) {
+            if (handIndex != client.getID()) {
+                allPlayerLabels[playerIndex].setText(allPlayerNames[handIndex] + " - cards left: " + numberOfCards[handIndex]);
+                ++playerIndex;
             }
-            ++handIndex;
         }
 
 

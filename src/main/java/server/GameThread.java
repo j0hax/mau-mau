@@ -137,9 +137,9 @@ public class GameThread implements Runnable {
                     Card c = (Card) Packer.unpackData(receivedMessage);
 
                     // if not legal, do nothing
-                    if (!legalMove(lastPlaced, c)) {
+                    /*if (!legalMove(lastPlaced, c)) {
                         break;
-                    }
+                    }*/
 
                     switch (c.getRank()) {
                         case SEVEN:
