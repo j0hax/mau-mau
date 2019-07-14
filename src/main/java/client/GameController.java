@@ -4,6 +4,7 @@ import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.Cursor;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
@@ -56,6 +57,8 @@ public class GameController {
         diamondsButton.setCursor(Cursor.HAND);
 
         allPlayerLabels = new Label[]{player2Cards, player3Cards, player4Cards};
+
+        deck.setImage(new Image("client/cards/PNG-cards-1.3/back.png"));
 
     }
 
