@@ -18,7 +18,7 @@ public class GameThread implements Runnable {
     private Deck deck = new Deck();
     private IOHandler gameIOHandler;
     private int closed = 0;
-    private int winner;
+    private int winner = -1;
 
     /**
      * Index of the player who has the turn
@@ -203,15 +203,15 @@ public class GameThread implements Runnable {
 
         }
 
-        String msg = new String();
+        String msg;
         for (Player allP : players) {
-            // share player names and their hand
-            if(allP.getHand().length == 0){
-                 msg = Packer.packData(DataType.GAMEOVER, winner);
-            }else{
-                msg = Packer.packData(DataType.GAMEOVER, winner);
+            if(winner == -1){
+                System.out.println("No winner");
+                break;
             }
+            msg = Packer.packData(DataType.GAMEOVER, winner);
             allP.send(msg);
+            allP.disconnect();
         }
 
         System.out.println(thisThread.getName() + "\t\t\t>> Stopping game");

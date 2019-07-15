@@ -57,6 +57,7 @@ public class Player implements Runnable {
 
         while (!disconnected && !playerSocket.isClosed()) {
             try {
+                Thread.sleep(200);
                 incomingMsg = in.readLine();
                 System.out.println(thisThread.getName() + "received: " + incomingMsg);
 
@@ -66,9 +67,12 @@ public class Player implements Runnable {
                     break;
                 }
             } catch (SocketException se) {
-                System.out.println(username + " > socket is closed");
+                System.out.println(thisThread.getName() + " > socket is closed");
                 break;
-            } catch (IOException e) {
+            } catch (IOException io) {
+                System.out.println(thisThread.getName() + " > stream is closed");
+                break;
+            } catch (Exception e) {
                 e.printStackTrace();
                 break;
             }
