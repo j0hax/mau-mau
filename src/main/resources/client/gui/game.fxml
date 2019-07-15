@@ -20,7 +20,7 @@
   <rowConstraints>
     <RowConstraints maxHeight="300.0" minHeight="10.0" prefHeight="98.0" vgrow="SOMETIMES" />
     <RowConstraints maxHeight="215.0" minHeight="10.0" prefHeight="215.0" vgrow="SOMETIMES" />
-    <RowConstraints maxHeight="300.0" minHeight="10.0" prefHeight="100.0" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="300.0" minHeight="10.0" prefHeight="100.0" vgrow="SOMETIMES" />
   </rowConstraints>
    <children>
       <GridPane GridPane.columnSpan="5">
@@ -84,5 +84,10 @@
             <Insets right="4.0" />
          </padding>
       </AnchorPane>
+      <ImageView fx:id="currentCard1" fitHeight="191.0" fitWidth="138.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+         <image>
+            <Image url="@../cards/PNG-cards-1.3/blank_stack.png" />
+         </image>
+      </ImageView>
    </children>
 </GridPane>

@@ -77,6 +77,7 @@ public class GameController {
      */
     private void updateGame(GameState gameState) {
         currentCard.setImage(gameState.getLastPlaced().getImage());
+        currentCard.toFront();
         setHand(gameState.getHand());
         Integer[] numberOfCards = gameState.getNumberOfCards();
         int playerIndex = 0;
