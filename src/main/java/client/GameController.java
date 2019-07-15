@@ -5,11 +5,13 @@ import javafx.fxml.FXML;
 import javafx.scene.Cursor;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import util.cards.Card;
@@ -94,6 +96,18 @@ public class GameController {
         }
     }
 
+    private DropShadow addHoverEffect() {
+
+        DropShadow ds = new DropShadow();
+        ds.setRadius(15.0);
+        ds.setSpread(0);
+        ds.setOffsetY(1.0);
+        ds.setOffsetX(1.0);
+        ds.setColor(Color.BLACK);
+
+        return ds;
+    }
+
     /**
      * Sets the player's displayed hand.
      * @param playerHand Array of cards
@@ -113,7 +127,12 @@ public class GameController {
                 client.layCard(c);
                 event.consume();
             });
-
+            im.addEventHandler(MouseEvent.MOUSE_ENTERED, event -> {
+                im.setEffect(addHoverEffect());
+            });
+            im.addEventHandler(MouseEvent.MOUSE_EXITED, event -> {
+                im.setEffect(null);
+            });
             if(5 < playerHand.length){
                 im.setX(i*504/(playerHand.length-1));
             }else{

@@ -75,8 +75,11 @@ public class GameThread implements Runnable {
      */
     public boolean legalMove(Card last, Card current) {
         // Seven may always be allowed
-        if (additionalCards > 0 && current.getRank() == CardRank.SEVEN) {
-            return true;
+        System.out.println(additionalCards);
+        if (additionalCards > 0){
+            if(current.getRank() == CardRank.SEVEN){
+                return true;
+            }else return false;
         }
 
         switch (current.getRank()) {
@@ -193,8 +196,8 @@ public class GameThread implements Runnable {
                     break;
 
                 case CARDREQUEST:
-                    players[(Integer) Packer.unpackData(receivedMessage)].addToHand(deck.deal(
-                            1 + additionalCards));
+                    players[(Integer) Packer.unpackData(receivedMessage)]
+                            .addToHand(deck.deal(additionalCards > 0?  additionalCards : 1));
                     additionalCards = 0;
                     nextPlayer();
                     break;
