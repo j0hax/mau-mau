@@ -59,6 +59,7 @@ public class Packer {
 
             case CARDSUBMISSION:
                 return gson.fromJson(packet.getData(), Card.class);
+
             case GAMEOVER:
             case CARDREQUEST:
             case DISCONNECT:

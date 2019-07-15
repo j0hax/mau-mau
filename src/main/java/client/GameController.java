@@ -58,16 +58,13 @@ public class GameController {
         heartsButton.setCursor(Cursor.HAND);
         clubsButton.setCursor(Cursor.HAND);
         diamondsButton.setCursor(Cursor.HAND);
-
         allPlayerLabels = new Label[]{player2Cards, player3Cards, player4Cards};
-
         deck.setImage(new Image("client/cards/PNG-cards-1.3/back.png"));
         deck.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
             System.out.println("User clicked on card back");
             client.requestCard();
             event.consume();
         });
-
     }
 
     /**
@@ -75,28 +72,24 @@ public class GameController {
      * @param gameState A packet describing the game state
      */
     private void updateGame(GameState gameState) {
-
         currentCard.setImage(gameState.getLastPlaced().getImage());
-
         setHand(gameState.getHand());
-
         Integer[] numberOfCards = gameState.getNumberOfCards();
-
         int playerIndex = 0;
+
         for (int handIndex = 0; handIndex < numberOfCards.length; handIndex++) {
             if (handIndex != client.getID()) {
-                allPlayerLabels[playerIndex].setText(allPlayerNames[handIndex] + " - cards left: " + numberOfCards[handIndex]);
+                allPlayerLabels[playerIndex].setText(allPlayerNames[handIndex] +
+                        " - cards left: " + numberOfCards[handIndex]);
                 ++playerIndex;
             }
         }
-
 
         if (gameState.activePlayerIndex() == client.getID()) {
             turnLabel.setText("Turn: You");
         } else {
             turnLabel.setText("Not your Turn!");
         }
-
     }
 
     /**
@@ -139,27 +132,29 @@ public class GameController {
         client.wishCard(CardSuite.DIAMONDS);
     }
 
-    private void openAlert(){
+    private void openAlert() {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.initModality(Modality.APPLICATION_MODAL);
         alert.setTitle("Information Dialog");
         alert.setHeaderText("Game Over");
-        if(client.getWinner() == client.getID()){
+
+        if (client.getWinner() == client.getID()) {
             alert.setContentText("You are the winner!");
-        }else {
-            alert.setContentText("You lost:/ Player " + client.getAllPlayerNames()[client.getWinner()] + " won!");
+        } else {
+            alert.setContentText("You lost:/ Player " +
+                    client.getAllPlayerNames()[client.getWinner()] + " won!");
         }
+
         alert.showAndWait();
     }
 
     public void setClient(Client client) {
         this.client = client;
-
         allPlayerNames = client.getAllPlayerNames();
         updateGame(client.getCurrentGameState());
-
-        this.client.getGameOverProperty().addListener((observable, oldValue, newValue) -> {
-            if(newValue){
+        this.client.getGameOverProperty().addListener((observable, oldValue,
+                                                       newValue) -> {
+            if (newValue) {
                 Platform.runLater(() -> {
                     client.close();
                     openAlert();
@@ -169,7 +164,6 @@ public class GameController {
                 //System.exit(0);
             }
         });
-
         this.client.getHandUpdatedProperty().addListener((observable, oldValue,
                                                           newValue) -> {
             //System.out.println(newValue);

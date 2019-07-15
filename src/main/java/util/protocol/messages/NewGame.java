@@ -10,7 +10,8 @@ public class NewGame {
     private Card[] initialHand;
     private Card firstCard;
 
-    public NewGame(String[] allPlayers, Card[] initialHand, int id, Integer[] numberOfCards, Card firstCard) {
+    public NewGame(String[] allPlayers, Card[] initialHand, int id,
+                   Integer[] numberOfCards, Card firstCard) {
         this.playerID = id;
         this.allPlayers = allPlayers;
         this.initialHand = initialHand;

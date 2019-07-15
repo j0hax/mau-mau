@@ -116,7 +116,6 @@ public class Player implements Runnable {
     }
 
     void removeFromHand(Card c) {
-
         for (Card handCard : hand) {
             if (c.equals(handCard)) {
                 hand.remove(handCard);

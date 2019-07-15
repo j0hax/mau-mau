@@ -47,7 +47,6 @@ public class Card implements Comparable<Card> {
     @Override
     public int compareTo(Card c) {
         //Card c = (Card)o;
-
         if (c.getSuite() == getSuite()) {
             return 0;
         }

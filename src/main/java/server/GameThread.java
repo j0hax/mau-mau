@@ -47,13 +47,14 @@ public class GameThread implements Runnable {
      * @return true/false if a player has an empty hand
      * */
     private boolean isOver() {
-        for(Player player : players){
-            if(player.getHand().length==0){
+        for (Player player : players) {
+            if (player.getHand().length == 0) {
                 System.out.println("Player '" + player.getName() + "' won!");
                 winner = player.getID();
                 return true;
             }
         }
+
         return false;
     }
 
@@ -81,6 +82,7 @@ public class GameThread implements Runnable {
         switch (current.getRank()) {
             case JACK:
                 return additionalCards == 0;
+
             default:
                 return last.compareTo(current) == 0;
         }
@@ -93,9 +95,11 @@ public class GameThread implements Runnable {
      */
     private Integer[] getNumberOfCards() {
         Integer[] numberOfCards = new Integer[players.length];
+
         for (int i = 0; i < players.length; i++) {
             numberOfCards[i] = players[i].getHand().length;
         }
+
         return numberOfCards;
     }
 
@@ -115,13 +119,14 @@ public class GameThread implements Runnable {
         }
 
         System.out.println(thisThread.getName() + "[" + pString + "]");
-
         // send each player the NewGame message
         lastPlaced = deck.deal();
+
         for (Player p : players) {
             p.addToHand(deck.deal(5));
             // share player names and their hand
-            System.out.println(thisThread.getName() + "Sending new game to id: " + p.getID());
+            System.out.println(thisThread.getName() + "Sending new game to id: " +
+                    p.getID());
             String s = Packer.packData(DataType.NEWGAME, new NewGame(playerNames,
                     p.getHand(), p.getID(), getNumberOfCards(), lastPlaced));
             p.send(s);
@@ -130,7 +135,8 @@ public class GameThread implements Runnable {
 
         //String receivedMessage;
         while (!isOver() && players.length != closed) {
-            System.out.println(thisThread.getName() + "Active player = " + activePlayer); //debugging
+            System.out.println(thisThread.getName() + "Active player = " +
+                    activePlayer); //debugging
             Player current = players[activePlayer];
             String receivedMessage = gameIOHandler.receive();
             DataType type = Packer.getDataPacket(receivedMessage).getDataType();
@@ -151,16 +157,13 @@ public class GameThread implements Runnable {
                         case SEVEN:
                             // increase the number of cards to be picked up by the next player
                             additionalCards += 2;
-
                             break;
 
                         case EIGHT:
                             nextPlayer();
-
                             break;
 
                         case JACK:
-
                             //TODO: allow current player to choose the next card
                             break;
 
@@ -174,7 +177,6 @@ public class GameThread implements Runnable {
                     break;
 
                 case CARDWISH:
-
                     nextPlayer();
                     break;
 
@@ -191,7 +193,8 @@ public class GameThread implements Runnable {
                     break;
 
                 case CARDREQUEST:
-                    players[(Integer) Packer.unpackData(receivedMessage)].addToHand(deck.deal(1 + additionalCards));
+                    players[(Integer) Packer.unpackData(receivedMessage)].addToHand(deck.deal(
+                            1 + additionalCards));
                     additionalCards = 0;
                     nextPlayer();
                     break;
@@ -199,21 +202,23 @@ public class GameThread implements Runnable {
 
             for (Player allP : players) {
                 // share player names and their hand
-                String s = Packer.packData(DataType.GAMESTATE, new GameState(activePlayer, allP.getHand(), getNumberOfCards(), lastPlaced));
+                String s = Packer.packData(DataType.GAMESTATE, new GameState(activePlayer,
+                        allP.getHand(), getNumberOfCards(), lastPlaced));
                 allP.send(s);
                 //System.out.println(s);
             }
 
             System.out.println(thisThread.getName() + "Deck size: " + deck.getSize());
-
         }
 
         String msg;
+
         for (Player allP : players) {
-            if(winner == -1){
+            if (winner == -1) {
                 System.out.println("No winner");
                 break;
             }
+
             msg = Packer.packData(DataType.GAMEOVER, winner);
             allP.send(msg);
             allP.disconnect();

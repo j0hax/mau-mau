@@ -75,7 +75,6 @@ public class Client implements Runnable {
                 NewGame ng = (NewGame) receiveData();
                 ID = ng.getPlayerID();
                 setNewGame(ng);
-
                 System.out.println("ID: " + ID);
 
                 for (String p : ng.getAllPlayers()) {
@@ -98,7 +97,8 @@ public class Client implements Runnable {
     private void setNewGame(NewGame ng) {
         allPlayerNames = ng.getAllPlayers();
         System.out.println("First card: " + ng.getFirstCard().toString());
-        setGameState(new GameState(0, ng.getInitialHand(), ng.getNumberOfCards(), ng.getFirstCard()));
+        setGameState(new GameState(0, ng.getInitialHand(), ng.getNumberOfCards(),
+                ng.getFirstCard()));
         System.out.println(ng.getFirstCard().toString());
     }
 
@@ -142,7 +142,7 @@ public class Client implements Runnable {
         return stopClientThreads;
     }
 
-    public int getID(){
+    public int getID() {
         return ID;
     }
 
@@ -220,7 +220,8 @@ public class Client implements Runnable {
     void sendData(DataType tag, Object classToPack) {
         if (tag == DataType.CONNECT) {
             out.println(Packer.packData(tag, classToPack));
-        } else if (getCurrentGameState().activePlayerIndex() == ID || (tag != DataType.CARDSUBMISSION
+        } else if (getCurrentGameState().activePlayerIndex() == ID
+                || (tag != DataType.CARDSUBMISSION
                 && tag != DataType.CARDWISH && tag != DataType.CARDREQUEST)) {
             out.println(Packer.packData(tag, classToPack));
         } else {
@@ -303,7 +304,7 @@ public class Client implements Runnable {
                     break;
                 } else if (d.getDataType() == DataType.GAMESTATE) {
                     setGameState(((GameState) Packer.unpackData(input)));
-                } else if(d.getDataType() == DataType.GAMEOVER){
+                } else if (d.getDataType() == DataType.GAMEOVER) {
                     setWinner((Integer) Packer.unpackData(input));
                     setGameOverProperty(true);
                     break;
@@ -323,7 +324,7 @@ public class Client implements Runnable {
         this.winner = winner;
     }
 
-    public int getWinner(){
+    public int getWinner() {
         return winner;
     }
 }
