@@ -129,7 +129,6 @@ public class GameThread implements Runnable {
             Player current = players[activePlayer];
             String receivedMessage = gameIOHandler.receive();
             DataType type = Packer.getDataPacket(receivedMessage).getDataType();
-            DataPacket packet = Packer.getDataPacket(receivedMessage);
 
             switch (type) {
                 case CARDSUBMISSION:

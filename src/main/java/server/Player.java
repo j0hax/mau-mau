@@ -57,7 +57,7 @@ public class Player implements Runnable {
 
         while (!disconnected && !playerSocket.isClosed()) {
             try {
-                Thread.sleep(200);
+                Thread.sleep(20);
                 incomingMsg = in.readLine();
                 System.out.println(thisThread.getName() + "received: " + incomingMsg);
 
