@@ -2,10 +2,8 @@ package server;
 
 import util.cards.Card;
 import util.cards.CardRank;
-import util.cards.CardSuite;
 import util.cards.Deck;
 import util.game.GameState;
-import util.protocol.DataPacket;
 import util.protocol.DataType;
 import util.protocol.Packer;
 import util.protocol.messages.NewGame;
@@ -19,6 +17,8 @@ public class GameThread implements Runnable {
     private IOHandler gameIOHandler;
     private int closed = 0;
     private int winner = -1;
+
+    private int additionalCards = 0;
 
     /**
      * Index of the player who has the turn
@@ -73,9 +73,14 @@ public class GameThread implements Runnable {
      * @return the determination
      */
     public boolean legalMove(Card last, Card current) {
+        // Seven may always be allowed
+        if (additionalCards > 0 && current.getRank() == CardRank.SEVEN) {
+            return true;
+        }
+
         switch (current.getRank()) {
-            case JACK: // TODO implement seven rule
-                return true;
+            case JACK:
+                return additionalCards == 0;
             default:
                 return last.compareTo(current) == 0;
         }
@@ -142,11 +147,11 @@ public class GameThread implements Runnable {
                     //add the last placed card back to the deck
                     deck.add(lastPlaced);
 
-
                     switch (c.getRank()) {
                         case SEVEN:
-                            nextPlayer();
-                            players[activePlayer].addToHand(deck.deal(2));
+                            // increase the number of cards to be picked up by the next player
+                            additionalCards += 2;
+
                             break;
 
                         case EIGHT:
@@ -186,7 +191,8 @@ public class GameThread implements Runnable {
                     break;
 
                 case CARDREQUEST:
-                    players[(Integer) Packer.unpackData(receivedMessage)].addToHand(deck.deal());
+                    players[(Integer) Packer.unpackData(receivedMessage)].addToHand(deck.deal(1 + additionalCards));
+                    additionalCards = 0;
                     nextPlayer();
                     break;
             }
