@@ -114,7 +114,7 @@ public class GameThread implements Runnable {
         // send each player the NewGame message
         lastPlaced = deck.deal();
         for (Player p : players) {
-            p.addToHand(deck.deal(1));
+            p.addToHand(deck.deal(5));
             // share player names and their hand
             System.out.println(thisThread.getName() + "Sending new game to id: " + p.getID());
             String s = Packer.packData(DataType.NEWGAME, new NewGame(playerNames,
