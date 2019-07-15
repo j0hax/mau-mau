@@ -41,6 +41,7 @@ public class Deck {
         Random randGen = new Random();
         int randIndex = randGen.nextInt(getSize());
         return cards.remove(randIndex);
+
     }
 
     /**
@@ -49,7 +50,8 @@ public class Deck {
      * @param count the number of cards
      * @return array containing the dealt cards
      */
-    public Card[] deal(int count) {
+    public Card[] deal(int count) throws Exception {
+        if (getSize() <= 0) throw new Exception("Deck empty");
         Card[] dealt = new Card[count];
 
         for (int i = 0; i < count; i++) {

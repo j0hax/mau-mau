@@ -124,7 +124,12 @@ public class GameThread implements Runnable {
         lastPlaced = deck.deal();
 
         for (Player p : players) {
-            p.addToHand(deck.deal(5));
+            try {
+                p.addToHand(deck.deal(5));
+
+            } catch (Exception e) {
+                System.out.println(e.toString());
+            }
             // share player names and their hand
             System.out.println(thisThread.getName() + "Sending new game to id: " +
                     p.getID());
@@ -191,8 +196,12 @@ public class GameThread implements Runnable {
                     break;
 
                 case CARDREQUEST:
-                    players[(Integer) Packer.unpackData(receivedMessage)]
-                            .addToHand(deck.deal(additionalCards > 0?  additionalCards : 1));
+                    try {
+                        players[(Integer) Packer.unpackData(receivedMessage)]
+                                .addToHand(deck.deal(additionalCards > 0 ? additionalCards : 1));
+                    } catch (Exception e) {
+                        System.out.println(e.toString());
+                    }
                     additionalCards = 0;
                     nextPlayer();
                     break;

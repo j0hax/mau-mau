@@ -3,12 +3,15 @@ package client;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.FlowPane;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 
@@ -31,6 +34,19 @@ public class FxController {
 
 
     private Client client;
+
+    private void showLoadingScreen() {
+        ProgressIndicator p = new ProgressIndicator();
+        FlowPane root = new FlowPane();
+        root.setPadding(new Insets(10));
+        root.setHgap(10);
+        root.getChildren().add(p);
+
+        Scene scene = new Scene(root, 400, 300);
+
+        Stage s = (Stage) nameField.getScene().getWindow();
+        s.setScene(scene);
+    }
 
 
     /**

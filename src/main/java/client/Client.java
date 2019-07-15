@@ -61,7 +61,6 @@ public class Client implements Runnable {
             System.out.println("Trying to Connect to: " + serverIP + " on port: " + port);
             clientSocket = new Socket(serverIP, port);
             System.out.println("Connected");
-            connected = true;
             out = new PrintWriter(clientSocket.getOutputStream(), true);
             in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
             sendData(DataType.CONNECT, new Connect(this.getName()));
@@ -85,6 +84,7 @@ public class Client implements Runnable {
                     System.out.println(c);
                 }
             }
+            connected = true;
         } catch (UnknownHostException ue) {
             System.out.println("Unknown Host, Check your ip-address/Port input" +
                     ue.getMessage());
