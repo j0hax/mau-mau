@@ -10,7 +10,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -64,11 +63,13 @@ public class GameController {
         allPlayerLabels = new Label[]{player2Cards, player3Cards, player4Cards};
         deck.setImage(new Image("client/cards/PNG-cards-1.3/back.png"));
         deck.setCursor(Cursor.HAND);
+
         deck.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
             System.out.println("User clicked on deck");
             client.requestCard();
             event.consume();
         });
+
     }
 
     /**
@@ -100,10 +101,10 @@ public class GameController {
     private DropShadow addHoverEffect() {
 
         DropShadow ds = new DropShadow();
-        ds.setRadius(15.0);
+        ds.setRadius(12.0);
         ds.setSpread(0);
         ds.setOffsetY(1.0);
-        ds.setOffsetX(1.0);
+        ds.setOffsetX(-1.0);
         ds.setColor(Color.BLACK);
 
         return ds;
@@ -123,23 +124,24 @@ public class GameController {
             Card c = playerHand[i];
             ImageView im = new ImageView(c.getImage());
             im.setCursor(Cursor.HAND);
+
+            if (5 < playerHand.length) {
+                im.setX(i * 504 / (playerHand.length - 1));
+            } else {
+                im.setX(i * 126);
+            }
+            handBox.getChildren().add(im);
+
             im.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
                 System.out.println("User clicked on " + c.toString());
                 client.layCard(c);
                 event.consume();
             });
-            im.addEventHandler(MouseEvent.MOUSE_ENTERED, event -> {
-                im.setEffect(addHoverEffect());
-            });
-            im.addEventHandler(MouseEvent.MOUSE_EXITED, event -> {
-                im.setEffect(null);
-            });
-            if(5 < playerHand.length){
-                im.setX(i*504/(playerHand.length-1));
-            }else{
-                im.setX(i*126);
-            }
-            handBox.getChildren().add(im);
+
+            im.addEventHandler(MouseEvent.MOUSE_ENTERED, event -> im.setEffect(addHoverEffect()));
+
+            im.addEventHandler(MouseEvent.MOUSE_EXITED, event -> im.setEffect(null));
+
         }
     }
 
