@@ -71,6 +71,7 @@ public class Client implements Runnable {
                 closeConnection();
             } else {
                 System.out.println("Server has confirmed your name.");
+                connected = true;
                 NewGame ng = (NewGame) receiveData();
                 ID = ng.getPlayerID();
                 setNewGame(ng);
@@ -84,7 +85,6 @@ public class Client implements Runnable {
                     System.out.println(c);
                 }
             }
-            connected = true;
         } catch (UnknownHostException ue) {
             System.out.println("Unknown Host, Check your ip-address/Port input" +
                     ue.getMessage());
@@ -117,7 +117,7 @@ public class Client implements Runnable {
     public void closeConnection() {
         // TODO SEND DISCONNECT MESSAGE TO SERVER
         try {
-            Thread.sleep(2000);
+            Thread.sleep(500);
             in.close();
             out.close();
         } catch (Exception e) {
