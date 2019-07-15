@@ -40,7 +40,7 @@ public class Card implements Comparable<Card> {
 
     /**
      * Compares two cards according to Mau-Mau rules.
-     * IMPORTANT: Special cards such as Jack, 7 & 8 should be checked before externally.
+     * IMPORTANT: Special cards such as Jack, 7 and 8 should be checked before externally.
      * @param c
      * @return
      */
