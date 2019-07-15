@@ -10,4 +10,10 @@
     -fx-text-fill: #ffffff;
 }
 
-
+#handBox {
+    /*-fx-background-color: rgba(0, 0, 0, .2);*/
+    -fx-background-radius: 30;
+    -fx-border-radius: 10;
+    -fx-border-width: 5;
+    -fx-border-color: rgba(255, 255, 0, 0.1);
+}
