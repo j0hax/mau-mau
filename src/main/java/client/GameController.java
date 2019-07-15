@@ -8,6 +8,7 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -24,7 +25,7 @@ public class GameController {
     private Label[] allPlayerLabels;
 
     @FXML
-    public HBox hBox;
+    public AnchorPane handBox;
 
     @FXML
     public ImageView spadesButton;
@@ -53,15 +54,16 @@ public class GameController {
         Card c = new Card(CardSuite.CLUBS, CardRank.KING);
         //Card[] cA = {new Card(CardSuite.CLUBS, CardRank.KING)};
         //setHand(cA);
-        hBox.getChildren().add(new ImageView(c.getImage()));
+        handBox.getChildren().add(new ImageView(c.getImage()));
         spadesButton.setCursor(Cursor.HAND);
         heartsButton.setCursor(Cursor.HAND);
         clubsButton.setCursor(Cursor.HAND);
         diamondsButton.setCursor(Cursor.HAND);
         allPlayerLabels = new Label[]{player2Cards, player3Cards, player4Cards};
         deck.setImage(new Image("client/cards/PNG-cards-1.3/back.png"));
+        deck.setCursor(Cursor.HAND);
         deck.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
-            System.out.println("User clicked on card back");
+            System.out.println("User clicked on deck");
             client.requestCard();
             event.consume();
         });
@@ -97,19 +99,21 @@ public class GameController {
      * @param playerHand Array of cards
      */
     private void setHand(Card[] playerHand) {
-        hBox.getChildren().clear();
+        handBox.getChildren().clear();
 
         //LinkedList<Card> hand = new LinkedList<>(Arrays.asList(playerHand));
         //Collections.sort(hand);
 
         for (Card c : playerHand) {
             ImageView im = new ImageView(c.getImage());
+            im.setCursor(Cursor.HAND);
             im.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
                 System.out.println("User clicked on " + c.toString());
                 client.layCard(c);
                 event.consume();
             });
-            hBox.getChildren().add(im);
+            im.relocate(20,50);
+            handBox.getChildren().add(im);
         }
     }
 
@@ -158,7 +162,7 @@ public class GameController {
                 Platform.runLater(() -> {
                     client.close();
                     openAlert();
-                    Stage stage = (Stage) hBox.getScene().getWindow();
+                    Stage stage = (Stage) handBox.getScene().getWindow();
                     stage.close();
                 });
                 //System.exit(0);
