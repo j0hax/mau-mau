@@ -77,9 +77,7 @@ public class GameThread implements Runnable {
         // Seven may always be allowed
         System.out.println(additionalCards);
         if (additionalCards > 0){
-            if(current.getRank() == CardRank.SEVEN){
-                return true;
-            }else return false;
+            return current.getRank() == CardRank.SEVEN;
         }
 
         switch (current.getRank()) {
@@ -169,9 +167,6 @@ public class GameThread implements Runnable {
                         case JACK:
                             //TODO: allow current player to choose the next card
                             break;
-
-                        case ACE:
-                            //TODO: force current player to play another card
                     }
 
                     nextPlayer();
@@ -208,6 +203,7 @@ public class GameThread implements Runnable {
                 String s = Packer.packData(DataType.GAMESTATE, new GameState(activePlayer,
                         allP.getHand(), getNumberOfCards(), lastPlaced));
                 allP.send(s);
+
                 //System.out.println(s);
             }
 
