@@ -65,7 +65,7 @@ public class FxController {
                         System.out.println("Closing client");
                         client.close();
                     });
-                    window.setTitle("Mau Mau");
+                    window.setTitle("Mau Mau - Player " + client.getName());
                     window.setScene(gameScene);
                     window.show();
                     Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();

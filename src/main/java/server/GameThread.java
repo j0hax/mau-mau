@@ -18,6 +18,7 @@ public class GameThread implements Runnable {
     private Deck deck = new Deck();
     private IOHandler gameIOHandler;
     private int closed = 0;
+    private int winner;
 
     /**
      * Index of the player who has the turn
@@ -48,46 +49,14 @@ public class GameThread implements Runnable {
     private boolean isOver() {
         for(Player player : players){
             if(player.getHand().length==0){
-
-                    // TODO Add message to the winners gui and simplify this whole section
-
-
-
-                    //Special cases when the game end with a special card that skips turns(Increments activePlayer twice)
-
-
-                    if(lastPlaced.getRank().equals(CardRank.EIGHT) || lastPlaced.getRank().equals(CardRank.SEVEN)){
-                        System.out.println("Player "+ players[activePlayer].getName() +" Won");
-                        players[activePlayer].send(Packer.packData(DataType.GAMEOVER,"you Won"));
-                    }
-
-                    // Tells the previous player that he won. It has to be the previous player because this only gets checked after the activePlayer id gets incremented
-                    else {
-                        System.out.println("Player "+ players[previousPlayer(activePlayer)].getName() +" Won");
-                        players[previousPlayer(activePlayer)].send(Packer.packData(DataType.GAMEOVER,"you Won"));
-                    }
-
-
-
+                System.out.println("Player '" + player.getName() + "' won!");
+                winner = player.getID();
                 return true;
             }
         }
         return false;
     }
-    /**
-     * Returns the Integer of the previous player of the current player
-     * @param id Index from which the previous player gets calculated
-     * @return Id number of the previous player
-     * */
-    public int previousPlayer(int id){
-        if(id==0){
-            return 1;
-        }
-        if(id==1){
-            return 0;
-        }
-        return 0;
-    }
+
     private void nextPlayer() {
         if (activePlayer == players.length - 1) {
             activePlayer = 0;
@@ -95,17 +64,7 @@ public class GameThread implements Runnable {
             ++activePlayer;
         }
     }
-    /**
-    * Returns the index of the next player
-    * */
-    private int nextPlayerIndex(){
-        if (activePlayer == players.length - 1) {
-            return  0;
-        } else {
-            return activePlayer+1;
-        }
 
-    }
     /**
      * Determines if the submitted card is legal to place
      *
@@ -155,7 +114,7 @@ public class GameThread implements Runnable {
         // send each player the NewGame message
         lastPlaced = deck.deal();
         for (Player p : players) {
-            p.addToHand(deck.deal(5));
+            p.addToHand(deck.deal(1));
             // share player names and their hand
             System.out.println(thisThread.getName() + "Sending new game to id: " + p.getID());
             String s = Packer.packData(DataType.NEWGAME, new NewGame(playerNames,
@@ -187,8 +146,8 @@ public class GameThread implements Runnable {
 
                     switch (c.getRank()) {
                         case SEVEN:
-                            players[nextPlayerIndex()].addToHand(deck.deal(2));
                             nextPlayer();
+                            players[activePlayer].addToHand(deck.deal(2));
                             break;
 
                         case EIGHT:
@@ -204,7 +163,6 @@ public class GameThread implements Runnable {
                         case ACE:
                             //TODO: force current player to play another card
                     }
-
 
                     nextPlayer();
                     current.removeFromHand(c);
@@ -243,14 +201,21 @@ public class GameThread implements Runnable {
 
             System.out.println(thisThread.getName() + "Deck size: " + deck.getSize());
 
-            /*
-            try {
-                Thread.sleep(500);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }*/
+        }
+
+        String msg = new String();
+        for (Player allP : players) {
+            // share player names and their hand
+            if(allP.getHand().length == 0){
+                 msg = Packer.packData(DataType.GAMEOVER, winner);
+            }else{
+                msg = Packer.packData(DataType.GAMEOVER, winner);
+            }
+            allP.send(msg);
         }
 
         System.out.println(thisThread.getName() + "\t\t\t>> Stopping game");
     }
+
+
 }

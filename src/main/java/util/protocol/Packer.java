@@ -48,7 +48,6 @@ public class Packer {
             case CONFIRM:
                 return gson.fromJson(packet.getData(), Boolean.class);
 
-
             case CHATMESSAGE:
                 return gson.fromJson(packet.getData(), String.class);
 
@@ -61,8 +60,6 @@ public class Packer {
             case CARDSUBMISSION:
                 return gson.fromJson(packet.getData(), Card.class);
             case GAMEOVER:
-                return gson.fromJson(packet.getData(), String.class);
-
             case CARDREQUEST:
             case DISCONNECT:
                 return gson.fromJson(packet.getData(), Integer.class);

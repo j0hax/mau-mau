@@ -32,8 +32,10 @@ public class Client implements Runnable {
     private PrintWriter out;
     private BufferedReader in;
     private GameState currentGameState;
+    private int winner;
 
     private BooleanProperty handUpdatedProperty = new SimpleBooleanProperty(false);
+    private BooleanProperty gameOver = new SimpleBooleanProperty(false);
     private boolean stopClientThreads = false;
     private String[] allPlayerNames;
 
@@ -226,10 +228,6 @@ public class Client implements Runnable {
         }
     }
 
-    public boolean gethandUpdated() {
-        return handUpdatedProperty.get();
-    }
-
     BooleanProperty getHandUpdatedProperty() {
         return handUpdatedProperty;
     }
@@ -237,6 +235,15 @@ public class Client implements Runnable {
     synchronized void setHandUpdatedProperty(boolean b) {
         handUpdatedProperty.set(b);
     }
+
+    BooleanProperty getGameOverProperty() {
+        return gameOver;
+    }
+
+    synchronized void setGameOverProperty(boolean b) {
+        gameOver.set(b);
+    }
+
 
     /**
      * Submit the players "wish" for a card to the server.
@@ -297,7 +304,9 @@ public class Client implements Runnable {
                 } else if (d.getDataType() == DataType.GAMESTATE) {
                     setGameState(((GameState) Packer.unpackData(input)));
                 } else if(d.getDataType() == DataType.GAMEOVER){
-                    System.out.println((String) Packer.unpackData(input));
+                    setWinner((Integer) Packer.unpackData(input));
+                    setGameOverProperty(true);
+                    break;
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -308,5 +317,13 @@ public class Client implements Runnable {
         }
 
         System.out.println("Client listener thread closed.");
+    }
+
+    private void setWinner(int winner) {
+        this.winner = winner;
+    }
+
+    public int getWinner(){
+        return winner;
     }
 }

@@ -3,11 +3,14 @@ package client;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.Cursor;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import util.cards.Card;
 import util.cards.CardRank;
 import util.cards.CardSuite;
@@ -136,11 +139,36 @@ public class GameController {
         client.wishCard(CardSuite.DIAMONDS);
     }
 
+    private void openAlert(){
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.initModality(Modality.APPLICATION_MODAL);
+        alert.setTitle("Information Dialog");
+        alert.setHeaderText("Game Over");
+        if(client.getWinner() == client.getID()){
+            alert.setContentText("You are the winner!");
+        }else {
+            alert.setContentText("You lost:/ Player " + client.getAllPlayerNames()[client.getWinner()] + " won!");
+        }
+        alert.showAndWait();
+    }
+
     public void setClient(Client client) {
         this.client = client;
 
         allPlayerNames = client.getAllPlayerNames();
         updateGame(client.getCurrentGameState());
+
+        this.client.getGameOverProperty().addListener((observable, oldValue, newValue) -> {
+            if(newValue){
+                Platform.runLater(() -> {
+                    client.close();
+                    openAlert();
+                    Stage stage = (Stage) hBox.getScene().getWindow();
+                    stage.close();
+                });
+                //System.exit(0);
+            }
+        });
 
         this.client.getHandUpdatedProperty().addListener((observable, oldValue,
                                                           newValue) -> {
