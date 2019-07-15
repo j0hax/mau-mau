@@ -104,7 +104,8 @@ public class GameController {
         //LinkedList<Card> hand = new LinkedList<>(Arrays.asList(playerHand));
         //Collections.sort(hand);
 
-        for (Card c : playerHand) {
+        for (int i = 0; i < playerHand.length; i++) {
+            Card c = playerHand[i];
             ImageView im = new ImageView(c.getImage());
             im.setCursor(Cursor.HAND);
             im.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
@@ -112,7 +113,12 @@ public class GameController {
                 client.layCard(c);
                 event.consume();
             });
-            im.relocate(20,50);
+
+            if(5 < playerHand.length){
+                im.setX(i*504/(playerHand.length-1));
+            }else{
+                im.setX(i*126);
+            }
             handBox.getChildren().add(im);
         }
     }
