@@ -37,7 +37,8 @@ public class Deck {
      * The card will be removed from the deck.
      * @return the dealt card.
      */
-    public Card deal() {
+    public Card deal() throws Exception {
+        if (getSize() <= 0) throw new Exception("Deck empty");
         Random randGen = new Random();
         int randIndex = randGen.nextInt(getSize());
         return cards.remove(randIndex);
@@ -51,7 +52,6 @@ public class Deck {
      * @return array containing the dealt cards
      */
     public Card[] deal(int count) throws Exception {
-        if (getSize() <= 0) throw new Exception("Deck empty");
         Card[] dealt = new Card[count];
 
         for (int i = 0; i < count; i++) {
