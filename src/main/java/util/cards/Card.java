@@ -113,6 +113,7 @@ public class Card implements Comparable<Card> {
         suite = getSuite().name().toLowerCase();
         String fileName = "/client/cards/PNG-cards-1.3/" + rank + "_of_" + suite +
                 ".png";
+        System.out.println(fileName);
         return new Image(this.getClass().getResourceAsStream(fileName), 125, 181, true,
                 true);
     }

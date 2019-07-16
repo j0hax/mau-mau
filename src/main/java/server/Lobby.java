@@ -6,7 +6,7 @@ import java.util.concurrent.Executors;
 
 public class Lobby implements Runnable {
 
-    private final int GAMESIZE = 1;
+    private final int GAMESIZE = 2;
     private final int MAXGAMES = 10;
     private int gameID = 0;
     private LinkedList<Player> players;

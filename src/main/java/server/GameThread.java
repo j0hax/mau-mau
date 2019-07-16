@@ -2,6 +2,7 @@ package server;
 
 import util.cards.Card;
 import util.cards.CardRank;
+import util.cards.CardSuite;
 import util.cards.Deck;
 import util.game.GameState;
 import util.protocol.DataType;
@@ -19,6 +20,8 @@ public class GameThread implements Runnable {
     private int winner = -1;
 
     private int additionalCards = 0;
+
+    CardSuite wishedSuite;
 
     /**
      * Index of the player who has the turn
@@ -66,6 +69,11 @@ public class GameThread implements Runnable {
         }
     }
 
+    private void skipPlayer() {
+        nextPlayer();
+        nextPlayer();
+    }
+
     /**
      * Determines if the submitted card is legal to place
      *
@@ -74,19 +82,24 @@ public class GameThread implements Runnable {
      * @return the determination
      */
     public boolean legalMove(Card last, Card current) {
+        // check if a card has been wished for
+        if (current.getRank() == CardRank.JACK) {
+            return true;
+        }
+
+        // check if a player has satisfied another's card wish
+        if (last.getRank() == CardRank.JACK && current.getSuite() == wishedSuite) {
+            additionalCards = 0;
+            return true;
+        }
+
         // Seven may always be allowed
         System.out.println(additionalCards);
         if (additionalCards > 0){
             return current.getRank() == CardRank.SEVEN;
         }
 
-        switch (current.getRank()) {
-            case JACK:
-                return additionalCards == 0;
-
-            default:
-                return last.compareTo(current) == 0;
-        }
+        return last.compareTo(current) == 0;
     }
 
     /**
@@ -168,23 +181,31 @@ public class GameThread implements Runnable {
                         case SEVEN:
                             // increase the number of cards to be picked up by the next player
                             additionalCards += 2;
-                            break;
-
-                        case EIGHT:
                             nextPlayer();
                             break;
 
+                        case EIGHT:
+                            skipPlayer();
+                            break;
+
                         case JACK:
-                            //TODO: allow current player to choose the next card
+                            // get the wished card of the player,
+                            // see below
+                            break;
+
+                        default:
+                            nextPlayer();
                             break;
                     }
 
-                    nextPlayer();
                     current.removeFromHand(c);
                     lastPlaced = c;
                     break;
 
                 case CARDWISH:
+                    if (lastPlaced.getRank() == CardRank.JACK) {
+                        wishedSuite = (CardSuite) Packer.unpackData(receivedMessage);
+                    }
                     nextPlayer();
                     break;
 
