@@ -121,7 +121,12 @@ public class GameThread implements Runnable {
 
         System.out.println(thisThread.getName() + "[" + pString + "]");
         // send each player the NewGame message
-        lastPlaced = deck.deal();
+
+        try {
+            lastPlaced = deck.deal();
+        } catch (Exception e) {
+            System.out.println(e);
+        }
 
         for (Player p : players) {
             try {
